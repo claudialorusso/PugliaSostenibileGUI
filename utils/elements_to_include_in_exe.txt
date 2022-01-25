@@ -1,0 +1,8 @@
+a.datas += [("SDGs\\SDGs_indicatori.json","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\SDGs\\SDGs_indicatori.json", "Data"),
+("SDGs\\SDGs_json.json","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\SDGs\\SDGs_json.json", "Data"),
+("","","Data"),
+("","","Data"),
+("","","Data"),
+("","","Data"),
+("","","Data")
+]

@@ -5,7 +5,7 @@ Created on Fri Jul 30 10:34:13 2021
 @author: ClaudiaLorusso
 """
 
-from Preprocessing import remove_digits, get_lemma_SPACY
+from Preprocessing import remove_digits, get_lemma_SPACY, preprocess_lemma
 from SDGs_Extractor import SDGs_Extractor
 import pandas as pd
 import sys
@@ -117,7 +117,7 @@ def __preprocess_goal__(sdg):
     goal = sdg.get_Goal()
     txt = goal.get_description()
 
-    lemma = __preprocess_lemma__(txt)
+    lemma = preprocess_lemma(txt)
 
     """
     # use this for test purposes
@@ -228,7 +228,7 @@ def __preprocess_target__(target):
 
 
     txt = target.get_description()
-    lemma = __preprocess_lemma__(txt)
+    lemma = preprocess_lemma(txt)
 
     """
     # use this for test purposes
@@ -267,37 +267,6 @@ def __preprocess_target__(target):
     """
     return lemma
 
-def __preprocess_lemma__(txt):
-    """
-    Preprocesses a string (txt, argument):
-    -   removes all of the digits
-    -   computes the LEMMA using SPACY
-    -   lowercases the corresponding LEMMA
-    -   removes all of the trailing spaces
-    :param txt:
-    :return:
-        the argument lemma
-
-    """
-
-    """
-    # NOT NECESSARY ANYMORE
-    # already done while saving SDGs on .json
-    from Preprocessing import replace symb
-    txt = replace_symb("’", "'", target.get_description())
-    txt = replace_symb("“", '"', txt)
-    txt = replace_symb("”", '"', txt)
-    """
-
-    # removes digits
-    txt = remove_digits(txt)
-    # gets lemma applying SPACY and lower cases the output
-    lemma = (get_lemma_SPACY(txt)).lower()
-
-    #removes unnecessary spaces
-    lemma = " ".join(lemma.split())
-    return lemma
-
 def __get_path__(relative_path):
     """
     Converts the relative path into an absolute path
@@ -313,11 +282,6 @@ def __get_path__(relative_path):
     except Exception:
         base_path = path.abspath(".")
     return path.join(base_path, relative_path)
-
-
-
-
-
 
 # FIXME not needed anymore
 def __set_inv_vocabulary__(sdgs, sdgs_vocab):

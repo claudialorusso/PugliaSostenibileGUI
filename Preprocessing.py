@@ -63,6 +63,16 @@ def clean_text(text):
     txt = replace_symb("”", '"', txt)
     return txt
 
+def remove_new_lines(text):
+    """
+
+    :param text: string to clean
+    :return: String
+    The argument without new lines
+    """
+    txt = sub(r"(?<!\\)\\n|\n", " ", text)
+    txt = " ".join(txt.split())
+    return text
 
 #------------------------------ NLP SPACY ---------------------------------
 

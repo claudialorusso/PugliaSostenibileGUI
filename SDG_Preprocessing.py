@@ -26,6 +26,7 @@ On both goals and targets description:
 At the end, you'll get a new folder with two xls:
     -   "LEMMAS\\lemma_sdgs.xlsx" : which contains the lemma of all of the SDGs
     -   "LEMMAS\\lemma_targets.xlsx": which contains the lemma of all of the targets (only)
+    -   computes the vocabulary.
 """
 
 def preprocess_SDGs():
@@ -38,17 +39,12 @@ def preprocess_SDGs():
     extractor = SDGs_Extractor()
     # processes each SDG inserting them into an SDGs object
     sdgs = extractor.get_SDGs()
-    """
-    #initializes the vocab to an empty set to ensure no duplicates #FIX ME
-    sdgs_vocab = set()
-    """
+
     #creates a DataFrame that will contain the lemma of the SDGs (goals+targets)
-    # index = name, column = body
     df_sdgs = pd.DataFrame(columns=['name', 'body'])
     df_sdgs = pd.DataFrame(df_sdgs).set_index("name")
 
     # creates a DataFrame that will contain the lemma of the targets (only)
-    # index = name, column = body
     df_targets = pd.DataFrame(columns=['name','body'])
 
     df_targets = pd.DataFrame(df_targets).set_index("name")
@@ -59,39 +55,18 @@ def preprocess_SDGs():
         txt_lemm = txt_goal + " " + txt_targets
         df_sdgs.loc[sdg.get_Goal_id()] = [txt_lemm]
         df_targets = pd.concat([df_targets, df_tgs])
-        """
-        # processo il vocabulary
-        for tok in sdg.get_occurrences():
-            sdgs_vocab.add(tok[0])
-        """
+
     df_sdgs.index.name = "name"
     df_targets.index.name = "name"
-
-    """
-    df_vocab = pd.DataFrame(columns=['keyphrase'])
-
-    i = 0
-    for keyphrase in sdgs_vocab:
-        df_vocab.loc[i] = [keyphrase]
-        i += 1
-
-    # df_vocab.to_excel("SDGs_utils/Unigram_vocab.xlsx") #FIXME
-    # self.__set_inv_vocabulary__(sdgs, sdgs_vocab)
-    """
 
     dest_sdg = __get_path__("LEMMAS\\lemma_sdgs.xlsx")
 
 
     dest_tgts = __get_path__("LEMMAS\\lemma_targets.xlsx")
-    #print("I'm creating the first xls")
     df_sdgs.to_excel(dest_sdg)
-    #print("I'm done creating the first xls")
-    #print("I'm creating the first xls")
     df_targets.to_excel(dest_tgts)
-    #print("I'm done creating the second xls")
 
-    # FIXME
-    #return sdgs
+
 
 def __preprocess_goal__(sdg):
     """
@@ -118,42 +93,6 @@ def __preprocess_goal__(sdg):
     txt = goal.get_description()
 
     lemma = preprocess_lemma(txt)
-
-    """
-    # use this for test purposes
-    print("\n\nLEMMA\n")
-    print(txt)
-    print("\n\n")
-    """
-
-    """
-    # DEPRECATED
-    # computes keyphrases using RAKE
-    # setted to bigram for default.
-    # To choose unigram change the value max_words from 2 to 1
-    # in the get_keyphrase method
-    tokens = txt_prs.get_keyphrase(txt)
-    # following line for test purposes only
-    # print(tokens)
-    """
-
-
-
-    """
-    # NOT NEEDED ANYMORE
-    # get occurrences of each keyphrase contained in the description
-    for tok in tokens:
-        keyphrase = tok[0]
-        occurrence = txt_prs.find_pattern(keyphrase, txt)
-        item = tuple([keyphrase, occurrence])
-        sdg.add_occurrence(item) #FIXME controlla
-    """
-
-    """
-    # use this for test purposes
-    print("TF\n")
-    print(sdg.get_occurrences())
-    """
 
     return lemma
 
@@ -184,23 +123,6 @@ def __preprocess_targets__(sdg):
         index = str(target.get_Goal_id()) + "." + str(target.get_id())
         df_tgs.loc[index] = [txt_tg]
 
-        """
-        # NOT NECESSARY ANYMORE
-        # FIXME
-        # update sdg occurrences
-        occurrence_table = target.get_occurrences()
-        for tup in occurrence_table:
-            inside = False
-            for t in sdg.get_occurrences():
-                if tup[0] == t[0]:
-                    inside = True
-                    # print("\nI'm inside\n")
-                    newTuple = tuple([tup[0], t[1] + tup[1]])
-                    sdg.update_occurrence(t, newTuple)
-                    break
-            if not inside:
-                sdg.add_occurrence(tup)
-        """
     df_tgs.index.name = "name"
     return lemma, df_tgs
 
@@ -226,45 +148,9 @@ def __preprocess_target__(target):
 
     """
 
-
     txt = target.get_description()
     lemma = preprocess_lemma(txt)
 
-    """
-    # use this for test purposes
-    print("\n" + txt + "\n")
-    """
-
-    """
-    # NOT NEEDED ANYMORE
-    # FIXME
-    # computes the keyphrases with RAKE
-    tokens = txt_prs.get_keyphrase(txt)
-    """
-    """
-    # use this for test purposes
-    # print("\n")
-    # print(tokens)
-    """
-
-    """
-    # NOT NEEDED ANYMORE
-    # FIXME
-    # ottengo le occorrenze delle keyphrase
-    for tok in tokens:
-        # print(tok[0])
-        keyphrase = tok[0]  # txt_prs.trim((tok[0]))#.lower()
-        occurrence = txt_prs.find_pattern(keyphrase, txt)
-
-        item = tuple(
-            [keyphrase, occurrence])
-        target.add_occurrence(item)
-    """
-    """
-    # use this for test purposes
-    print(target.get_occurrences())
-    print("\n\n\n")
-    """
     return lemma
 
 def __get_path__(relative_path):
@@ -283,25 +169,7 @@ def __get_path__(relative_path):
         base_path = path.abspath(".")
     return path.join(base_path, relative_path)
 
-# FIXME not needed anymore
-def __set_inv_vocabulary__(sdgs, sdgs_vocab):
-    """
-    Genera il vocabolario inverso degli SDGs
 
-    Parameters
-    ----------
-    sdgs : oggetto della classe SDGs
-    sdgs_vocab : set
-        insieme di tutte le keyohrase contenute negli sdgs
-
-    Returns
-    -------
-    restituisce la grandezza del vocabolario
-
-    """
-    # genero il vocabulary di tutti gli SDGS
-    v = list(sdgs_vocab)
-    sdgs.set_inv_vocabulary(dict([word, i] for i, word in enumerate(v)))
 
 
 #test

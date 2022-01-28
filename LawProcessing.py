@@ -5,6 +5,7 @@ Created on Thu Jan 27 18:54:57 2022
 @author: ClaudiaLorusso
 """
 from Preprocessing import clean_text, remove_new_lines, preprocess_lemma
+import pandas as pd
 
 def preprocess_law(law):
     """
@@ -20,15 +21,36 @@ def preprocess_law(law):
     lemma = preprocess_lemma(txt)
     return lemma
 
+def get_df_laws_lemma(path_law = ""):
+    """
+    Computes the DataFrame of the law's lemma.
+    The dataframe is in the form:
+        name        |body
+        laws_name    law's lemma
+    :param path_law: string
+        path of the file containing the law
+    :return: DataFrame
+        dataframe containing the law's lemma
+    """
+    from FileHandler import get_content
+    try:
+        cont, file_name = get_content(path_law)
+        lemma = preprocess_law(cont)
+        df = pd.DataFrame(columns = ["name", "body"])
+        df= pd.DataFrame(df).set_index("name")
+        df.loc[file_name] = lemma
+        df.index.name = "name"
+        return df
+    except ValueError:
+        print("ValueError: WARNING, The file you selected maybe protected by password.\nPlease select another file.")
+
+
+
+
 #test
 #remove triple prime to test the class
 """
 if __name__ == '__main__':
-    from FileHandler import get_content
-    try:
-        cont = get_content()
-        lemma = preprocess_law(cont)
-        print(lemma)
-    except ValueError:
-        print("ValueError: WARNING, The file you selected maybe protected by password.\nPlease select another file.")
+    df = get_df_laws_lemma("laws\\[2015-2020]LeggiRegionePuglia\\LR_10.2016.pdf")
+    print(df)
 """

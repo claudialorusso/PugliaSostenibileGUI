@@ -5,7 +5,7 @@ Created on Fri Jul 30 10:34:13 2021
 @author: ClaudiaLorusso
 """
 
-from Preprocessing import remove_digits, get_lemma_SPACY, preprocess_lemma
+from Preprocessing import preprocess_lemma, compute_vocabulary
 from SDGs_Extractor import SDGs_Extractor
 import pandas as pd
 import sys
@@ -29,6 +29,7 @@ At the end, you'll get a new folder with two xls:
     -   computes the vocabulary.
 """
 
+
 def preprocess_SDGs():
     """
     Preprocess all of the SDGs creating, respectively:
@@ -40,12 +41,12 @@ def preprocess_SDGs():
     # processes each SDG inserting them into an SDGs object
     sdgs = extractor.get_SDGs()
 
-    #creates a DataFrame that will contain the lemma of the SDGs (goals+targets)
+    # creates a DataFrame that will contain the lemma of the SDGs (goals+targets)
     df_sdgs = pd.DataFrame(columns=['name', 'body'])
     df_sdgs = pd.DataFrame(df_sdgs).set_index("name")
 
     # creates a DataFrame that will contain the lemma of the targets (only)
-    df_targets = pd.DataFrame(columns=['name','body'])
+    df_targets = pd.DataFrame(columns=['name', 'body'])
 
     df_targets = pd.DataFrame(df_targets).set_index("name")
 
@@ -61,11 +62,9 @@ def preprocess_SDGs():
 
     dest_sdg = __get_path__("LEMMAS\\lemma_sdgs.xlsx")
 
-
     dest_tgts = __get_path__("LEMMAS\\lemma_targets.xlsx")
     df_sdgs.to_excel(dest_sdg)
     df_targets.to_excel(dest_tgts)
-
 
 
 def __preprocess_goal__(sdg):
@@ -75,8 +74,6 @@ def __preprocess_goal__(sdg):
     -   computes the LEMMA using SPACY
     -   lowercases the corresponding LEMMA
     -   removes all of the trailing spaces
-    -   DEPRECATED computes all of the keyphrases using RAKE #FIXME
-    -   DEPRECATED computes the occurence value for each keyphrase
 
     Parameters
     ----------
@@ -126,6 +123,7 @@ def __preprocess_targets__(sdg):
     df_tgs.index.name = "name"
     return lemma, df_tgs
 
+
 def __preprocess_target__(target):
     """
     Preprocess the description of a single target (argument):
@@ -133,10 +131,6 @@ def __preprocess_target__(target):
     -   computes the LEMMA using SPACY
     -   lowercases the corresponding LEMMA
     -   removes all of the trailing spaces
-    -   DEPRECATED computes all of the keyphrases using RAKE #FIXME
-    -   DEPRECATED computes the occurence value for each keyphrase
-
-    Processa ogni singolo target corrispondente ad una sdg.
 
     Parameters
     ----------
@@ -153,11 +147,13 @@ def __preprocess_target__(target):
 
     return lemma
 
+
 def __get_path__(relative_path):
     """
     Converts the relative path into an absolute path
-    :param relative_path: relative path of the file
-    :return:
+    :param relative_path: string
+        relative path of the file
+    :return: string
         absolute path: base path + relative path
     """
     try:
@@ -170,12 +166,22 @@ def __get_path__(relative_path):
     return path.join(base_path, relative_path)
 
 
+def get_vocabulary(path_lemma_sdgs):
+    """
+    Computed the vocabulary of the SDGs.
+    :param path_lemma_sdgs: string
+        path + name of the xlsx containing sdgs lemma
+    :return: list of strings
+        sdg's vocabulary
+    """
+    voc = compute_vocabulary(path_lemma_sdgs, 2)
+    return voc
 
 
-#test
-#remove triple prime to test the class
+# test
+# remove triple prime to test the class
 """
 if __name__ == '__main__':
     preprocess_SDGs()
-
+    get_vocabulary("LEMMAS\\lemma_sdgs.xlsx")
 """

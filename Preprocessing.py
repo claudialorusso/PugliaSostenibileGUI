@@ -11,8 +11,7 @@ from re import sub
 # per rimozione STOPWORDS NLTK
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-# for computing lemma
-from spacy import load
+
 # if you haven't done it yet: python3 -m spacy download it_core_news_sm
 import sys
 from os import path
@@ -94,7 +93,8 @@ def __nlp_SPACY__():
     :return:
         the Italian NLP
     """
-
+    # for computing lemma
+    from spacy import load
     return load("it_core_news_sm")
 
 
@@ -123,6 +123,23 @@ def preprocess_lemma(txt):
     lemma = " ".join(lemma.split())
     return lemma
 
+def get_lemma_targets_laws_df(path_law=""):
+    """
+    Computes a DataFrame which contains both targets lemma and law's lemma.
+    :param path_law: string
+        law's path
+    :return: DataFrame
+        containing the concatenation between law's df and targets df
+    """
+    from SDG_Preprocessing import get_lemma_dataframe
+    from LawPreprocessing import get_df_laws_lemma
+    import pandas as pd
+
+    df_laws = get_df_laws_lemma(path_law)
+    df_targets = get_lemma_dataframe()
+
+    union = pd.concat([df_targets, df_laws])
+    return union
 
 #                     ----- SPACY LEMMATIZER -----
 
@@ -300,3 +317,11 @@ def __get_path__(relative_path):
     except Exception:
         base_path = path.abspath(".")
     return path.join(base_path, relative_path)
+
+
+# test
+# remove triple prime to test the class
+"""
+if __name__ == '__main__':
+    print(get_lemma_targets_laws_df("laws\\[2015-2020]LeggiRegionePuglia\\LR_20.2018.pdf"))
+"""

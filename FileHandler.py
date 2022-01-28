@@ -140,17 +140,59 @@ def __get_path__(relative_path):
     return path.join(base_path, relative_path)
 
 
-def get_content():
+def get_content(destination = ""):
     """
-    Returns the content of a specified path
+    Returns the content of a specified path.
+    If no argument is setted asks the path, then extracts the content.
+    :param destination: string
+        path of the file
     :return:
+        cont:   string
+            content of a specified text
+        file_name: string
+            file_name
     """
-    destination = __ask_path__()
+
+    if destination == "":
+        destination = __ask_path__()
+    else:
+        destination = __get_path__(destination)
     cont = extract_content(destination)
-    return cont
+    file_name = get_filename_no_extension(destination)
+
+    return cont, file_name
+
+def get_basename(destination):
+    """
+    Returns the basename of a file:
+    E.g.
+        argument = "C:\\something\\something_again\\IwantThis.some_extension"
+        file_name = "IwantThis.some_extension"
+    :param destination: string
+        path of the file
+    :return: string
+        basename of the destination
+    """
+    file_name = path.basename(destination)
+    return file_name
+
+def get_filename_no_extension(file_name):
+    """
+    Returns the basename with no extension
+    E.g.
+        argument = "C:\\something\\something_again\\IwantThis.some_extension"
+        file_name = "IwantThis"
+    :param file_name: string
+        destination of a file.
+    :return: string
+        filename with no extension
+    """
+    file_name = get_basename(file_name)
+    path.splitext(file_name)
+    return path.splitext(file_name)[0]
 
 
-def filetypes(self):
+def filetypes():
     """
     Returns all of the filetypes allowed
     :return:

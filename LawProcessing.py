@@ -4,8 +4,22 @@ Created on Thu Jan 27 18:54:57 2022
 
 @author: ClaudiaLorusso
 """
-from Preprocessing import clean_text, remove_new_lines, preprocess_lemma
 import pandas as pd
+
+def count_occurences(law, pattern):
+    """
+    Counts the occurrences of a substring (second argument)
+    into the main string (first argument)
+    :param law: string
+        law's content
+    :param pattern: string
+        substring
+    :return: integer
+        occurrences of the substring into the main string
+    """
+    law = " ".join(law.split())
+    return law.count(pattern)
+
 
 def preprocess_law(law):
     """
@@ -16,6 +30,7 @@ def preprocess_law(law):
     :return: string
         lemma of the law
     """
+    from Preprocessing import clean_text, remove_new_lines, preprocess_lemma
     txt = clean_text(law)
     txt = remove_new_lines(txt)
     lemma = preprocess_lemma(txt)
@@ -43,9 +58,6 @@ def get_df_laws_lemma(path_law = ""):
         return df
     except ValueError:
         print("ValueError: WARNING, The file you selected maybe protected by password.\nPlease select another file.")
-
-
-
 
 #test
 #remove triple prime to test the class

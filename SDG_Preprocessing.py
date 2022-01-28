@@ -5,7 +5,6 @@ Created on Fri Jul 30 10:34:13 2021
 @author: ClaudiaLorusso
 """
 
-from Preprocessing import preprocess_lemma, compute_vocabulary, get_list_vocabulary
 from SDGs_Extractor import SDGs_Extractor
 import pandas as pd
 import sys
@@ -85,6 +84,7 @@ def __preprocess_goal__(sdg):
     None.
 
     """
+    from Preprocessing import preprocess_lemma
 
     goal = sdg.get_Goal()
     txt = goal.get_description()
@@ -142,6 +142,7 @@ def __preprocess_target__(target):
 
     """
 
+    from Preprocessing import preprocess_lemma
     txt = target.get_description()
     lemma = preprocess_lemma(txt)
 
@@ -178,6 +179,7 @@ def get_vocabulary(path_lemma_sdgs):
             dataframe containing the vocab sdg
 
     """
+    from Preprocessing import compute_vocabulary
     voc, df = compute_vocabulary(path_lemma_sdgs, 2)
     return voc, df
 
@@ -229,6 +231,7 @@ def get_vocab_list(dest = "VOCAB\\vocabulary.xlsx"):
     :return: List of strings
         list of string containing sdg's vocab keyphrases
     """
+    from Preprocessing import get_list_vocabulary
     dest = __get_path__(dest)
     if path.isfile(dest) and not (stat(dest).st_size == 0):
         return get_list_vocabulary(dest)

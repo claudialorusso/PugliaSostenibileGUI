@@ -20,7 +20,6 @@ def count_occurences(law, pattern):
     law = " ".join(law.split())
     return law.count(pattern)
 
-
 def preprocess_law(law):
     """
     Preprocesses the specified string containing the law's content (argument)

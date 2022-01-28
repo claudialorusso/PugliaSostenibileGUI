@@ -1,5 +1,8 @@
 a.datas += [("SDGs\\SDGs_indicatori.json","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\SDGs\\SDGs_indicatori.json", "Data"),
 ("SDGs\\SDGs_json.json","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\SDGs\\SDGs_json.json", "Data"),
+("VOCAB\\vocabulary.xlsx","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\VOCAB\\vocabulary.xlsx","Data"),
+("LEMMAS\\lemma_sdgs.xlsx","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\LEMMAS\\lemma_sdgs.xlsx","Data"),
+("LEMMAS\\lemma_targets.xlsx","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\LEMMAS\\lemma_targets.xlsx","Data"),
 ("","","Data"),
 ("","","Data"),
 ("","","Data"),

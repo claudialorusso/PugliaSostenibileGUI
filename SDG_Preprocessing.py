@@ -5,11 +5,11 @@ Created on Fri Jul 30 10:34:13 2021
 @author: ClaudiaLorusso
 """
 
-from Preprocessing import preprocess_lemma, compute_vocabulary
+from Preprocessing import preprocess_lemma, compute_vocabulary, get_list_vocabulary
 from SDGs_Extractor import SDGs_Extractor
 import pandas as pd
 import sys
-from os import path
+from os import path, stat
 
 """
 Offers the method to preprocess all of the SDGs.
@@ -171,17 +171,86 @@ def get_vocabulary(path_lemma_sdgs):
     Computed the vocabulary of the SDGs.
     :param path_lemma_sdgs: string
         path + name of the xlsx containing sdgs lemma
-    :return: list of strings
-        sdg's vocabulary
+    :return:
+        voc: list of strings
+            sdg's vocabulary
+        df: DataFrame
+            dataframe containing the vocab sdg
+
     """
-    voc = compute_vocabulary(path_lemma_sdgs, 2)
-    return voc
+    voc, df = compute_vocabulary(path_lemma_sdgs, 2)
+    return voc, df
+
+def get_lemma_dataframe(dest = "LEMMAS\\lemma_targets.xlsx"):
+    """
+    Returns the target's lemma dataframe.
+    If it doesn't exists, it will compute it and return it.
+    :param dest: string
+        path of the target's lemma xlsx
+    :return: Dataframe
+        dataframe containing target's lemma
+    """
+    dest = __get_path__(dest)
+    if path.isfile(dest) and not (stat(dest).st_size == 0):
+        df = pd.read_excel(dest)
+    else:
+        preprocess_SDGs()
+        df = pd.read_excel(__get_path__("LEMMAS\\lemma_targets.xlsx"))
+
+    return df
+
+def get_vocab_dataframe(dest = "VOCAB\\vocabulary.xlsx"):
+    """
+    Returns the sdg's vocab dataframe.
+    If it doesn't exists, it will compute it and return it.
+    :param dest: string
+        path of the sdg's vocab xlsx
+    :return: Dataframe
+        dataframe containing sdg's vocab
+    """
+    dest = __get_path__(dest)
+    if path.isfile(dest) and not (stat(dest).st_size == 0):
+        df = pd.read_excel(dest)
+    else:
+        lemma_targ = __get_path__("LEMMAS\\lemma_targets.xlsx")
+        if path.isfile(lemma_targ) and not (stat(lemma_targ).st_size == 0):
+            voc, df = get_vocabulary(lemma_targ)
+        else:
+            preprocess_SDGs()
+            voc, df = get_vocabulary(lemma_targ)
+    return df
+
+def get_vocab_list(dest = "VOCAB\\vocabulary.xlsx"):
+    """
+    Returns the sdg's vocab list.
+    If it doesn't exists, it will compute it and return it.
+    :param dest: string
+        path of the sdg's vocab xlsx
+    :return: List of strings
+        list of string containing sdg's vocab keyphrases
+    """
+    dest = __get_path__(dest)
+    if path.isfile(dest) and not (stat(dest).st_size == 0):
+        return get_list_vocabulary(dest)
+    else:
+        lemma_targ = __get_path__("LEMMAS\\lemma_targets.xlsx")
+        if path.isfile(lemma_targ) and not (stat(lemma_targ).st_size == 0):
+            voc, df = get_vocabulary(lemma_targ)
+        else:
+            preprocess_SDGs()
+            voc, df = get_vocabulary(lemma_targ)
+        return df['keyphrase'].tolist()
 
 
 # test
 # remove triple prime to test the class
 """
 if __name__ == '__main__':
-    preprocess_SDGs()
-    get_vocabulary("LEMMAS\\lemma_sdgs.xlsx")
+    
+    #preprocess_SDGs()
+    #get_vocabulary("LEMMAS\\lemma_sdgs.xlsx")
+    
+    #print(get_lemma_dataframe("LEMMAS\\lemma_targets.xlsx"))
+    #print(get_vocab_dataframe("VOCAB\\vocabulary.xlsx"))
+    #print(get_vocab_list("VOCAB\\vocabulary.xlsx"))
 """

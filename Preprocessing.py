@@ -170,12 +170,15 @@ def compute_vocabulary(lemma_path, n_gram=2):
         destination + name of the xlsx file containing the lemma.
     :param n_gram: integer
         it represents the number of words for each keyphrase.
-    :return: list of strings
-        the needed vocabulary. It will be in the form of (in the case of bigram):
-        _____|keyphrase
-        0     cibo scarso
-        1     emancipazione femminile
-        2     bambini
+    :return:
+        list of strings
+            the needed vocabulary. It will be in the form of (in the case of bigram):
+            _____|keyphrase
+            0     cibo scarso
+            1     emancipazione femminile
+            2     bambini
+        DataFrame
+            dataframe containing the vocabulary
     """
     from nltk.util import ngrams
     import pandas as pd
@@ -208,8 +211,23 @@ def compute_vocabulary(lemma_path, n_gram=2):
 
     path_dir = __get_path__("VOCAB\\vocabulary.xlsx")
     df_vocab.to_excel(path_dir)
-    return vocab
+    return vocab, df_vocab
 
+def get_list_vocabulary(dest):
+    """
+    Returns a list containing each keyphrase of the vocabulary
+    :param dest: string
+        destination of the vocabulary xlsx
+    :return:
+        list of strings
+            ... containing each keyphrase of the vocabulary
+
+    """
+    from pandas import read_excel
+    dest = __get_path__(dest)
+    df = read_excel(dest)
+    vocabulary = df['keyphrase'].tolist()
+    return vocabulary
 
 # -------------------------------- TOKENIZER -----------------------------
 def word_tokenize_NLTK(text):
@@ -226,7 +244,6 @@ def word_tokenize_NLTK(text):
 
     """
     return word_tokenize(text, "italian")
-
 
 # ------------------------------- STOP-WORDS -----------------------------
 

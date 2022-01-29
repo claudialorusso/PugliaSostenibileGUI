@@ -14,10 +14,10 @@ from nltk.corpus import stopwords
 
 # if you haven't done it yet: python3 -m spacy download it_core_news_sm
 import sys
-from os import path
+from os import path, stat, makedirs
 
 
-# ------------------------------ Rimozione di noyse ------------------------
+# ------------------------------ Remove noise ------------------------
 
 def remove_digits(text):
     """
@@ -123,23 +123,31 @@ def preprocess_lemma(txt):
     lemma = " ".join(lemma.split())
     return lemma
 
-def get_lemma_targets_laws_df(path_law=""):
+
+def get_lemma_targets_laws_df(path_law="", path_targets="LEMMAS\\lemma_targets.xlsx"):
     """
     Computes a DataFrame which contains both targets lemma and law's lemma.
     :param path_law: string
         law's path
+    :param path_targets: string
+        target's lemma path
+
     :return: DataFrame
         containing the concatenation between law's df and targets df
     """
-    from SDG_Preprocessing import get_lemma_dataframe
+    from SDG_Preprocessing import get_lemma_targets
     from LawPreprocessing import get_df_laws_lemma
-    import pandas as pd
+    from pandas import concat
+
+    path_law = __get_path__(path_law)
+    path_targets = __get_path__(path_targets)
 
     df_laws = get_df_laws_lemma(path_law)
-    df_targets = get_lemma_dataframe()
+    df_targets = get_lemma_targets(path_targets)
 
-    union = pd.concat([df_targets, df_laws])
+    union = concat([df_targets, df_laws])
     return union
+
 
 #                     ----- SPACY LEMMATIZER -----
 
@@ -165,18 +173,19 @@ def get_lemma_SPACY(tokens):
 
 # -------------------------------- VOCABULARY ----------------------------
 
-def compute_vocabulary(lemma_path, n_gram=2):
+def compute_vocabulary(lemma_path="LEMMAS\\lemma_sdgs.xlsx", n_gram=1, path_out="VOCAB\\ngram\\vocabulary_1.xlsx"):
     """
     Computes a vocabulary (list of strings) having in input a lemma (first argument).
     Each keyphrase contained into the vocabulary can be composed of 1, 2 or more tokens.
-    By default the computation is setted to bigram (1 or 2 token for each keyphrase) but it's possible
-    to change the parameter by passing another value to the n_gram argument, for e.g.:
-        n_gram = 2 (bigram, DEFAULT case), possible keyphrases are:
+    By default the computation is setted to unigram (1 token for each keyphrase)
+    but you can also change the parameter, e.g. to bigram (1 or 2 token for each keyphrase)
+    by passing another value to the n_gram argument, for e.g.:
+        n_gram = 2 (bigram), possible keyphrases are:
             "cibo scarso",
             "emancipazione femminile",
             "bambini",
             etc.
-        n_gram = 1 (unigram), possible keyphrases are:
+        n_gram = 1 (unigram, DEFAULT case), possible keyphrases are:
             "cibo",
             "scarso",
             "emancipazione",
@@ -187,6 +196,8 @@ def compute_vocabulary(lemma_path, n_gram=2):
         destination + name of the xlsx file containing the lemma.
     :param n_gram: integer
         it represents the number of words for each keyphrase.
+    :param path_out: string
+        output path of the xlsx file.
     :return:
         list of strings
             the needed vocabulary. It will be in the form of (in the case of bigram):
@@ -200,6 +211,7 @@ def compute_vocabulary(lemma_path, n_gram=2):
     from nltk.util import ngrams
     import pandas as pd
     # convert the xsl into a Dataframe
+    lemma_path = __get_path__(lemma_path)
     df = pd.read_excel(lemma_path)
     vocab = list()
     list_of_descriptions = df["body"].tolist()
@@ -210,7 +222,6 @@ def compute_vocabulary(lemma_path, n_gram=2):
         # remove stopwords from token
         tokens_no_sw = [word for word in token if not word in stop_words_ita()]
         tokens_no_sw = list(ngrams(tokens_no_sw, n_gram))
-        print(tokens_no_sw)
         for tokens in tokens_no_sw:
             tok = ""
             for key in tokens:
@@ -221,20 +232,19 @@ def compute_vocabulary(lemma_path, n_gram=2):
     vocab = list(vocab)  # now it's a list again (with no duplicates)
     df_vocab = pd.DataFrame(columns=['keyphrase'])
     # I create an xlsx file
-    i = 0
-    for keyphrase in vocab:
-        df_vocab.loc[i] = [keyphrase]
-        i += 1
-
-    path_dir = __get_path__("VOCAB\\vocabulary.xlsx")
+    path_dir = __get_path__(path_out)
+    makedirs(path.dirname(path_dir), exist_ok=True)
     df_vocab.to_excel(path_dir)
     return vocab, df_vocab
 
-def get_list_vocabulary(dest):
+
+def get_list_vocabulary(dest, ngram=1):
     """
     Returns a list containing each keyphrase of the vocabulary
     :param dest: string
         destination of the vocabulary xlsx
+    :param ngram: integer
+        grammature of the vocabulary
     :return:
         list of strings
             ... containing each keyphrase of the vocabulary
@@ -242,9 +252,19 @@ def get_list_vocabulary(dest):
     """
     from pandas import read_excel
     dest = __get_path__(dest)
+    if not path.isfile(dest):
+        if ngram == 2:
+            dest = __get_path__("VOCAB\\vocabulary.xlsx")
+        elif ngram == 1:
+            dest = get_list_vocabulary(__get_path__("VOCAB\\ngram\\vocabulary_1.xlsx"))
+        else:
+            dest = "VOCAB\\ngram\\vocabulary_" + str(ngram) + ".xlsx"
+            dest = __get_path__(dest)
+        compute_vocabulary(path_out=dest, n_gram=ngram)
     df = read_excel(dest)
     vocabulary = df['keyphrase'].tolist()
     return vocabulary
+
 
 # -------------------------------- TOKENIZER -----------------------------
 def word_tokenize_NLTK(text):
@@ -261,6 +281,7 @@ def word_tokenize_NLTK(text):
 
     """
     return word_tokenize(text, "italian")
+
 
 # ------------------------------- STOP-WORDS -----------------------------
 
@@ -301,6 +322,60 @@ def stop_words_ita():
     return addictional_stop.union(stopwords.words('italian'))
 
 
+# ---------------------------- TFIDF -------------------------------------
+
+def tfidf(ngram=1, path_law=""):
+    """
+    Creates the TFIDF term document matrix between the law (specified in path_law)
+    and all of the targets.
+    :param ngram: integer
+        specifies how many tokens a keyphrase will contain
+    :param path_law: string
+        destination + name of the file containing the law
+    :return: DataFrame
+        the doc term matrix
+
+    """
+    from pandas import DataFrame
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    # -------------------------------------VOCABULARY
+    if ngram == 2:
+        vocabulary = get_list_vocabulary(dest=__get_path__("VOCAB\\vocabulary.xlsx"), ngram=ngram)
+    elif ngram == 1:
+        vocabulary = get_list_vocabulary(dest=__get_path__("VOCAB\\ngram\\vocabulary_1.xlsx"), ngram=ngram)
+    else:
+        file_voc = "VOCAB\\ngram\\vocabulary_" + str(ngram) + ".xlsx"
+        file_voc = __get_path__(file_voc)
+        # if file doesn't exist
+        if not path.isfile(file_voc) or stat(file_voc).st_size == 0:
+            compute_vocabulary(n_gram=ngram, path_out=file_voc)
+            vocabulary = get_list_vocabulary(dest=file_voc, ngram=ngram)
+        else:
+            vocabulary = get_list_vocabulary(dest=file_voc, ngram=ngram)
+
+    # -------------------------------------SET TOKENIZER
+    tokenizer = word_tokenize_NLTK
+
+    # -------------------------------------LEMMA LAWS and TARGETS
+    path_law = __get_path__(path_law)
+    lemma_targets_laws_df = get_lemma_targets_laws_df(path_law)
+    index = lemma_targets_laws_df['name'].tolist()
+
+    # ------------------------------------COMPUTE TFIDF
+    vect = TfidfVectorizer(vocabulary=vocabulary, encoding="utf-8", stop_words=stop_words_ita(),
+                           tokenizer=tokenizer, ngram_range=(1, ngram), use_idf=True, binary=False, lowercase=False)
+
+    X = vect.fit_transform(lemma_targets_laws_df["body"].values.astype('U'))  # astype to convert into a string
+
+    # dataframe containing the document terms matrix
+    doc_term_matrix = DataFrame(X.toarray(), columns=vect.get_feature_names_out(), index=index)
+
+    # only for test purposes
+    # doc_term_matrix.to_excel("prova.xlsx")
+
+    return doc_term_matrix
+
+
 # ---------------------------- UTILS -------------------------------------
 def __get_path__(relative_path):
     """
@@ -319,9 +394,10 @@ def __get_path__(relative_path):
     return path.join(base_path, relative_path)
 
 
+"""
 # test
 # remove triple prime to test the class
-"""
+
 if __name__ == '__main__':
-    print(get_lemma_targets_laws_df("laws\\[2015-2020]LeggiRegionePuglia\\LR_20.2018.pdf"))
+    print(tfidf(path_law="laws\\[2015-2020]LeggiRegionePuglia\\LR_10.2016.pdf"))
 """

@@ -14,7 +14,7 @@ import sys
 from os import path
 
 
-def __ask_path__():
+def ask_path():
     """
     Asks the user for the path's file
     :return:
@@ -55,7 +55,7 @@ def extract_content(destination):
     The content is then saved into a string.
     Return an empty string in case the file is empty.
     :param destination: path of the doc
-    :return:
+    :return: string
         content: a string that contains the content of the file
     :raises:
         ValueError: in case the specified file is protected by password
@@ -79,7 +79,7 @@ def __extract_txt__(destination):
     """
     Extracts the content of a .txt file.
     :param destination: path of the .txt file
-    :return:
+    :return: string
         content: string that contains the content of the file
     """
     content = ""
@@ -93,7 +93,7 @@ def __extract_docx__(destination):
     """
     Extracts the content of a .docx file.
     :param destination: path of the .docx file
-    :return:
+    :return: string
         content: string that contains the content of the file
     """
     import docx
@@ -109,7 +109,7 @@ def __extract_pdf__(destination):
     """
     Extracts the content of a .pdf file.
     :param destination: path of the .pdf file
-    :return:
+    :return: string
         content: string that contains the content of the file
     """
     import PyPDF2
@@ -129,7 +129,7 @@ def __get_path__(relative_path):
     """
     Converts the relative path into an absolute path
     :param relative_path: relative path of the file
-    :return:
+    :return: string
         absolute path: base path + relative path
     """
     try:
@@ -154,7 +154,7 @@ def get_content(destination = ""):
     """
 
     if destination == "":
-        destination = __ask_path__()
+        destination = ask_path()
     else:
         destination = __get_path__(destination)
     cont = extract_content(destination)

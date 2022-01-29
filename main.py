@@ -6,7 +6,7 @@ Created on Fri Jan 28 16:37:31 2022
 """
 import sys
 from os import path
-import subprocess
+
 
 #PYTHON 3.9 needed!!! (current packages versions are NOT compatible with Python 3.10)
 
@@ -79,10 +79,11 @@ if __name__ == '__main__':
             f.close()
         choice = input("\nDo you want to proceed with the installation? Type 'Y' to proceed or type any other key to close the process:\t").lower()
         if choice == 'y':
+            from subprocess import run
             # implement pip as a subprocess:
             # I start with scikit-learn 'cause of dependencies
-            subprocess.run(["pip3", "install", "scikit-learn == 1.0.2"], shell=True, capture_output=True)
-            subprocess.run(["pip3", "install", "-r", "requirements.txt"], shell=True, capture_output=True)
+            run(["pip3", "install", "scikit-learn == 1.0.2"], shell=True, capture_output=True)
+            run(["pip3", "install", "-r", "requirements.txt"], shell=True, capture_output=True)
 
             print("\nPackages correctly installed!\n")
             from Compute_Similarity import get_relevant

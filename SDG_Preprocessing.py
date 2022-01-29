@@ -8,7 +8,7 @@ Created on Fri Jul 30 10:34:13 2021
 from SDGs_Extractor import SDGs_Extractor
 import pandas as pd
 import sys
-from os import path, stat
+from os import path, stat, makedirs
 
 """
 Offers the method to preprocess all of the SDGs.
@@ -61,7 +61,10 @@ def preprocess_SDGs():
 
     dest_sdg = __get_path__("LEMMAS\\lemma_sdgs.xlsx")
 
+    makedirs(path.dirname(dest_sdg), exist_ok=True)
+
     dest_tgts = __get_path__("LEMMAS\\lemma_targets.xlsx")
+    makedirs(path.dirname(dest_tgts), exist_ok=True)
     df_sdgs.to_excel(dest_sdg)
     df_targets.to_excel(dest_tgts)
 
@@ -183,7 +186,7 @@ def get_vocabulary(path_lemma_sdgs):
     voc, df = compute_vocabulary(path_lemma_sdgs, 2)
     return voc, df
 
-def get_lemma_dataframe(dest = "LEMMAS\\lemma_targets.xlsx"):
+def get_lemma_targets(dest ="LEMMAS\\lemma_targets.xlsx"):
     """
     Returns the target's lemma dataframe.
     If it doesn't exists, it will compute it and return it.
@@ -197,7 +200,7 @@ def get_lemma_dataframe(dest = "LEMMAS\\lemma_targets.xlsx"):
         df = pd.read_excel(dest)
     else:
         preprocess_SDGs()
-        df = pd.read_excel(__get_path__("LEMMAS\\lemma_targets.xlsx"))
+        df = pd.read_excel(__get_path__(dest))
 
     return df
 

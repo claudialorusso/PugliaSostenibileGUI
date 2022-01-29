@@ -55,7 +55,6 @@ def get_df_laws_lemma(path_law = ""):
         df.loc[file_name] = lemma
         df.loc[file_name, "name"] = file_name
         df.index.name = "name"
-        print(df, "\n\n")
         return df
     except ValueError:
         print("ValueError: WARNING, The file you selected maybe protected by password.\nPlease select another file.")

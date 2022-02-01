@@ -239,6 +239,12 @@ class App:
         # ------------------------------- Installation root creation
         self.__root__ = Tk()
 
+        # -----set root to full screen
+        pad = 3
+        self.__root__.geometry("{0}x{1}+0+0".format(
+            self.__root__.winfo_screenwidth() - 3, self.__root__.winfo_screenheight() - 3))
+        # -----set root to full screen
+
         self.__root__.configure(background="white")
         # self.__root__.attributes('-alpha', )#('-alpha', 1.0)#    "transparentcolor", '#ab23ff'
         # Make the root window always on top

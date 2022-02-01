@@ -17,8 +17,9 @@ def count_occurences(law, pattern):
     :return: integer
         occurrences of the substring into the main string
     """
-    law = " ".join(law.split())
-    return law.count(pattern)
+
+    count = law.count(pattern)
+    return count
 
 def preprocess_law(law):
     """

@@ -91,9 +91,31 @@ if __name__ == '__main__':
             # asks laws path
             dest = __get_path__(ask_path())
             # gets first three relevant targets
-            print(get_relevant(path_law=dest, ngram=1))
-            input("\npress any key to exit.")
+            try:
+                print(get_relevant(path_law=dest, ngram=1))
+                input("\npress any key to exit.")
+            except ValueError:
+                print(
+                    "WARNING: Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
+            except OSError:
+                print("Warning: Il file risulta essere vuoto.\nPer favore, seleziona un altro file.")
+            except IOError:
+                print("Warning: Impossibile processare il file per uno dei seguenti motivi:"
+                      "\n-\til file è vuoto;"
+                      "\n-\til file contiene solo immagini;"
+                      "\n-\til file è corrotto."
+                      "\n\nPer favore, seleziona un altro file.")
         else:
             print("\nBye! ", "\U0001F984")
             input("\npress any key to exit.")
+    except ValueError:
+        print("WARNING: Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
+    except OSError:
+        print("Warning: Il file risulta essere vuoto.\nPer favore, seleziona un altro file.")
+    except IOError:
+        print("Warning: Impossibile processare il file per uno dei seguenti motivi:"
+                                          "\n-\til file è vuoto;"
+                                          "\n-\til file contiene solo immagini;"
+                                          "\n-\til file è corrotto."
+                                          "\n\nPer favore, seleziona un altro file.")
 

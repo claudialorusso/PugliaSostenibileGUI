@@ -11,7 +11,7 @@ Contains methods to manage files with the following extensions:
 """
 
 import sys
-from os import path
+from os import path, stat
 
 
 def ask_path():
@@ -60,6 +60,7 @@ def extract_content(destination):
     :raises:
         ValueError: in case the specified file is protected by password
     """
+
     content = ""
     try:
         if destination.endswith(".txt"):
@@ -72,6 +73,9 @@ def extract_content(destination):
 
         raise ValueError(
             "ValueError: WARNING, The file you selected maybe protected by password.\nPlease select another file.")
+    if not stat(destination).st_size > 0:
+        raise OSError("OSError: WARNING, Empty File.\nPlease select another file.")
+
     return content
 
 
@@ -159,6 +163,9 @@ def get_content(destination = ""):
         destination = __get_path__(destination)
     cont = extract_content(destination)
     file_name = get_filename_no_extension(destination)
+
+    if len(cont)<2:
+        raise IOError("IOError: WARNING, The file you selected maybe scanned, contains images only or maybe corrupted.\nPlease select another file.")
 
     return cont, file_name
 

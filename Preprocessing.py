@@ -124,14 +124,14 @@ def preprocess_lemma(txt):
     return lemma
 
 
-def get_lemma_targets_laws_df(path_law="", path_targets="LEMMAS\\lemma_targets.xlsx"):
+def get_lemma_targets_laws_df(path_law="", sim_target = False):
     """
     Computes a DataFrame which contains both targets lemma and law's lemma.
     :param path_law: string
         law's path
-    :param path_targets: string
-        target's lemma path
-
+    :param sim_target: boolean
+        True if the user wants to compute the similarity between the law and each target (only)
+        False if he wants to compute the similarity between the law and each SDGs (SDG = Goal + list of Target)
     :return: DataFrame
         containing the concatenation between law's df and targets df
     """
@@ -140,14 +140,14 @@ def get_lemma_targets_laws_df(path_law="", path_targets="LEMMAS\\lemma_targets.x
     from pandas import concat
 
     path_law = __get_path__(path_law)
-    path_targets = __get_path__(path_targets)
+
+    path_targets = __get_path__("LEMMAS\\lemma_targets.xlsx" if sim_target else "LEMMAS\\lemma_sdgs.xlsx")
 
     df_laws = get_df_laws_lemma(path_law)
     df_targets = get_lemma_targets(path_targets)
 
     union = concat([df_targets, df_laws])
     return union
-
 
 #                     ----- SPACY LEMMATIZER -----
 
@@ -324,7 +324,7 @@ def stop_words_ita():
 
 # ---------------------------- TFIDF -------------------------------------
 
-def tfidf(ngram=1, path_law=""):
+def tfidf(ngram=1, path_law="", sim_target = False):
     """
     Creates the TFIDF term document matrix between the law (specified in path_law)
     and all of the targets.
@@ -332,6 +332,9 @@ def tfidf(ngram=1, path_law=""):
         specifies how many tokens a keyphrase will contain
     :param path_law: string
         destination + name of the file containing the law
+    :param sim_target: boolean
+        True if the user wants to compute the similarity between the law and each target (only)
+        False if he wants to compute the similarity between the law and each SDGs (SDG = Goal + list of Target)
     :return: DataFrame
         the doc term matrix
 
@@ -358,7 +361,7 @@ def tfidf(ngram=1, path_law=""):
 
     # -------------------------------------LEMMA LAWS and TARGETS
     path_law = __get_path__(path_law)
-    lemma_targets_laws_df = get_lemma_targets_laws_df(path_law)
+    lemma_targets_laws_df = get_lemma_targets_laws_df(path_law=path_law, sim_target=sim_target)
     index = lemma_targets_laws_df['name'].tolist()
 
     # ------------------------------------COMPUTE TFIDF

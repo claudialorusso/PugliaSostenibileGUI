@@ -655,11 +655,14 @@ class App:
         law = extract_content(self.__file_name__)
         #I remove symbols
         law = sub(r'[^\w]', ' ', law)
+        law = sub(r"(?<!\\)\\n|\n", " ", law)
         #I lowercase the content
         law = law.lower()
         # I remove trailing spaces
         law = " ".join(law.split())
         pattern = str(self.__insert_key__.get("1.0", "end-1c")).lower()
+        pattern = sub(r"(?<!\\)\\n|\n", " ", pattern)
+        pattern = " ".join(pattern.split())
         #I count occurrences
         occ = law.count(pattern)
         self.__key_occ__ = "La parola chiave '" +pattern + "' appare " + str(occ) + " volte in " + path.basename(self.__file_name__)

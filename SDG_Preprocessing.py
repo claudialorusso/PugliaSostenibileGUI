@@ -186,7 +186,7 @@ def get_vocabulary(path_lemma_sdgs):
     voc, df = compute_vocabulary(path_lemma_sdgs, 2)
     return voc, df
 
-def get_lemma_targets(dest ="LEMMAS\\lemma_targets.xlsx"):
+def get_lemma_targets(dest ="LEMMAS\\lemma_sdgs.xlsx"):
     """
     Returns the target's lemma dataframe.
     If it doesn't exists, it will compute it and return it.

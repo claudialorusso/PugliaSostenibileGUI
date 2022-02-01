@@ -92,7 +92,7 @@ if __name__ == '__main__':
             dest = __get_path__(ask_path())
             # gets first three relevant targets
             try:
-                print(get_relevant(path_law=dest, ngram=1))
+                print(get_relevant(path_law=dest, ngram=1, sim_target = False))
                 input("\npress any key to exit.")
             except ValueError:
                 print(

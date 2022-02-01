@@ -10,7 +10,7 @@ from pandas import DataFrame
 import sys
 from os import path
 
-def get_cossim(ngram = 1, path_law = ""):
+def get_cossim(ngram = 1, path_law = "", sim_target = False):
     """
     Computes a DataFrame containing the cossim matrix,
     starting from the TFIDF term document matrix,
@@ -20,11 +20,14 @@ def get_cossim(ngram = 1, path_law = ""):
         number of tokens into each keyphrase
     :param path_law: string
         directory + name of the file containing the law
+    :param sim_target: boolean
+        True if the user wants to compute the similarity between the law and each target (only)
+        False if he wants to compute the similarity between the law and each SDGs (SDG = Goal + list of Target)
     :return: DataFrame
         containing the cossim matrix
     """
     path_law = __get_path__(path_law)
-    df_doc_term_matrix = tfidf(ngram, path_law)
+    df_doc_term_matrix = tfidf(ngram = ngram, path_law = path_law, sim_target = sim_target)
     # get indexes with
     indx_targtes = df_doc_term_matrix.index[0:-1]
     #get law name
@@ -38,12 +41,17 @@ def get_cossim(ngram = 1, path_law = ""):
         cols.append(t)
     #print("colonne:\n", cols, "\n")
 
-    #TODO
-    targets_matrix = tf_idf_matrix[:169, 1:]  # [:17,1:] use this for sdgs
-    #print("target matrix:\n", targets_matrix, "\n")
-    #TODO
-    laws_matrix = tf_idf_matrix[169:, 1:]  # [17:,1:] use this for sdgs
-    #print("law matrix:\n", targets_matrix, "\n")
+    if sim_target:
+        targets_matrix = tf_idf_matrix[:169, 1:]  # [:17,1:] use this for sdgs
+        #print("target matrix:\n", targets_matrix, "\n")
+        laws_matrix = tf_idf_matrix[169:, 1:]  # [17:,1:] use this for sdgs
+        #print("law matrix:\n", targets_matrix, "\n")
+    else:
+        targets_matrix = tf_idf_matrix[:17,1:]
+        #print("target matrix:\n", targets_matrix, "\n")
+
+        laws_matrix = tf_idf_matrix[17:,1:]
+        #print("law matrix:\n", targets_matrix, "\n")
 
     cossim = cosine_similarity(laws_matrix, targets_matrix)
 
@@ -53,7 +61,7 @@ def get_cossim(ngram = 1, path_law = ""):
 
     return cossim_df
 
-def get_relevant(ngram = 1, path_law = ""):
+def get_relevant(ngram = 1, path_law = "", sim_target = False):
     """
     Computes the first three relevant targets
     detected by the cossim matrix.
@@ -61,19 +69,34 @@ def get_relevant(ngram = 1, path_law = ""):
         number of tokens contained into each keyphrase
     :param path_law: string
         directory + name of the file containing the law
+    :param sim_target: boolean
+        True if the user wants to compute the similarity between the law and each target (only)
+        False if he wants to compute the similarity between the law and each SDGs (SDG = Goal + list of Target)
     :return: string
         containing the first three relevant targets
     """
+
     path_law = __get_path__(path_law)
-    cossim_df = get_cossim(ngram, path_law)
+    cossim_df = get_cossim(ngram = ngram, path_law = path_law, sim_target = sim_target)
     #to change the number of targets outputted
     #just switch the number 3 to whatever you want
     largest = cossim_df.stack().nlargest(3)
-    largest = largest.multiply(100)
+    largest = largest.multiply(100).round(2)
+    largest = largest.unstack()
 
-    rel= largest.to_string()
-    relevant = "\t\t\tTarget\t%\n"+rel
+    columns = []
+    for col in largest.columns:
+        if sim_target:
+            column = "Target\t"
+        else:
+            column = "SDG\t"
+        column += str(col)
+        columns.append(column)
 
+    values = largest.iloc[0].tolist()
+    relevant = ""
+    for col, perc in zip(columns, values):
+        relevant += col + ":\t"+ str(perc) + "%\n"
     return relevant
 
 # ---------------------------- UTILS -------------------------------------

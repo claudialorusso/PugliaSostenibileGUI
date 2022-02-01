@@ -8,7 +8,7 @@ Created on Sat Jan 29 15:39:51 2022
 from tkinter import *
 from tkinter import ttk, scrolledtext, messagebox
 from tkinter import filedialog as fd
-from tkinter.filedialog import asksaveasfile
+#from tkinter.filedialog import asksaveasfile
 import sys
 from os import path
 
@@ -278,7 +278,6 @@ class App:
         self.__master_frame__.config(bg='white')
 
 
-
         #                            ---------------    TOP LEFT    ---------------
 
         # --------------------------------------------------------------- Left frame creation (where the magic happens)
@@ -308,33 +307,42 @@ class App:
         color_btn_base = "white"
 
         # id btn selected
-        self.__id_btn_selected__ = IntVar()
+        self.__id_btn_selected__ = IntVar() #FIXME
+        self.__id_btn_selected__ = 0
 
         # home button
         self.__home_btn__ = Button(self.__button_frame__, text=" "+u'\u2302' + "\tHome", font=("Bahnschrift Light", 12),
-                                   height=2, width=40, command=self.__hide__, borderwidth=0,
+                                   height=2, width=40, borderwidth=0,
                                    background=color_btn_selected, cursor = "hand2", anchor = "w")  # FIXME
-        self.__home_btn__.grid(row=0, column=0, sticky=E + N)
+
         # info button
         self.__info_btn__ = Button(self.__button_frame__, text="  "+u'\u2139' + "\tInformazioni",
-                                   font=("Bahnschrift Light", 12), height=2, width=40, command=self.__select_file__,
+                                   font=("Bahnschrift Light", 12), height=2, width=40,
                                    borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
-        self.__info_btn__.grid(row=1, column=0, sticky=E + N)
+
         # advanced button
         self.__advanced_btn__ = Button(self.__button_frame__, text=u'\u2699' + "\tAvanzate",
-                                       font=("Bahnschrift Light", 12), height=2, width=40, command=self.__select_file__,
+                                       font=("Bahnschrift Light", 12), height=2, width=40,
                                        borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
-        self.__advanced_btn__.grid(row=2, column=0, sticky=E + N)
+
         # agenda button
         self.__agenda_btn__ = Button(self.__button_frame__, text=u'\U0001F4D6' + "\tAgenda 2030",
-                                     font=("Bahnschrift Light", 12), height=2, width=40, command=self.__select_file__,
+                                     font=("Bahnschrift Light", 12), height=2, width=40,
                                      borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
-        self.__agenda_btn__.grid(row=3, column=0, sticky=E + N)
+
         # contact button
         self.__contact_btn__ = Button(self.__button_frame__, text=u'\U0001F465' + "\tContatti",
-                                      font=("Bahnschrift Light", 12), height=2, width=40, command=self.__select_file__,
+                                      font=("Bahnschrift Light", 12), height=2, width=40,
                                       borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
+
+        self.__home_btn__.grid(row=0, column=0, sticky=E + N)
+        self.__info_btn__.grid(row=1, column=0, sticky=E + N)
+        self.__advanced_btn__.grid(row=2, column=0, sticky=E + N)
+        self.__agenda_btn__.grid(row=3, column=0, sticky=E + N)
         self.__contact_btn__.grid(row=4, column=0, sticky=E + N)
+
+
+
 
         #                                ---------------    TOP RIGHT    ---------------
 
@@ -374,8 +382,12 @@ class App:
 
         # NOME DEL FILE!!!
         self.__file_name__ = StringVar()
+        # GRAMMATURA!!!
         self.__ngram__ = IntVar()
         self.__ngram__ = 1
+        # Computa Similarita' tra targets o sdgs!!!
+        self.__sim_target__ = BooleanVar()
+        self.__sim_target__ = False #FIXME
 
         # ------------------------------------------- VARIABLE FRAMES --------------------------------------------------VARIABLE FRAMES:
 
@@ -389,7 +401,7 @@ class App:
         self.__home_up_frame__ = Frame(self.__home_frame__, bg=id_color_right)
         self.__home_up_frame__.grid(row=0, column=0)
 
-        res_targ_text = "Ricerca Target"
+        res_targ_text = "Ricerca Target" if self.__sim_target__ else "Ricerca SDGs"
         self.__ric_targets_lbl__ = Label(self.__home_up_frame__, justify="left", text=res_targ_text,
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
         self.__ric_targets_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
@@ -438,7 +450,6 @@ class App:
         # ----------------------------------------------------------------------------------- HOME Output Frame creation
 
         self.__output__ = StringVar()
-        self.__output__ = "prova" #FIXME
 
         self.__output_frame__ = LabelFrame(self.__computation_frame__, width=100, height=10,padx=5,
                                            pady=5,font=("Bahnschrift Light",10),bg=id_color_right,text = " Output ")
@@ -492,6 +503,8 @@ class App:
                                    )
         self.__insert_key__.grid(row=0, column=0, sticky=W)
 
+        self.__insert_key__.bind('<Return>', lambda _: self.__cerca_occorrenze__())
+
         # cerca btn
         self.__cerca_btn__ = Button(self.__keycatch_frame__, text="Cerca",
                                        font=("Bahnschrift Light", 12), height=1, width=10, command=self.__cerca_occorrenze__,
@@ -505,8 +518,29 @@ class App:
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__ky_occ_res_label__.grid(row=3, column=0, sticky=W, padx = 5, pady=5)
 
+        #                                        ---------  Informazioni --------                                                       1.   Informazioni
+
+        # ---------------------------------------------------------------------------------- INFORMAZIONI Frame creation
+        self.__info_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
 
+        #                                        ---------  AVANZATE --------                                                           2.   Avanzate
+
+        # -------------------------------------------------------------------------------------- AVANZATE Frame creation
+        self.__adv_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
+
+
+
+        #                                        ---------  AGENDA 2030 --------                                                        3.   Agenda 2030
+
+        # ----------------------------------------------------------------------------------- AGENDA 2030 Frame creation
+        self.__agenda_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
+
+
+        #                                        ---------  CONTATTI --------                                                           4.   CONTATTI
+
+        # -------------------------------------------------------------------------------------- CONTATTI Frame creation
+        self.__contact_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
 
 
@@ -520,6 +554,14 @@ class App:
         self.__line_frame__.config(bg=base_color)
         self.__mid_descr_lbl__ = Label(self.__line_frame__, bg=base_color, image=self.__vertical_image__)
         self.__mid_descr_lbl__.grid()
+
+
+        self.__home_btn__.configure(command=(lambda:self.__hide__(0)))
+        self.__info_btn__.configure(command=(lambda:self.__hide__(1)))
+        self.__advanced_btn__.configure(command=(lambda:self.__hide__(2)))
+        self.__agenda_btn__.configure(command=(lambda:self.__hide__(3)))
+        self.__contact_btn__.configure(command=(lambda:self.__hide__(4)))
+
 
 
 
@@ -573,7 +615,7 @@ class App:
             dest = self.__file_name__
             warning = False
             try:
-                output = get_relevant(path_law=self.__file_name__, ngram=self.__ngram__)
+                output = get_relevant(path_law=self.__file_name__, ngram=self.__ngram__, sim_target=self.__sim_target__)
             except ValueError:
                 messagebox.showwarning("Warning", "Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
                 warning = True
@@ -593,9 +635,11 @@ class App:
                 pass
             else:
                 # get string containing reading time
-                self.__reading_time__ = "I primi tre target più similari alla legge " + file_name + " sono:\n\n" + output + " \n\nPer favore seleziona un'altra Legge per una nuova computazione."
+                self.__output__ = "I primi tre"
+                self.__output__ += (" SDG " if not self.__sim_target__ else " Target ")
+                self.__output__ += "più similari alla legge " + file_name + " sono:\n\n" + output + " \n\nPer favore seleziona un'altra Legge per una nuova computazione."
                 self.__txt_box__.configure(state=NORMAL)
-                self.__txt_box__.insert(INSERT, self.__reading_time__)
+                self.__txt_box__.insert(INSERT, self.__output__)
                 self.__txt_box__.configure(state="disabled")
                 self.__insert_key__.configure(state="normal")
                 self.__cerca_btn__.configure(state="normal")
@@ -618,8 +662,9 @@ class App:
         pattern = str(self.__insert_key__.get("1.0", "end-1c")).lower()
         #I count occurrences
         occ = law.count(pattern)
-        self.__key_occ__ = "La parola chiave appare " + str(occ) + " volte in " + path.basename(self.__file_name__)
+        self.__key_occ__ = "La parola chiave '" +pattern + "' appare " + str(occ) + " volte in " + path.basename(self.__file_name__)
         self.__ky_occ_res_label__.configure(text=self.__key_occ__)
+        self.__insert_key__.delete("1.0", END)
 
     def __get_color_btn__(self, id):
         """
@@ -634,13 +679,13 @@ class App:
         :return: string
             the color of the selected btn
         """
-        colors = (
-            (0, "#FCFCFC"),
-            (1, "#F7F6A6"),
-            (2, "#F7A6A6"),
-            (3, "#E0A6F7"),
-            (4, "#A6C7F7")
-        )
+        colors = {
+            0: "#DAF7A6",
+            1: "#F6F7A6",
+            2: "#F7A6A6",
+            3: "#E0A6F7",
+            4: "#A6C7F7"
+        }
         color = colors[id]
         return color
 
@@ -708,9 +753,9 @@ class App:
         tuple of all of the filetypes allowed
         """
         filetypes = (
+            ("*.pdf", "*.pdf"),
             ("*.txt", "*.txt"),
-            ("*.docx", "*.docx"),
-            ("*.pdf", "*.pdf")
+            ("*.docx", "*.docx")
         )
         return filetypes
 
@@ -730,8 +775,87 @@ class App:
         """
         self.__root__.title(title)
 
-    def __hide__(self, frame):
-        frame.grid_forget()
+    def __get_btns__(self):
+        """
+        returns a list containing each of the following buttons:
+        -home
+        -info
+        -advanced
+        -agenda
+        -contact
+
+        :return: list of buttons
+        """
+
+        return [self.__home_btn__, self.__info_frame__, self.__advanced_btn__, self.__agenda_btn__, self.__contact_btn__]
+
+    def __hide__(self, id):
+        self.__id_btn_selected__ = id
+
+        if id==1:#INFO
+            self.__info_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+            self.__info_frame__.tkraise()
+            self.__info_btn__.configure(background="#F6F7A6")
+            """
+            self.__home_frame__.grid_forget()
+            self.__adv_frame__.grid_forget()
+            self.__agenda_frame__.grid_forget()
+            self.__contact_frame__.grid_forget()
+            """
+        elif id == 2: #ADVANCED
+            self.__adv_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+            self.__adv_frame__.tkraise()
+            self.__info_btn__.configure(background="white")
+            """
+            self.__info_frame__.grid_forget()
+            self.__home_frame__.grid_forget()
+            self.__agenda_frame__.grid_forget()
+            self.__contact_frame__.grid_forget()
+            """
+
+        elif id == 3: #AGENDA
+            self.__agenda_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+            self.__agenda_frame__.tkraise()
+            self.__info_btn__.configure(background="white")
+            """         
+            self.__info_frame__.grid_forget()
+            self.__home_frame__.grid_forget()
+            self.__adv_frame__.grid_forget()
+            self.__contact_frame__.grid_forget()
+            """
+        elif id == 4: #CONTACT
+            self.__contact_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+            self.__contact_frame__.tkraise()
+            self.__info_btn__.configure(background="white")
+            """
+            self.__agenda_frame__.grid_forget()
+            self.__info_frame__.grid_forget()
+            self.__home_frame__.grid_forget()
+            self.__adv_frame__.grid_forget()
+            """
+        else: #HOME = DEFAULT
+            #self.__home_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+            self.__home_frame__.tkraise()
+            self.__info_btn__.configure(background="white")
+            """
+            .__info_frame__.grid_forget()
+            self.__adv_frame__.grid_forget()
+            self.__agenda_frame__.grid_forget()
+            self.__contact_frame__.grid_forget()
+            """
+            self.__home_btn__.configure(background = self.__get_color_btn__(0))
+
+        btn_list = self.__get_btns__()
+        i = 0
+        while(i<len(btn_list)):
+            btn = btn_list[i]
+
+            btn.configure(background="white")
+            i+=1
+
+        btn_list[id].configure(background=self.__get_color_btn__(id))
+
+
 
 
 # ---------------------------- UTILS -------------------------------------

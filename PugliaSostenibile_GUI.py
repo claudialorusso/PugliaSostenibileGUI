@@ -634,7 +634,7 @@ class App:
             if warning:
                 pass
             else:
-                # get string containing reading time
+                # get string containing the output
                 self.__output__ = "I primi tre"
                 self.__output__ += (" SDG " if not self.__sim_target__ else " Target ")
                 self.__output__ += "più similari alla legge " + file_name + " sono:\n\n" + output + " \n\nPer favore seleziona un'altra Legge per una nuova computazione."
@@ -695,7 +695,7 @@ class App:
         :param id: integer
             id of the btn:
                 0 = Home
-                1 = Istruzioni
+                1 = Informazioni
                 2 = Avanzate
                 3 = Agenda 2030
                 4 = Contatti
@@ -787,7 +787,7 @@ class App:
         :return: list of buttons
         """
 
-        return [self.__home_btn__, self.__info_frame__, self.__advanced_btn__, self.__agenda_btn__, self.__contact_btn__]
+        return [self.__home_btn__, self.__info_btn__, self.__advanced_btn__, self.__agenda_btn__, self.__contact_btn__]
 
     def __hide__(self, id):
         self.__id_btn_selected__ = id
@@ -795,7 +795,6 @@ class App:
         if id==1:#INFO
             self.__info_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
             self.__info_frame__.tkraise()
-            self.__info_btn__.configure(background="#F6F7A6")
             """
             self.__home_frame__.grid_forget()
             self.__adv_frame__.grid_forget()
@@ -805,7 +804,6 @@ class App:
         elif id == 2: #ADVANCED
             self.__adv_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
             self.__adv_frame__.tkraise()
-            self.__info_btn__.configure(background="white")
             """
             self.__info_frame__.grid_forget()
             self.__home_frame__.grid_forget()
@@ -816,7 +814,6 @@ class App:
         elif id == 3: #AGENDA
             self.__agenda_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
             self.__agenda_frame__.tkraise()
-            self.__info_btn__.configure(background="white")
             """         
             self.__info_frame__.grid_forget()
             self.__home_frame__.grid_forget()
@@ -826,7 +823,6 @@ class App:
         elif id == 4: #CONTACT
             self.__contact_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
             self.__contact_frame__.tkraise()
-            self.__info_btn__.configure(background="white")
             """
             self.__agenda_frame__.grid_forget()
             self.__info_frame__.grid_forget()
@@ -836,7 +832,6 @@ class App:
         else: #HOME = DEFAULT
             #self.__home_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
             self.__home_frame__.tkraise()
-            self.__info_btn__.configure(background="white")
             """
             .__info_frame__.grid_forget()
             self.__adv_frame__.grid_forget()
@@ -846,14 +841,12 @@ class App:
             self.__home_btn__.configure(background = self.__get_color_btn__(0))
 
         btn_list = self.__get_btns__()
-        i = 0
-        while(i<len(btn_list)):
-            btn = btn_list[i]
-
+        for btn in btn_list:
             btn.configure(background="white")
-            i+=1
-
         btn_list[id].configure(background=self.__get_color_btn__(id))
+
+
+
 
 
 

@@ -424,34 +424,34 @@ class App:
 
         # ------------------------------------------------------------------------------------- Principal Frame creation
         self.__principal_frame__ = Frame(self.__right_frame__, bg=id_color_right)
-        self.__principal_frame__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
+        self.__principal_frame__.grid(row=0, column=0, sticky=W, padx=(10), pady=5)
 
         # title label
         title = "Puglia Sostenibile"
         self.__title_lbl__ = Label(self.__principal_frame__, justify="left", text=title,
                                    font=("Bahnschrift SemiCondensed", 40, "bold"), bg=id_color_right)
-        self.__title_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
+        self.__title_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=5)
 
         # mid title: Home, Info, Advanced, Contacts, etc. -------------------------------------------------------------- Mid Title
 
         self.__mid_title_lbl__ = Label(self.__principal_frame__, justify="left", text=self.__get_title_name__(0),
                                        font=("Bahnschrift SemiCondensed", 20, "bold"), bg=id_color_right)
-        self.__mid_title_lbl__.grid(row=1, column=0, sticky=W, padx=(10), pady=10)
+        self.__mid_title_lbl__.grid(row=1, column=0, sticky=W, padx=(10), pady=5)
 
         # mid description: Description for Home, Info, Advanced, Contacts, etc.----------------------------------------- Mid Description
         self.__mid_descr_lbl__ = Label(self.__principal_frame__, justify="left", text=self.__get_description_frame__(0),
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
-        self.__mid_descr_lbl__.grid(row=2, column=0, sticky=W, padx=(10), pady=10)
+        self.__mid_descr_lbl__.grid(row=2, column=0, sticky=W, padx=(10), pady=5)
 
 
         # NOME DEL FILE!!!
         self.__file_name__ = StringVar()
         # GRAMMATURA!!!
         self.__ngram__ = IntVar()
-        self.__ngram__ = 1 #FIXME
+        self.__ngram__ = 1
         # Computa Similarita' tra targets o sdgs!!!
         self.__sim_target__ = BooleanVar()
-        self.__sim_target__ = False #FIXME
+        self.__sim_target__ = False
 
         # ------------------------------------------- VARIABLE FRAMES -------------------------------------------------- VARIABLE FRAMES:
 
@@ -464,26 +464,44 @@ class App:
         # --------------------------------------------------------------------------------------- UP HOME Frame creation
         self.__home_up_frame__ = Frame(self.__home_frame__, bg=id_color_right)
         self.__home_up_frame__.grid(row=0, column=0)
+        # ----------------------------------------------------------------------------------------- title Frame creation
+        self.__title_frame__ = Frame(self.__home_up_frame__, bg = id_color_right)
+        self.__title_frame__.grid(row=0, column=0, sticky=W)
 
         res_targ_text = "Ricerca Target" if self.__sim_target__ else "Ricerca SDGs"
-        self.__ric_targets_lbl__ = Label(self.__home_up_frame__, justify="left", text=res_targ_text,
+        self.__ric_targets_lbl__ = Label(self.__title_frame__, justify="left", text=res_targ_text,
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
         self.__ric_targets_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
 
-        spec_sel_law_text = "Seleziona la legge e premi su 'Start':"
-        self.__sel_law_lbl__ = Label(self.__home_up_frame__, justify="left", text=spec_sel_law_text,
+        spec_sel_law_text = "Seleziona la legge e premi su 'Start'.\n\n" \
+                            "Per consultare la lista di SDG e Target fai click sulla rotella."
+        self.__sel_law_lbl__ = Label(self.__title_frame__, justify="left", text=spec_sel_law_text,
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
-        self.__sel_law_lbl__ .grid(row=1, column=0, sticky=W, padx = 5, pady=5)
+        self.__sel_law_lbl__.grid(row=1, column=1, sticky=N, padx = 5, pady=5)
+
+        # SFOGLIAMI BTN
+
+        sfogliami_img = PhotoImage(file=__get_path__("utils\\images\\button\\empty_square_70x72.png"))
+
+        self.__sfogliami_btn__ = Button(self.__title_frame__, image = sfogliami_img,
+                                   font=("Bahnschrift Light", 12), command=self.__consult_sdgs__,
+                                   borderwidth=0.4, background=id_color_right , cursor = "hand2")
+        self.__sfogliami_btn__.grid(row=1, column=0, sticky=N, padx = 5, pady=5)
+
+
+
+
+
 
         # label file name
 
         self.__adv_sel_lbl__ = Label(self.__home_up_frame__, justify="left", text="",
                                        font=("Bahnschrift Light", 10, "bold"), bg=id_color_right)
-        self.__adv_sel_lbl__.grid(row=2, column=0, sticky=W, padx = 5, pady=5)
+        self.__adv_sel_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
 
         # ------------------------------------------------------------------------------------COMPUTATION FRAME creation
         self.__computation_frame__ = Frame(self.__home_up_frame__, bg=id_color_right)
-        self.__computation_frame__.grid(row=3, column=0, sticky=W)
+        self.__computation_frame__.grid(row=2, column=0, sticky=W)
 
 
         # ---------------------------------------------------------------------------- HOME BTN selection Frame creation
@@ -593,6 +611,56 @@ class App:
         # -------------------------------------------------------------------------------------- AVANZATE Frame creation
         self.__adv_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
+        self.__grammatura_lbl__ = Label(self.__adv_frame__,justify="left", text="Grammatura",
+                                       font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
+        self.__grammatura_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
+
+        self.__grammatura_expl_lbl__ = Label(self.__adv_frame__, justify="left", text="Clicca sulla Grammatura che preferisci:",
+                                       font=("Bahnschrift Light", 12), bg=id_color_right)
+        self.__grammatura_expl_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
+
+        Radiobutton(self.__adv_frame__,
+                       text="Bigram",
+                       padx=20,
+                       variable=self.__ngram__, font=("Bahnschrift Light", 12),
+                       value=2, bg=id_color_right,
+                    command=(lambda:self.__set_ngram_value__(2))
+                    ).grid(row=2, column=1, sticky=E)
+
+        Radiobutton(self.__adv_frame__,
+                       text="Unigram",
+                       padx=20,
+                       variable=self.__ngram__, font=("Bahnschrift Light", 12),
+                       value=1, bg=id_color_right,
+                    command=(lambda:self.__set_ngram_value__(1))
+                    ).grid(row=2, column=0, sticky=W)
+
+
+        self.__choose_t_sdg_lbl__ = Label(self.__adv_frame__,justify="left", text="Rileva SDG o Target",
+                                       font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
+        self.__choose_t_sdg_lbl__.grid(row=3, column=0, sticky=W, padx = 5, pady=5)
+
+        self.__choose_t_sdg_expl_lbl__ = Label(self.__adv_frame__, justify="left", text="Scegli tra SDG e Target:",
+                                       font=("Bahnschrift Light", 12), bg=id_color_right)
+        self.__choose_t_sdg_expl_lbl__.grid(row=4, column=0, sticky=W, padx = 5, pady=5)
+
+        Radiobutton(self.__adv_frame__,
+                       text="Target",
+                       padx=20,
+                       variable=self.__sim_target__, font=("Bahnschrift Light", 12),
+                       value=True, bg=id_color_right,
+                    command=(lambda:self.__set_sel_t_sdg_value__(True))
+                    ).grid(row=5, column=1, sticky=E)
+
+        Radiobutton(self.__adv_frame__,
+                       text="SDG",
+                       padx=20,
+                       variable=self.__sim_target__, font=("Bahnschrift Light", 12),
+                       value=False, bg=id_color_right,
+                    command=(lambda:self.__set_sel_t_sdg_value__(False))
+                    ).grid(row=5, column=0, sticky=W)
+
+
 
 
         #                                        ---------  AGENDA 2030 --------                                                        3.   Agenda 2030
@@ -657,9 +725,22 @@ class App:
             frame.grid_forget()
 
 
+    def __set_ngram_value__(self, value):
+        """
+        Changes the ngram based on the user choice
+        :return:
+        """
+
+        self.__ngram__ = value
 
 
-
+    def __set_sel_t_sdg_value__(self, value):
+        """
+        Changes the sdg or target choice based on the user choice
+        :return:
+        """
+        self.__sim_target__ = value
+        self.__ric_targets_lbl__.configure(text = "Ricerca Target" if self.__sim_target__ else "Ricerca SDGs")
 
     def __select_file__(self):
         """
@@ -689,13 +770,72 @@ class App:
         self.__key_occ__ = ""
         self.__ky_occ_res_label__.configure(text=self.__key_occ__)
 
+    def __popup_sdgs__(self):
+        """
+        Lets pop up a new window with the SDGs list
+        :return:
+        """
+        dest_sdgs = __get_path__("SDGs\\SDGs.txt")
+        with open(dest_sdgs,"r",encoding='utf-8', errors='ignore') as f:
+            contents = f.readlines()
+        content=""
+        for l in contents:
+            content += l + "\n"
+
+        pad = 3
+        id_color_right = "#FCFCFC"
+        popupwindow = Tk()
+        popupwindow.configure(bg=id_color_right)
+        popupwindow.wm_title("Obiettivi di Sviluppo Sostenibile: SDGs")
+        master_frame = Frame(popupwindow, bg=id_color_right)
+        master_frame.grid(row=0, column = 0, padx = 10, pady=10)
+
+        # title label
+        title = "Obiettivi di Sviluppo Sostenibile:"
+        title_lbl__ = Label(master_frame, justify="left", text=title,
+                                   font=("Bahnschrift SemiCondensed", 40, "bold"), bg=id_color_right)
+        title_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
+
+        # ---------------------------------------------------- TEXTBOX Frame
+        box_frame = LabelFrame(master_frame, text=" Lista di SDGs: ", padx=5, pady=5,bg=id_color_right, width=popupwindow.winfo_width()-pad)
+        box_frame.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E + W + N + S)
+
+        popupwindow.columnconfigure(0, weight=1)
+        popupwindow.rowconfigure(1, weight=1)
+
+        box_frame.rowconfigure(0, weight=1)
+        box_frame.columnconfigure(0, weight=1)
+
+        # Create the textbox widget
+        txt_box = scrolledtext.ScrolledText(box_frame, bg=id_color_right, width=popupwindow.winfo_width()-pad)
+        txt_box.grid(row=0, column=0, sticky=E + W + N + S)
+
+        txt_box.insert(INSERT, content)
+        txt_box.configure(state="disabled")
+
+        close_btn = ttk.Button(master_frame, text="Close", command=popupwindow.destroy)
+
+        close_btn.grid(row=2, sticky=E, padx=(10), pady=10)
+
+        popupwindow.update()
+        popupwindow.minsize(popupwindow.winfo_width(), popupwindow.winfo_height())
+
+        popupwindow.maxsize(popupwindow.winfo_width(), popupwindow.winfo_height())
+
+    def __consult_sdgs__(self):
+        """
+        If the sfogliami_btn is pressed it will pop up a page with the SDG list.
+        :return:
+        """
+        self.__popup_sdgs__()
+
+
 
     def __start__(self):
         """
         Enables and disables the occurrences box and computes the output.
         :return:
         """
-
         self.__txt_box__.configure(state=NORMAL)
         self.__txt_box__.delete("1.0", END)
         self.__txt_box__.configure(state="disabled")

@@ -602,7 +602,147 @@ class App:
         #                                        ---------  Informazioni --------                                                       1.   Informazioni
 
         # ---------------------------------------------------------------------------------- INFORMAZIONI Frame creation
-        self.__info_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
+        self.__info_frame__ = Frame(self.__principal_frame__, bg=id_color_right, width=800, height=800)
+
+        self.__scrollableframe__ = ScrollableFrame(self.__info_frame__)
+
+        image_puglia_sostenibile = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile500x460.png"))
+        self.__lbl_image_puglia_sostenibile__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      image = image_puglia_sostenibile,
+                                                      bg=id_color_right, justify= "center"
+                                                      ).grid(row=0, column = 0, sticky = "n")
+
+        citazione_1 = "\n''Siamo determinati a fare passi audaci e trasformativi urgentemente necessari \nper portare il mondo " \
+                    "sulla strada della sostenibilità e della resilienza.\n\n" \
+                    "Nell’intraprendere questo grande viaggio collettivo, \npromettiamo che nessuno verrà lasciato indietro.''\n" \
+                    "\n(Onu, Agenda 2030)\n"
+
+        self.__citazione_1_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = citazione_1,
+                                                      bg=id_color_right, justify= "center",
+                                         font=("Bahnschrift Light", 12, "italic")
+                                                      ).grid(row=1, column = 0, sticky = N)
+
+        self.__titolo_1_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = "Avvento dell’Agenda 2030\n",
+                                                      bg=id_color_right, justify= "left",
+                                         font=("Bahnschrift SemiCondensed", 14, "bold")
+                                                      ).grid(row=2, column = 0, sticky = W)
+
+        par_1 = "Negli ultimi anni organismi internazionali e locali, sensibilizzati " \
+                "da vari accadimenti, \ntra cui quelli naturali, con lo sguardo rivolto " \
+                "alle future generazioni, hanno sentito \nla necessità di intervenire in " \
+                "modo deciso a sostegno dello Sviluppo Sostenibile.\n\n" \
+                "In sintesi, tale tematica si concentra su di un progresso che non risulta essere \ncircostanziato " \
+                "al mero soddisfacimento dei bisogni attuali bensì si pone il problema \ndi agire " \
+                "positivamente in vista di esigenze future, per il bene delle prossime generazioni.\n\n" \
+                "Conseguentemente, nel settembre 2015, tutti i 193 Paesi delle Nazioni Unite, " \
+                "tra cui l’Italia, \nhanno concepito un piano d’azione per contribuire allo sviluppo " \
+                "globale, promuovere il \nbenessere umano e proteggere l’ambiente.\n\n" \
+                "Il bisogno di garantire un presente ed un futuro migliore al nostro " \
+                "Pianeta e alle persone \nche lo abitano è sfociato nella definizione " \
+                "di Obiettivi di Sviluppo Sostenibile (Sustainable \nDevelopment Goals" \
+                " – il cui acronimo inglese è SDGs) da raggiungere entro il 2030:\n" \
+                "è nata, così l’Agenda 2030 che si propone di agire in modo sostenibile " \
+                "e che consta di 17 \nobiettivi, o goal, declinati in 169 traguardi, " \
+                "anche detti target, in relazione ai vari domini \ndello sviluppo sociale ed economico.\n\n"
+
+        self.__parag_1_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = par_1,
+                                                      bg=id_color_right, justify= "left",
+                                     font=("Bahnschrift Light", 12)).grid(row=3, column = 0, sticky = W)
+
+        image_obiettivi = PhotoImage(file=__get_path__("utils\\images\\SDG\\SDG_Poster_#nonUN-IT500x290.png"))
+        self.__lbl_image_obiettivi__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      image = image_obiettivi,
+                                                      bg=id_color_right, justify= "center"
+                                                      ).grid(row=4, column = 0, sticky = "n")
+        self.__titolo_2_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = "\nPuglia Sostenibile\n",
+                                                      bg=id_color_right, justify= "left",
+                                         font=("Bahnschrift SemiCondensed", 14, "bold")
+                                                      ).grid(row=5, column = 0, sticky = W)
+
+        par_2 = "Similarmente a quanto sviluppato dalla Commissione Europea con la loro" \
+                " \npiattaforma KnowSDGs per valutare la correlazione tra i vari SDGs e le " \
+                "normative Europee, \nscritte in lingua inglese, è stato ideato 'Puglia Sostenibile':\n" \
+                " un software in grado di monitorare la presenza degli SDGs " \
+                "all’interno delle Leggi Regionali \nPugliesi, in lingua italiana.\n\n" \
+                "Questo lavoro nasce dal progetto, commissionato dalla Regione Puglia " \
+                "all’Università degli \nStudi di Bari ed oggetto del tirocinio interno, presso la " \
+                "sede del Laboratorio di Sistemi Intelligenti \ndella locale facoltà di " \
+                "Informatica, \npresieduto dal Prof. Giuseppe Pirlo e svolto da Claudia Lorusso" \
+                " in coordinamento con Alessandro \nDattoli , il tutto sotto la supervisione del dott. " \
+                "Michele Chieco e della D.ssa Gabriella Calvano.\n\n" \
+                "La finalità del software è quella di capire quali tra gli obiettivi e traguardi " \
+                "dell’Agenda 2030 \nsono stati effettivamente affrontati dai documenti " \
+                "legislativi della Regione Puglia in modo da poter, \ntra l’altro, individuare e " \
+                "correggere eventuali lacune e determinare l’effettivo progresso \nverso il " \
+                "sostenibile.\n\n" \
+                "L’utilizzo del software è, ovviamente, estendibile anche ad altre Legislature.\n\n" \
+                "Il linguaggio utilizzato per lo sviluppo di Puglia Sostenibile è il python.\n\n"
+
+        self.__parag_2_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = par_2,
+                                                      bg=id_color_right, justify= "left",
+                                     font=("Bahnschrift Light", 12)).grid(row=6, column = 0, sticky = W)
+        image_collab = PhotoImage(file=__get_path__("utils\\images\\collab\\trio_collab500x162.png"))
+        self.__lbl_image_collab__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      image = image_collab,
+                                                      bg=id_color_right, justify= "center"
+                                                      ).grid(row=7, column = 0, sticky = "n")
+
+
+        self.__titolo_3_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = "\nIl Logo\n",
+                                                      bg=id_color_right, justify= "left",
+                                         font=("Bahnschrift SemiCondensed", 14, "bold")
+                                                      ).grid(row=8, column = 0, sticky = W)
+        image_logo = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile300x276.png"))
+        self.__lbl_logo__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      image = image_logo,
+                                                      bg=id_color_right, justify= "center"
+                                                      ).grid(row=9, column = 0, sticky = "n")
+        citazione_2 = "\n''Credo che abbiamo il dovere di lottare per la vita sulla Terra \ne non solo a nostro beneficio, ma di" \
+                      " tutti quelli, umani o meno, \nche ci hanno preceduto ed ai quali siamo legati, \ncosì come coloro che, " \
+                      "se siamo abbastanza saggi, \narriveranno più tardi. \nNon c'è una causa più urgente, né più giusta, del " \
+                      "proteggere il futuro della nostra specie.''\n" \
+                    "\n(Carl Sagan)\n"
+
+        self.__citazione_2_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = citazione_2,
+                                                      bg=id_color_right, justify= "center",
+                                         font=("Bahnschrift Light", 12, "italic")
+                                                      ).grid(row=10 ,column = 0, sticky = N)
+
+        par_3 = "È doveroso spendere alcune parole per il logo ideato per il software di cui si sta trattando.\n\n" \
+                      "In primo piano si nota la figura di un albero che riconduce alla mente l’idea della Natura, " \
+                      "\na quel meccanismo tanto complesso che trasforma ogni singola azione in vita.\n\n" \
+                      "Ma la sostenibilità non è l’agire positivamente solo ed esclusivamente per il bene dell’ambiente.\n\n" \
+                      "Di fatto, dal tronco dell’albero fuoriescono dei rami le cui estremità si plasmano in frecce; \nogni freccia " \
+                      "punta verso direzioni differenti che rappresentano le varie branche della sostenibilità \ne che, seppur " \
+                      "divergenti, nascono tutte quante da uno stesso principio: \nil bene della comunità raggiungibile tramite " \
+                      "un’azione comune.\n\n" \
+                      "Ed è appunto per questo che, alle spalle dell’albero, si intravvede la Terra che ha significato ambivalente: \n" \
+                      "sprona ad agire per il suo bene ed allo stesso tempo stimola un’azione comune per l’ottenimento di quel \n" \
+                      "tanto agognato cambiamento.\n\n" \
+                      "Il logo è stato realizzato dall’esperto di grafica Nicola Surgo.\n\n\n\n\n\n\n\n\n\n"
+
+        self.__parag_3_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = par_3,
+                                                      bg=id_color_right, justify= "left",
+                                     font=("Bahnschrift Light", 12)
+                                     ).grid(row=11, column = 0, sticky = W)
+
+
+
+
+
+
+
+
+        self.__scrollableframe__.grid(row=0, column = 0)
+
 
 
         #                                        ---------  AVANZATE --------                                                           2.   Avanzate
@@ -672,10 +812,6 @@ class App:
 
         agenda_directory = __get_path__("Agenda2030\\Agenda-2030-Onu-italia.pdf")
 
-
-        #Clear the image list to ignore deprecation warning
-        pdf_viewer.img_object_li.clear()
-
         # Adding pdf location and width and height.
         self.__show_agenda__ = pdf_viewer.pdf_view(self.__agenda_frame__,
                          pdf_location=agenda_directory,
@@ -691,13 +827,13 @@ class App:
         self.__contact_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
         # label name
-        supervisors_author = "Supervisore:\tProf. Pirlo Giuseppe,\tgiuseppe.pirlo@uniba.it"
-        gui_author = "GUI:\t\tLorusso Claudia,\t\tlorussoclaudia95@libero.it"
-        logo_author = "Logo:\t\tSurso Nicola,\t\tsurgo.nicola20@gmail.com"
-        btn_wheel_author = "Bottone Rotella:\tLorusso Nicola,\t\tnicolorusso87@gmail.com"
+        supervisors_author = "\nSupervisore:\tChiar.mo Prof. Pirlo Giuseppe, presso l'Università degli Studi di Bari"
+        gui_author = "GUI e back-end:\tLorusso Claudia,\t\tlorussoclaudia95@libero.it"
+        logo_author = "Logo:\t\tSurgo Nicola,\t\tsurgo.nicola20@gmail.com"
 
-        cont_authors = supervisors_author + "\n\n" + gui_author + "\n\n" + logo_author + "\n\n" + btn_wheel_author
-
+        cont_authors = "--------------------------------------------------------------------------------\n\n"+supervisors_author + \
+                       "\n\n\n--------------------------------------------------------------------------------\n\nContatti Tecnici:\n\n" \
+                       + gui_author + "\n\n" + logo_author
         self.__contact_lbl__ = Label(self.__contact_frame__, justify="left", text=cont_authors,
                                    font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__contact_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
@@ -985,45 +1121,46 @@ class App:
             the description of the selected frame
         """
         frame_description = {
-            0: "Questa sezione è dedicata all'utilizzo di Puglia Sostenibile.\n"
+            0: "Questa sezione è dedicata all'utilizzo di 'Puglia Sostenibile'.\n"
                 "Il software ti permette di scoprire in modo "
-                "semplice ed intuitivo quali tra i vari target e goal, appartenenti all'Agenda 2030,"
-                " siano i più rilevanti per la legge da te selezionata. \nPuglia Sostenibile ti restituirà"
+                "semplice ed intuitivo quali tra i vari target e goal, appartenenti all'Agenda 2030,\n"
+                "siano i più rilevanti per la legge da te selezionata. \n'Puglia Sostenibile' ti restituirà"
                 " i tre target/goal che più verosimilmente trattano quest'ultima. "
-                "\nUtilizzare Puglia Sostenibile è molto semplice!\n"
+                "\nUtilizzare 'Puglia Sostenibile' è molto semplice!\n"
                 "Ti basta selezionare il file contenente la legge che vorresti analizzare per poi spingere sul pulsante"
-                " 'Start'. Mi raccomando, il file deve necessariamente essere uno tra \ni seguenti formati: '.pdf', '.docx' o '.txt'.\n"
+                " 'Start'.\nMi raccomando, il file deve necessariamente avere una tra le seguenti estensioni: "
+               "'.pdf', '.docx' o '.txt'.\n"
                 "Puoi anche effettuare una ricerca manuale per capire se una parola chiave sia inclusa, o meno, all'interno del"
-                " contenuto della legge. \nDevi soltanto digitare la keyword nell'apposita box ed il programma ti restituirà, dopo"
-                " aver premuto il pulsante 'Cerca', il numero di volte che compare nel testo.\n\n"
+                " contenuto della legge. \nDevi soltanto digitare la keyword nell'apposito box e, dopo aver premuto il pulsante 'Cerca',"
+               " il programma ti restituirà il numero di \nvolte che la stessa compare nel testo.\n\n"
                 "Come vedi, niente di più semplice!",
-            1: "Questa sezione è dedicata alla storia dell'Agenda 2030 e di Puglia Sostenibile.\n"
+            1: "Questa sezione è dedicata alla storia dell'Agenda 2030 e di 'Puglia Sostenibile'.\n"
                "Se sei curioso di conoscere com'è nato questo progetto, prosegui nella lettura.",
-            2: "In questa sezione potrai mettere mano alle impostazioni avanzate di Puglia Sostenibile, cambiando le"
+            2: "In questa sezione potrai mettere mano alle impostazioni avanzate di 'Puglia Sostenibile', cambiando le"
                " seguenti proprietà:"
                "\n-\tGrammatura;"
                "\n-\tRileva SDG o Target.\n\n"
                "Prima di andare avanti, è bene forniti delle informazioni preliminari.\n"
-               "Devi sapere che Puglia Sostenibile, per il momento, effettua la computazione di similarità"
+               "Devi sapere che 'Puglia Sostenibile', per il momento, effettua la computazione di similarità"
                " tra il documento da te caricato (la Legge) ed \ni vari Obiettivi di Sviluppo Sostenibile (SDGs),"
                " dell'Agenda 2030, per mezzo della Similarità del Coseno.\n"
                "La matrice TFIDF, propedeutica a questo calcolo, suddivide ogni documento"
                " in una serie di parole chiave (keyphrase).\n\nUn esempio di keyphrase è 'Emancipazione' oppure 'Femminile'.\n\n"
                "Si è dato modo all'utente di cambiare la Grammatura, ossia il numero di parole da cui è composta ogni parola chiave, "
-               "facendoti scegliere \ntra una computazione Unigram ed una computazione Bigram.\n"
+               "facendoti scegliere \ntra una computazione Unigram ed una Bigram.\n"
                "\nNella computazione Unigram ogni keyphrase è composta da una singola parola (DEFAULT).\n"
                "\nNella computazione Bigram ogni keyphrase è composta da una o due parole:\n"
-               "esempi di keyphrase Bigram sono 'Emancipazione Femminile', 'Paternariato', 'Povertà assoulta', etc.\n\n"
-               "Come già specificato, di Default il sofware effettua computazioni Unigram, ma tu hai la possibilità di "
-               "cambiare questa proprietà.\nFai attenzione, però, nel caso di grammatura Bigram la computazione risulterà più"
+               "esempi di keyphrase Bigram sono 'Emancipazione Femminile', 'Paternariato', 'Povertà Assoulta', etc.\n\n"
+               "Come già specificato, di Default il sofware effettua computazioni Unigram.\nFai attenzione, però, nel caso "
+               "di grammatura Bigram la computazione risulterà più"
                " precisa ma allo stesso tempo più selettiva.\n\nPuoi, inoltre, selezionare il tipo di output da computare "
-               "decidendo tra il visualizzare gli SDGs più similari alla legge (es. SDG 5, SDG 3, SDG 15, etc.)\n"
-               "ed il visualizzare, nello specifico, i Target più rilevanti (es. Target 5.5, Target 3.1, Target 15.c, etc.).\nPer farlo, ti basta modificare "
+               "decidendo tra il visualizzare gli SDGs più similari alla Legge (es. SDG 5, SDG 3, SDG 15, etc.)\n"
+               "ovvero, nello specifico, i Target più rilevanti (es. Target 5.5, Target 3.1, Target 15.c, etc.).\nPer farlo, ti basta modificare "
                "l'apposita impostazione.\n\nOra tocca a te!",
             3: "In questa sezione puoi consultare l'Agenda 2030.\n\n"
                "Per maggiori informazioni, consultare il sito https://unric.org/it/agenda-2030/ .",
             4: "In questa sezione trovi tutti i contatti necessari per inviare feedback, chiedere informazioni e"
-               " comunicare qualsiasi tipo di problema dovessi riscontrare con il programma."
+               " comunicare qualsiasi \ntipo di problema dovessi riscontrare con il programma."
         }
         description = frame_description[id]
         return description
@@ -1110,6 +1247,37 @@ class App:
 
 
 # ---------------------------- UTILS -------------------------------------
+class ScrollableFrame(Frame):
+    """
+    Defines a ScrollbarFrame class
+    """
+    def __init__(self, container, *args, **kwargs):
+        id_color_right = "#FCFCFC"
+        super().__init__(container, *args, **kwargs)
+        #highlightthickness=0 to hide the border
+        self.canvas = Canvas(self, width=800, height=700, bg=id_color_right, highlightthickness=0)
+        #width = 0 to hide the bar
+        scrollbar = Scrollbar(self, orient="vertical", command=self.canvas.yview, bg=id_color_right)
+        self.scrollable_frame = Frame(self.canvas, width=800, height=700, bg=id_color_right)
+
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(
+                scrollregion=self.canvas.bbox("all")
+            )
+        )
+
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        self.canvas.pack(side="left", fill="both", expand=True)
+
+        self.canvas.bind_all("<MouseWheel>", self.__on_mousewheel__)
+
+        scrollbar.pack(side="right", fill="y")
+
+    def __on_mousewheel__(self, event):
+        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
 def __get_path__(relative_path):
     """
     Converts the relative path into an absolute path

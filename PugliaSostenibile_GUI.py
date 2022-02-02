@@ -8,6 +8,8 @@ Created on Sat Jan 29 15:39:51 2022
 from tkinter import *
 from tkinter import ttk, scrolledtext, messagebox
 from tkinter import filedialog as fd
+import webbrowser
+
 #from tkinter.filedialog import asksaveasfile
 import sys
 from os import path
@@ -184,9 +186,13 @@ class Installation:
         Imports needed packages while managing the progress bar
         :return:
         """
+        from re import sub
+        self.__installation_root__.update_idletasks()
+        self.__progress__["value"] = 47
+        from tkPDFViewer import tkPDFViewer as pdf
+        self.__progress__["value"] = 60
         self.__installation_root__.update_idletasks()
         from Compute_Similarity import get_relevant
-        from re import sub
         self.__progress__["value"] = 76
         self.__installation_root__.update_idletasks()
         from FileHandler import ask_path, extract_content
@@ -232,6 +238,48 @@ class App:
     - .txt
     Pressing the "Start" button, the program will compute the reading time of the doc.
     The game is done.
+
+    BASICALLY:
+    The GUI is divided into two main vertical Frames, inserted into a __master_frame__:
+        - __left_frame__ (0,0):
+                contains the logo ( into __up_dialog_frame__ (0, 0)) and the
+                buttons ( into __button_frame__ (1, 0)).
+                Each button manages the selection of the desired Variable Frame.
+        - __line_frame__ (0, 1): contains a vertical image with each SDG representation.
+        - __right_frame__ (0, 2): contains:
+                -   the __title_lbl__ (0, 0): "Puglia Sostenibile"
+                -   the __mid_title_lbl__ (1, 0): changes based on the button
+                    the user has pressed on:
+                    -   0:  (Default) Home
+                    -   1:  Informazioni
+                    -   2:  Avanzate
+                    -   3:  Agenda 2030
+                    -   4:  Contatti
+                - the __mid_descr_lbl__ (2, 0): changes based on the button
+                    the user pressed on:
+                    -   0:  (Default) Home description
+                    -   1:  Informazioni description
+                    -   2:  Avanzate description
+                    -   3:  Agenda 2030 description
+                    -   4:  Contatti description
+                -   the variable Frames (each in the same spot: (3, 0))
+                    -   __home_frame__ :
+                            it's the core of the program.
+                            it's divided into two main frames:
+                            -   __home_up_frame__ (0, 0): it's the place in which the user can,
+                                finally, use Puglia Sostenibile. He must select the Law,
+                                Press on the Start Button and the result will appear in the output box
+                            -   __home_down_frame__ (1, 0): if the user has already selected a law in this section
+                                he can also search occurrences of some keyphrase in the text.
+                                He must insert the keyphrase in the box and click on the "Cerca" button
+                                (or press the "Enter" key on the keyboard).
+                                The result will appear under the box.
+                    -   __info_frame__ :    #TODO
+                    -   __adv_frame__ :     Enables the user to change the Grammature from Unigram to Bigram and
+                                            vice-versa.
+                    -   __agenda_frame__ :  Permits the user to consult the pdf of the Agenda 2030.
+                    -   __contact_frame__ : #TODO
+
     """
 
     def __init__(self):
@@ -268,12 +316,10 @@ class App:
         # set root icon
         self.__set_ico__()
 
-        # vertical image
-        self.__vertical_image__ = PhotoImage(file=__get_path__("utils\\images\\sdgline108x2000.png"))  # FIXME delete
 
         #                            ---------------    MASTER FRAME    ---------------
 
-        self.__master_frame__ = Frame(self.__root__)  # , background = "#ab23ff")#, background= "#88cffa")#F6ECEC
+        self.__master_frame__ = Frame(self.__root__)
         self.__master_frame__.pack(side=LEFT, anchor="ne", padx=(10), pady=10, ipadx=(10), ipady=10)
         self.__master_frame__.config(bg='white')
 
@@ -302,46 +348,67 @@ class App:
         self.__button_frame__ = Frame(self.__left_frame__, bg="white")
         self.__button_frame__.grid(row=1, column=0, padx=(10), pady=10, sticky = "n")
 
-        # color btn selected
-        color_btn_selected = "#DAF7A6"
-        color_btn_base = "white"
+
 
         # id btn selected
-        self.__id_btn_selected__ = IntVar() #FIXME
+        self.__id_btn_selected__ = IntVar() #FIXME cancellami?
         self.__id_btn_selected__ = 0
+
+        # color btn selected
+        color_btn_selected = self.__get_color_btn__(self.__id_btn_selected__)
+        color_btn_base = "white"
 
         # home button
         self.__home_btn__ = Button(self.__button_frame__, text=" "+u'\u2302' + "\tHome", font=("Bahnschrift Light", 12),
                                    height=2, width=40, borderwidth=0,
-                                   background=color_btn_selected, cursor = "hand2", anchor = "w")  # FIXME
+                                   background=color_btn_selected, cursor = "hand2", anchor = "w")
 
         # info button
         self.__info_btn__ = Button(self.__button_frame__, text="  "+u'\u2139' + "\tInformazioni",
                                    font=("Bahnschrift Light", 12), height=2, width=40,
-                                   borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
+                                   borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")
 
         # advanced button
         self.__advanced_btn__ = Button(self.__button_frame__, text=u'\u2699' + "\tAvanzate",
                                        font=("Bahnschrift Light", 12), height=2, width=40,
-                                       borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
+                                       borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")
 
         # agenda button
         self.__agenda_btn__ = Button(self.__button_frame__, text=u'\U0001F4D6' + "\tAgenda 2030",
                                      font=("Bahnschrift Light", 12), height=2, width=40,
-                                     borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
+                                     borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")
 
         # contact button
         self.__contact_btn__ = Button(self.__button_frame__, text=u'\U0001F465' + "\tContatti",
                                       font=("Bahnschrift Light", 12), height=2, width=40,
-                                      borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")  # FIXME
+                                      borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")
 
+        #set the command for each button #FIXME create function
+        self.__home_btn__.configure(command=(lambda:self.__hide__(0)))
+        self.__info_btn__.configure(command=(lambda:self.__hide__(1)))
+        self.__advanced_btn__.configure(command=(lambda:self.__hide__(2)))
+        self.__agenda_btn__.configure(command=(lambda:self.__hide__(3)))
+        self.__contact_btn__.configure(command=(lambda:self.__hide__(4)))
+
+        #positions each button #FIXME create function
         self.__home_btn__.grid(row=0, column=0, sticky=E + N)
         self.__info_btn__.grid(row=1, column=0, sticky=E + N)
         self.__advanced_btn__.grid(row=2, column=0, sticky=E + N)
         self.__agenda_btn__.grid(row=3, column=0, sticky=E + N)
         self.__contact_btn__.grid(row=4, column=0, sticky=E + N)
 
+        #                                ---------------    Center Line Image    ---------------
 
+        # vertical image
+        self.__vertical_image__ = PhotoImage(file=__get_path__("utils\\images\\sdgline108x2000.png"))
+        base_color = "white"
+
+        # ----------------------------------------------------------------------------------- center line frame creation
+        self.__line_frame__ = Frame(self.__master_frame__)
+        self.__line_frame__.grid(column = 1, row = 0)
+        self.__line_frame__.config(bg=base_color)
+        self.__line_lbl__ = Label(self.__line_frame__, bg=base_color, image=self.__vertical_image__)
+        self.__line_lbl__.grid()
 
 
         #                                ---------------    TOP RIGHT    ---------------
@@ -365,17 +432,14 @@ class App:
                                    font=("Bahnschrift SemiCondensed", 40, "bold"), bg=id_color_right)
         self.__title_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
 
-        # mid title: Home, Instructions, Advanced, Contacts, etc.
-        self.__mid_title__ = StringVar()
-        self.__mid_title__ = self.__get_title_name__(0) # FIXME levami
-        self.__mid_title_lbl__ = Label(self.__principal_frame__, justify="left", text=self.__mid_title__,
+        # mid title: Home, Info, Advanced, Contacts, etc. -------------------------------------------------------------- Mid Title
+
+        self.__mid_title_lbl__ = Label(self.__principal_frame__, justify="left", text=self.__get_title_name__(0),
                                        font=("Bahnschrift SemiCondensed", 20, "bold"), bg=id_color_right)
         self.__mid_title_lbl__.grid(row=1, column=0, sticky=W, padx=(10), pady=10)
 
-        # mid description: Description for Home, Instructions, Advanced, Contacts, etc.
-        self.__mid_descr__ = StringVar()
-        self.__mid_descr__ =  self.__get_description_frame__(0)#FIXME levami
-        self.__mid_descr_lbl__ = Label(self.__principal_frame__, justify="left", text=self.__mid_descr__,
+        # mid description: Description for Home, Info, Advanced, Contacts, etc.----------------------------------------- Mid Description
+        self.__mid_descr_lbl__ = Label(self.__principal_frame__, justify="left", text=self.__get_description_frame__(0),
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__mid_descr_lbl__.grid(row=2, column=0, sticky=W, padx=(10), pady=10)
 
@@ -384,18 +448,18 @@ class App:
         self.__file_name__ = StringVar()
         # GRAMMATURA!!!
         self.__ngram__ = IntVar()
-        self.__ngram__ = 1
+        self.__ngram__ = 1 #FIXME
         # Computa Similarita' tra targets o sdgs!!!
         self.__sim_target__ = BooleanVar()
         self.__sim_target__ = False #FIXME
 
-        # ------------------------------------------- VARIABLE FRAMES --------------------------------------------------VARIABLE FRAMES:
+        # ------------------------------------------- VARIABLE FRAMES -------------------------------------------------- VARIABLE FRAMES:
 
         #                                        ---------  HOME --------                                                               0.   HOME
 
         # ------------------------------------------------------------------------------------------ HOME Frame creation
         self.__home_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
-        self.__home_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+
 
         # --------------------------------------------------------------------------------------- UP HOME Frame creation
         self.__home_up_frame__ = Frame(self.__home_frame__, bg=id_color_right)
@@ -536,6 +600,23 @@ class App:
         # ----------------------------------------------------------------------------------- AGENDA 2030 Frame creation
         self.__agenda_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
+        # creating object of ShowPdf from tkPDFViewer.
+        pdf_viewer= pdf.ShowPdf()
+
+        agenda_directory = __get_path__("Agenda2030\\Agenda-2030-Onu-italia.pdf")
+
+
+        #Clear the image list to ignore deprecation warning
+        pdf_viewer.img_object_li.clear()
+
+        # Adding pdf location and width and height.
+        self.__show_agenda__ = pdf_viewer.pdf_view(self.__agenda_frame__,
+                         pdf_location=agenda_directory,
+                         width=80, height=43)
+
+        # Placing Pdf in my gui.
+        self.__show_agenda__.pack()
+
 
         #                                        ---------  CONTATTI --------                                                           4.   CONTATTI
 
@@ -544,33 +625,41 @@ class App:
 
 
 
-        #                                ---------------    Center Line Image    ---------------
-
-        base_color = "white"
-
-        # ----------------------------------------------------------------------------------- center line frame creation
-        self.__line_frame__ = Frame(self.__master_frame__)
-        self.__line_frame__.grid(column = 1, row = 0)
-        self.__line_frame__.config(bg=base_color)
-        self.__mid_descr_lbl__ = Label(self.__line_frame__, bg=base_color, image=self.__vertical_image__)
-        self.__mid_descr_lbl__.grid()
-
-
-        self.__home_btn__.configure(command=(lambda:self.__hide__(0)))
-        self.__info_btn__.configure(command=(lambda:self.__hide__(1)))
-        self.__advanced_btn__.configure(command=(lambda:self.__hide__(2)))
-        self.__agenda_btn__.configure(command=(lambda:self.__hide__(3)))
-        self.__contact_btn__.configure(command=(lambda:self.__hide__(4)))
 
 
 
 
 
+        #grid the home_fram ONLY. The other Variable Frame will be gridded when needed
+        self.__home_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
         # defines min and max root dimension
         self.__root__.update()
         self.__root__.minsize(self.__root__.winfo_width(), self.__root__.winfo_height())
 
         self.__root__.mainloop()
+
+    def __grid_variable_frames__(self):
+        """
+        Places each variable frame into the right master frame
+        :return:
+        """
+
+        for frame in self.__get_variable_frame_list__():
+            frame.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+
+    def __forget_grid_variable_frames__(self):
+        """
+        Removes each variable frame from the right master frame
+        :return:
+        """
+
+        for frame in self.__get_variable_frame_list__():
+            frame.grid_forget()
+
+
+
+
+
 
     def __select_file__(self):
         """
@@ -655,6 +744,7 @@ class App:
         law = extract_content(self.__file_name__)
         #I remove symbols
         law = sub(r'[^\w]', ' ', law)
+        #I remove unnecessary new line symbs
         law = sub(r"(?<!\\)\\n|\n", " ", law)
         #I lowercase the content
         law = law.lower()
@@ -665,9 +755,25 @@ class App:
         pattern = " ".join(pattern.split())
         #I count occurrences
         occ = law.count(pattern)
-        self.__key_occ__ = "La parola chiave '" +pattern + "' appare " + str(occ) + " volte in " + path.basename(self.__file_name__)
+        self.__key_occ__ = "La parola chiave '" + pattern + "' appare " + str(occ) + " volte in " + path.basename(self.__file_name__)
         self.__ky_occ_res_label__.configure(text=self.__key_occ__)
         self.__insert_key__.delete("1.0", END)
+
+    def __get_variable_frame_list__(self):
+        """
+        Returns the list of the variables Frames
+            0 = home
+            1 = info
+            2 = advanced
+            3 = agenda 2030
+            4 = contact
+        :return: list of Frame
+            list of the variable Frames
+        """
+        return [self.__home_frame__, self.__info_frame__,
+                self.__adv_frame__, self.__agenda_frame__,
+                self.__contact_frame__]
+
 
     def __get_color_btn__(self, id):
         """
@@ -705,14 +811,14 @@ class App:
         :return: string
             the name of the selected frame
         """
-        names = (
-            (0, "Home"),
-            (1, "Informazioni"),
-            (2, "Avanzate"),
-            (3, "Agenda 2030"),
-            (4, "Contatti")
-        )
-        name = names[id][1]
+        names = {
+            0: "Home",
+            1: "Informazioni",
+            2: "Avanzate",
+            3: "Agenda 2030",
+            4: "Contatti"
+        }
+        name = names[id]
         return name
 
     def __get_description_frame__(self, id):
@@ -721,15 +827,15 @@ class App:
         :param id: integer
             id of the btn:
                 0 = Home
-                1 = Istruzioni
+                1 = Informazioni
                 2 = Avanzate
                 3 = Agenda 2030
                 4 = Contatti
         :return: string
             the description of the selected frame
         """
-        frames = (
-            (0, "Questa sezione è dedicata all'utilizzo di Puglia Sostenibile.\n"
+        frame_description = {
+            0: "Questa sezione è dedicata all'utilizzo di Puglia Sostenibile.\n"
                 "Il software ti permette di scoprire in modo "
                 "semplice ed intuitivo quali tra i vari target e goal, appartenenti all'Agenda 2030,"
                 " siano i più rilevanti per la legge da te selezionata. \nPuglia Sostenibile ti restituirà"
@@ -740,13 +846,36 @@ class App:
                 "Puoi anche effettuare una ricerca manuale per capire se una parola chiave sia inclusa, o meno, all'interno del"
                 " contenuto della legge. \nDevi soltanto digitare la keyword nell'apposita box ed il programma ti restituirà, dopo"
                 " aver premuto il pulsante 'Cerca', il numero di volte che compare nel testo.\n\n"
-                "Come vedi, niente di più semplice!"),
-            (1, "INFO Da definire"),
-            (2, "ADVANCED Da definire"),
-            (3, "AGENDA Da definire"),
-            (4, "CONTACT Da definire")
-        )
-        description = frames[id][1]
+                "Come vedi, niente di più semplice!",
+            1: "Questa sezione è dedicata alla storia dell'Agenda 2030 e di Puglia Sostenibile.\n"
+               "Se sei curioso di conoscere com'è nato questo progetto, prosegui nella lettura.",
+            2: "In questa sezione potrai mettere mano alle impostazioni avanzate di Puglia Sostenibile, cambiando le"
+               " seguenti proprietà:"
+               "\n-\tGrammatura;"
+               "\n-\tRileva SDG o Target.\n\n"
+               "Prima di andare avanti, è bene forniti delle informazioni preliminari.\n"
+               "Devi sapere che Puglia Sostenibile, per il momento, effettua la computazione di similarità"
+               " tra il documento da te caricato (la Legge) ed \ni vari Obiettivi di Sviluppo Sostenibile (SDGs),"
+               " dell'Agenda 2030, per mezzo della Similarità del Coseno.\n"
+               "La matrice TFIDF, propedeutica a questo calcolo, suddivide ogni documento"
+               " in una serie di parole chiave (keyphrase).\n\nUn esempio di keyphrase è 'Emancipazione' oppure 'Femminile'.\n\n"
+               "Si è dato modo all'utente di cambiare la Grammatura, ossia il numero di parole da cui è composta ogni parola chiave, "
+               "facendoti scegliere \ntra una computazione Unigram ed una computazione Bigram.\n"
+               "\nNella computazione Unigram ogni keyphrase è composta da una singola parola (DEFAULT).\n"
+               "\nNella computazione Bigram ogni keyphrase è composta da una o due parole:\n"
+               "esempi di keyphrase Bigram sono 'Emancipazione Femminile', 'Paternariato', 'Povertà assoulta', etc.\n\n"
+               "Come già specificato, di Default il sofware effettua computazioni Unigram, ma tu hai la possibilità di "
+               "cambiare questa proprietà.\nFai attenzione, però, nel caso di grammatura Bigram la computazione risulterà più"
+               " precisa ma allo stesso tempo più selettiva.\n\nPuoi, inoltre, selezionare il tipo di output da computare "
+               "decidendo tra il visualizzare gli SDGs più similari alla legge (es. SDG 5, SDG 3, SDG 15, etc.)\n"
+               "ed il visualizzare, nello specifico, i Target più rilevanti (es. Target 5.5, Target 3.1, Target 15.c, etc.).\nPer farlo, ti basta modificare "
+               "l'apposita impostazione.\n\nOra tocca a te!",
+            3: "In questa sezione puoi consultare l'Agenda 2030.\n\n"
+               "Per maggiori informazioni, consultare il sito https://unric.org/it/agenda-2030/ .",
+            4: "In questa sezione trovi tutti i contatti necessari per inviare feedback, chiedere informazioni e"
+               " comunicare qualsiasi tipo di problema dovessi riscontrare con il programma."
+        }
+        description = frame_description[id]
         return description
 
     def __filetypes__(self):
@@ -793,61 +922,37 @@ class App:
         return [self.__home_btn__, self.__info_btn__, self.__advanced_btn__, self.__agenda_btn__, self.__contact_btn__]
 
     def __hide__(self, id):
+        """
+        Shows the variable frame selected (id-th Frame) and hides the others.
+        Manages the buttons color based on the selection.
+        Changes Title and Description.
+
+        :param id: integer
+            id of the pressed button
+        :return:
+        """
         self.__id_btn_selected__ = id
 
-        if id==1:#INFO
-            self.__info_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
-            self.__info_frame__.tkraise()
-            """
-            self.__home_frame__.grid_forget()
-            self.__adv_frame__.grid_forget()
-            self.__agenda_frame__.grid_forget()
-            self.__contact_frame__.grid_forget()
-            """
-        elif id == 2: #ADVANCED
-            self.__adv_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
-            self.__adv_frame__.tkraise()
-            """
-            self.__info_frame__.grid_forget()
-            self.__home_frame__.grid_forget()
-            self.__agenda_frame__.grid_forget()
-            self.__contact_frame__.grid_forget()
-            """
+        #show the desired frame while hiding the others
+        frame_list = self.__get_variable_frame_list__()
 
-        elif id == 3: #AGENDA
-            self.__agenda_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
-            self.__agenda_frame__.tkraise()
-            """         
-            self.__info_frame__.grid_forget()
-            self.__home_frame__.grid_forget()
-            self.__adv_frame__.grid_forget()
-            self.__contact_frame__.grid_forget()
-            """
-        elif id == 4: #CONTACT
-            self.__contact_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
-            self.__contact_frame__.tkraise()
-            """
-            self.__agenda_frame__.grid_forget()
-            self.__info_frame__.grid_forget()
-            self.__home_frame__.grid_forget()
-            self.__adv_frame__.grid_forget()
-            """
-        else: #HOME = DEFAULT
-            #self.__home_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
-            self.__home_frame__.tkraise()
-            """
-            .__info_frame__.grid_forget()
-            self.__adv_frame__.grid_forget()
-            self.__agenda_frame__.grid_forget()
-            self.__contact_frame__.grid_forget()
-            """
-            self.__home_btn__.configure(background = self.__get_color_btn__(0))
+        self.__forget_grid_variable_frames__()
+        frame_list[id].grid(row=3, column=0, sticky=W, padx=(10), pady=10)
 
+
+        #change buttons color
         btn_list = self.__get_btns__()
+        #     puts each button white
         for btn in btn_list:
             btn.configure(background="white")
+        #     gives the selected button the right color
         btn_list[id].configure(background=self.__get_color_btn__(id))
 
+        # set the Mid Title Name
+        self.__mid_title_lbl__.configure(text= self.__get_title_name__(id))
+
+        #set the Mid Description
+        self.__mid_descr_lbl__.configure(text = self.__get_description_frame__(id))
 
 
 
@@ -877,6 +982,7 @@ if __name__ == '__main__':
     try:
         from Compute_Similarity import get_relevant
         from FileHandler import ask_path, extract_content
+        from tkPDFViewer import tkPDFViewer as pdf
         from re import sub
         termination = True
     except ModuleNotFoundError:

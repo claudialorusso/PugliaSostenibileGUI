@@ -8,7 +8,6 @@ Created on Sat Jan 29 15:39:51 2022
 from tkinter import *
 from tkinter import ttk, scrolledtext, messagebox
 from tkinter import filedialog as fd
-import webbrowser
 
 #from tkinter.filedialog import asksaveasfile
 import sys
@@ -691,6 +690,17 @@ class App:
         # -------------------------------------------------------------------------------------- CONTATTI Frame creation
         self.__contact_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
+        # label name
+        supervisors_author = "Supervisore:\tProf. Pirlo Giuseppe,\tgiuseppe.pirlo@uniba.it"
+        gui_author = "GUI:\t\tLorusso Claudia,\t\tlorussoclaudia95@libero.it"
+        logo_author = "Logo:\t\tSurso Nicola,\t\tsurgo.nicola20@gmail.com"
+        btn_wheel_author = "Bottone Rotella:\tLorusso Nicola,\t\tnicolorusso87@gmail.com"
+
+        cont_authors = supervisors_author + "\n\n" + gui_author + "\n\n" + logo_author + "\n\n" + btn_wheel_author
+
+        self.__contact_lbl__ = Label(self.__contact_frame__, justify="left", text=cont_authors,
+                                   font=("Bahnschrift Light", 12), bg=id_color_right)
+        self.__contact_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
 
 
 

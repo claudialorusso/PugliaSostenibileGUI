@@ -350,7 +350,7 @@ class App:
 
 
         # id btn selected
-        self.__id_btn_selected__ = IntVar() #FIXME cancellami?
+        self.__id_btn_selected__ = IntVar() #FIXME
         self.__id_btn_selected__ = 0
 
         # color btn selected
@@ -360,7 +360,7 @@ class App:
         # home button
         self.__home_btn__ = Button(self.__button_frame__, text=" "+u'\u2302' + "\tHome", font=("Bahnschrift Light", 12),
                                    height=2, width=40, borderwidth=0,
-                                   background=color_btn_selected, cursor = "hand2", anchor = "w")
+                                   background=color_btn_base, cursor = "hand2", anchor = "w")
 
         # info button
         self.__info_btn__ = Button(self.__button_frame__, text="  "+u'\u2139' + "\tInformazioni",
@@ -396,6 +396,21 @@ class App:
         self.__agenda_btn__.grid(row=3, column=0, sticky=E + N)
         self.__contact_btn__.grid(row=4, column=0, sticky=E + N)
 
+
+        # --------------------------------------------------------------------------------------------------------------SFOGLIAMI BTN
+
+        self.__sfoglia_frame__ = Frame(self.__button_frame__)
+        self.__sfoglia_frame__.grid(row=5, sticky=S + E)
+
+        self.__sfogliami_btn__ = Button(self.__sfoglia_frame__, text = "Sfoglia gli SDGs", justify="center",
+                                   font=("Bahnschrift SemiCondensed", 14, "bold"), command=self.__consult_sdgs__, height=2, width=40,
+                                      borderwidth=0, background="#F0F0F0" , cursor = "hand2")
+        self.__sfogliami_btn__.pack(anchor="s")
+
+
+
+
+
         #                                ---------------    Center Line Image    ---------------
 
         # vertical image
@@ -412,12 +427,25 @@ class App:
 
         #                                ---------------    TOP RIGHT    ---------------
 
+        #------------------------------------------------------------------------------------- Welcome Frame (only once)
         id_color_right = "#FCFCFC"
 
+        self.__welcome_frame__ = Frame(self.__master_frame__)
+        self.__welcome_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "ne")
+        self.__welcome_frame__.config(bg=id_color_right)
+        welcome_image = PhotoImage(file = __get_path__("utils\\images\\COLORPugliaSostenibile746x687.png"))
+        self.__welcome_lbl__ = Label(self.__welcome_frame__, bg = id_color_right, image = welcome_image)
+
+        w_txt_lbl = Label(self.__welcome_frame__, bg = id_color_right, text = "\n Benvenuto in:",
+                          font=("Bahnschrift SemiCondensed", 60, "bold"), justify = "center")
+        w_txt_lbl.pack(side = "top")
+
+        self.__welcome_lbl__.pack()
+
+
         # ----------------------------------------------------------------------------------- Master right frame creation
-        self.__right_frame__ = Frame(self.__master_frame__)  # , background = "#ab23ff")#, background= "#88cffa")#F6ECEC
-        #self.__right_frame__.pack(expand=True, side=RIGHT, anchor="nw", padx=(10), pady=10, ipadx=(10), ipady=10)
-        self.__right_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "n")
+        self.__right_frame__ = Frame(self.__master_frame__)
+        #self.__right_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "n")
         self.__right_frame__.config(bg=id_color_right)
         self.__right_frame__.rowconfigure(index=1, minsize=900, weight=1)
 
@@ -447,10 +475,10 @@ class App:
         self.__file_name__ = StringVar()
         # GRAMMATURA!!!
         self.__ngram__ = IntVar()
-        self.__ngram__ = 1
+        self.__ngram__.set(1)
         # Computa Similarita' tra targets o sdgs!!!
         self.__sim_target__ = BooleanVar()
-        self.__sim_target__ = False
+        self.__sim_target__.set(False)
 
         # ------------------------------------------- VARIABLE FRAMES -------------------------------------------------- VARIABLE FRAMES:
 
@@ -467,28 +495,15 @@ class App:
         self.__title_frame__ = Frame(self.__home_up_frame__, bg = id_color_right)
         self.__title_frame__.grid(row=0, column=0, sticky=W)
 
-        res_targ_text = "Ricerca Target" if self.__sim_target__ else "Ricerca SDGs"
+        res_targ_text = "Ricerca Target" if self.__sim_target__.get() else "Ricerca SDGs"
         self.__ric_targets_lbl__ = Label(self.__title_frame__, justify="left", text=res_targ_text,
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
         self.__ric_targets_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
 
-        spec_sel_law_text = "Seleziona la legge e premi su 'Start'.\n\n" \
-                            "Per consultare la lista di SDG e Target fai click sulla rotella."
+        spec_sel_law_text = "Seleziona la legge e premi su 'Start'."
         self.__sel_law_lbl__ = Label(self.__title_frame__, justify="left", text=spec_sel_law_text,
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
-        self.__sel_law_lbl__.grid(row=1, column=1, sticky=N, padx = 5, pady=5)
-
-        # SFOGLIAMI BTN
-
-        sfogliami_img = PhotoImage(file=__get_path__("utils\\images\\button\\empty_square_70x72.png"))
-
-        self.__sfogliami_btn__ = Button(self.__title_frame__, image = sfogliami_img,
-                                   font=("Bahnschrift Light", 12), command=self.__consult_sdgs__,
-                                   borderwidth=0.4, background=id_color_right , cursor = "hand2")
-        self.__sfogliami_btn__.grid(row=1, column=0, sticky=N, padx = 5, pady=5)
-
-
-
+        self.__sel_law_lbl__.grid(row=1, column=0, sticky=N, padx = 5, pady=5)
 
 
 
@@ -499,19 +514,21 @@ class App:
         self.__adv_sel_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
 
         # ------------------------------------------------------------------------------------COMPUTATION FRAME creation
-        self.__computation_frame__ = Frame(self.__home_up_frame__, bg=id_color_right)
+        computation_color = id_color_right
+
+        self.__computation_frame__ = Frame(self.__home_up_frame__, bg=computation_color)
         self.__computation_frame__.grid(row=2, column=0, sticky=W)
 
 
         # ---------------------------------------------------------------------------- HOME BTN selection Frame creation
-        self.__btn_select_frame__ = Frame(self.__computation_frame__, bg=id_color_right)
+        self.__btn_select_frame__ = Frame(self.__computation_frame__, bg=computation_color)
         self.__btn_select_frame__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
 
 
         # HOME BTN select file
         self.__select_btn__ = Button(self.__btn_select_frame__, text="Seleziona Legge",
-                                   font=("Bahnschrift Light", 12), height=2, width=20, command=self.__select_file__,
-                                   borderwidth=0.5, background="#F0F0F0" , cursor = "hand2")
+                                   font=("Bahnschrift SemiCondensed", 12, "bold"), height=2, width=20, command=self.__select_file__,
+                                   borderwidth=0.0, background="#F0F0F0" , cursor = "hand2")
         self.__select_btn__.grid(row=0, column=0, sticky=N, pady=5)
 
         # label file name
@@ -519,21 +536,21 @@ class App:
         self.__instr_sel_file__ = StringVar()
         self.__instr_sel_file__ = ""
         self.__sel_lbl__ = Label(self.__btn_select_frame__, justify="left", text=self.__instr_sel_file__,
-                                       font=("Bahnschrift Light", 10), bg=id_color_right)
+                                       font=("Bahnschrift Light", 10), bg=computation_color)
         self.__sel_lbl__.grid(row=1, column=0, sticky=N, pady=5)
 
         # start btn
         self.__start_btn__ = Button(self.__btn_select_frame__, text="Start",
-                                       font=("Bahnschrift Light", 12), height=2, width=20, command=self.__start__,
-                                       borderwidth=0.5, background="#F0F0F0", state = DISABLED)  # FIXME
+                                       font=("Bahnschrift SemiCondensed", 12, "bold"), height=2, width=20, command=self.__start__,
+                                       borderwidth=0.0, background="#F0F0F0", state = DISABLED)
         self.__start_btn__.grid(row=2, column=0, sticky=N, pady=5)
 
         # ----------------------------------------------------------------------------------- HOME Output Frame creation
 
         self.__output__ = StringVar()
 
-        self.__output_frame__ = LabelFrame(self.__computation_frame__, width=100, height=10,padx=5,
-                                           pady=5,font=("Bahnschrift Light",10),bg=id_color_right,text = " Output ")
+        self.__output_frame__ = LabelFrame(self.__computation_frame__, width=100, height=10,padx=5, borderwidth=0.4,
+                                           pady=5,font=("Bahnschrift SemiCondensed",10), bg=computation_color,text = "  Output ")
         self.__output_frame__.grid(row=0, column = 1, padx = 10, pady=10)
 
         self.__root__.columnconfigure(0, weight=1)
@@ -543,8 +560,8 @@ class App:
         self.__output_frame__.columnconfigure(0, weight=1)
 
         # Create the textbox widget
-        self.__txt_box__ = Text(self.__output_frame__, width=100, height=10,
-                                font=("Bahnschrift Light", 12), state = DISABLED, bg=id_color_right, cursor = "arrow")
+        self.__txt_box__ = Text(self.__output_frame__, width=80, height=9,
+                                font=("Bahnschrift Light", 12), state = DISABLED, bg="white", cursor = "arrow")
         self.__txt_box__.grid(row=0, column=0, sticky=E + W + N + S)
 
 
@@ -566,9 +583,10 @@ class App:
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__expl_occ_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
 
-        self.__keycatch_frame__ = LabelFrame(self.__home_down_frame__, width=28, height=2,padx=5, pady=5,
-                                             font=("Bahnschrift Light",10),
-                                             bg=id_color_right,text = " Inserisci la parola chiave ")
+        self.__keycatch_frame__ = LabelFrame(self.__home_down_frame__, width=28, height=2,
+                                             padx=5, pady=5, borderwidth = 0.4,
+                                             font = ("Bahnschrift SemiCondensed", 10),
+                                             bg=id_color_right)
         self.__keycatch_frame__.grid(row=2, column = 0, padx = 10, pady=10, sticky = W)
 
         self.__root__.columnconfigure(0, weight=1)
@@ -577,19 +595,22 @@ class App:
         self.__keycatch_frame__.rowconfigure(0, weight=1)
         self.__keycatch_frame__.columnconfigure(0, weight=1)
 
+
+
         # Create the textbox widget
         self.__insert_key__ = Text(self.__keycatch_frame__, width=28, height=1,
                                    font=("Bahnschrift Light", 10), bg="white",
-                                   state = DISABLED
+                                   state = DISABLED, cursor = "arrow"
                                    )
         self.__insert_key__.grid(row=0, column=0, sticky=W)
 
         self.__insert_key__.bind('<Return>', lambda _: self.__cerca_occorrenze__())
+        self.__keycatch_frame__.configure(text = "  Inserisci la parola chiave " if (str(self.__insert_key__["state"])== "normal") else "  Seleziona una nuova Legge ed inserisci la parola chiave ")
 
         # cerca btn
         self.__cerca_btn__ = Button(self.__keycatch_frame__, text="Cerca",
-                                       font=("Bahnschrift Light", 12), height=1, width=10, command=self.__cerca_occorrenze__,
-                                       borderwidth=0.5, background="#F0F0F0", state = DISABLED)
+                                       font=("Bahnschrift SemiCondensed", 12), height=1, width=10, command=self.__cerca_occorrenze__,
+                                       borderwidth=0.0, background="#F0F0F0", state = DISABLED)
         self.__cerca_btn__.grid(row=0, column=1, sticky=N, pady=10, padx=10)
 
         self.__key_occ__ = StringVar()
@@ -604,7 +625,7 @@ class App:
         # ---------------------------------------------------------------------------------- INFORMAZIONI Frame creation
         self.__info_frame__ = Frame(self.__principal_frame__, bg=id_color_right, width=800, height=800)
 
-        self.__scrollableframe__ = ScrollableFrame(self.__info_frame__)
+        self.__scrollableframe__ = ScrollableFrame(self.__info_frame__, bg=id_color_right)
 
         image_puglia_sostenibile = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile500x460.png"))
         self.__lbl_image_puglia_sostenibile__ = Label(self.__scrollableframe__.scrollable_frame,
@@ -666,11 +687,11 @@ class App:
         par_2 = "Similarmente a quanto sviluppato dalla Commissione Europea con la loro" \
                 " \npiattaforma KnowSDGs per valutare la correlazione tra i vari SDGs e le " \
                 "normative Europee, \nscritte in lingua inglese, è stato ideato 'Puglia Sostenibile':\n" \
-                " un software in grado di monitorare la presenza degli SDGs " \
+                "un software in grado di monitorare la presenza degli SDGs " \
                 "all’interno delle Leggi Regionali \nPugliesi, in lingua italiana.\n\n" \
-                "Questo lavoro nasce dal progetto, commissionato dalla Regione Puglia " \
-                "all’Università degli \nStudi di Bari ed oggetto del tirocinio interno, presso la " \
-                "sede del Laboratorio di Sistemi Intelligenti \ndella locale facoltà di " \
+                "Questo lavoro nasce dal progetto, conseguente ad accordi stipulati tra " \
+                "l’Università degli \nStudi di Bari e la Regione Puglia ed oggetto del tirocinio interno, presso la " \
+                "sede del Laboratorio \ndi Sistemi Intelligenti \ndella locale facoltà di " \
                 "Informatica, \npresieduto dal Prof. Giuseppe Pirlo e svolto da Claudia Lorusso" \
                 " in coordinamento con Alessandro \nDattoli , il tutto sotto la supervisione del dott. " \
                 "Michele Chieco e della D.ssa Gabriella Calvano.\n\n" \
@@ -734,14 +755,7 @@ class App:
                                      font=("Bahnschrift Light", 12)
                                      ).grid(row=11, column = 0, sticky = W)
 
-
-
-
-
-
-
-
-        self.__scrollableframe__.grid(row=0, column = 0)
+        self.__scrollableframe__.pack()
 
 
 
@@ -758,22 +772,23 @@ class App:
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__grammatura_expl_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
 
-        Radiobutton(self.__adv_frame__,
+        r1 = Radiobutton(self.__adv_frame__,
                        text="Bigram",
                        padx=20,
                        variable=self.__ngram__, font=("Bahnschrift Light", 12),
-                       value=2, bg=id_color_right,
-                    command=(lambda:self.__set_ngram_value__(2))
-                    ).grid(row=2, column=1, sticky=E)
+                       value=2, bg=id_color_right
+                    )
+        r1.grid(row=2, column=1, sticky=E)
 
-        Radiobutton(self.__adv_frame__,
+        r2 = Radiobutton(self.__adv_frame__,
                        text="Unigram",
                        padx=20,
                        variable=self.__ngram__, font=("Bahnschrift Light", 12),
-                       value=1, bg=id_color_right,
-                    command=(lambda:self.__set_ngram_value__(1))
-                    ).grid(row=2, column=0, sticky=W)
+                       value=1, bg=id_color_right
+                    )
+        r2.grid(row=2, column=0, sticky=W)
 
+        r1.bind("<Leave>", lambda e: "break")
 
         self.__choose_t_sdg_lbl__ = Label(self.__adv_frame__,justify="left", text="Rileva SDG o Target",
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
@@ -783,21 +798,23 @@ class App:
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__choose_t_sdg_expl_lbl__.grid(row=4, column=0, sticky=W, padx = 5, pady=5)
 
-        Radiobutton(self.__adv_frame__,
+        r3 = Radiobutton(self.__adv_frame__,
                        text="Target",
                        padx=20,
                        variable=self.__sim_target__, font=("Bahnschrift Light", 12),
-                       value=True, bg=id_color_right,
-                    command=(lambda:self.__set_sel_t_sdg_value__(True))
-                    ).grid(row=5, column=1, sticky=E)
+                       value=True, bg=id_color_right, command = self.__change_sim_target_title__
+                    )
+        r3.grid(row=5, column=1, sticky=E)
 
-        Radiobutton(self.__adv_frame__,
+        r4 = Radiobutton(self.__adv_frame__,
                        text="SDG",
                        padx=20,
                        variable=self.__sim_target__, font=("Bahnschrift Light", 12),
-                       value=False, bg=id_color_right,
-                    command=(lambda:self.__set_sel_t_sdg_value__(False))
-                    ).grid(row=5, column=0, sticky=W)
+                       value=False, bg=id_color_right, command = self.__change_sim_target_title__
+                    )
+        r4.grid(row=5, column=0, sticky=W)
+
+        r3.bind("<Leave>", lambda e: "break")
 
 
 
@@ -807,10 +824,16 @@ class App:
         # ----------------------------------------------------------------------------------- AGENDA 2030 Frame creation
         self.__agenda_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
+        agenda_directory = __get_path__("Agenda2030\\Agenda-2030-Onu-italia.pdf")
+
+        # -----------------------------------------------------------------
+        # Tkinter code
+        # -----------------------------------------------------------------
+
         # creating object of ShowPdf from tkPDFViewer.
         pdf_viewer= pdf.ShowPdf()
 
-        agenda_directory = __get_path__("Agenda2030\\Agenda-2030-Onu-italia.pdf")
+
 
         # Adding pdf location and width and height.
         self.__show_agenda__ = pdf_viewer.pdf_view(self.__agenda_frame__,
@@ -871,22 +894,31 @@ class App:
             frame.grid_forget()
 
 
-    def __set_ngram_value__(self, value):
+    def __unbind_ngram__(self,  widget):
         """
-        Changes the ngram based on the user choice
-        :return:
+        unbinds the radiobutton
+        NOT USEFUL ANYMORE
         """
 
-        self.__ngram__ = value
-
-
-    def __set_sel_t_sdg_value__(self, value):
         """
-        Changes the sdg or target choice based on the user choice
-        :return:
+        try:
+            widget.unbind("<Leave>", lambda e: None)
+        except:
+            pass
         """
-        self.__sim_target__ = value
-        self.__ric_targets_lbl__.configure(text = "Ricerca Target" if self.__sim_target__ else "Ricerca SDGs")
+
+    def __change_sim_target_title__(self):
+        """
+        Changes the sdg or target Title and unbinds the radiobutton
+
+        """
+        self.__ric_targets_lbl__.configure(text = "Ricerca Target" if self.__sim_target__.get() else "Ricerca SDGs")
+        """
+        try:
+            widget.unbind("<Leave>", lambda e: None)
+        except:
+            pass
+        """
 
     def __select_file__(self):
         """
@@ -910,17 +942,41 @@ class App:
         self.__start_btn__.config(cursor="hand2" if not file_name == "" else "arrow")
         self.__adv_sel_lbl__.config(text="É stato selezionato il file '"+file_name+"'." if not file_name == '' else "")
         self.__insert_key__.delete("1.0", END)
-        self.__insert_key__.configure(state="disabled")
+        self.__keycatch_frame__.configure(text="  Seleziona una nuova Legge ed inserisci la parola chiave ")
+        self.__insert_key__.configure(state="disabled", cursor = "arrow")
         self.__cerca_btn__.configure(state="disabled")
         self.__cerca_btn__.configure(cursor="arrow")
         self.__key_occ__ = ""
         self.__ky_occ_res_label__.configure(text=self.__key_occ__)
+
+    def __show_targets__(self, back_btn, variable_frame, intern_frame):
+        # FIXME
+        back_btn.grid(row=2, sticky=W, padx=(10), pady=10)
+        back_btn.config(state=NORMAL)
+        variable_frame.grid(row=1, column=0, padx=10, pady=10)  # FIXME
+        intern_frame.grid_forget()
+
+    def __close_popup__(self, popupwindow):
+        # FIXME
+        popupwindow.destroy()
+        self.__sfogliami_btn__.configure(state=NORMAL, cursor="hand2", bg = "#F0F0F0")
+
+    def __go_back__(self, back_btn, variable_frame, intern_frame):
+        # FIXME
+        intern_frame.grid(row=1, column=0, padx=10, pady=10)  # FIXME
+        variable_frame.grid_forget()
+        back_btn.grid_forget()
+
 
     def __popup_sdgs__(self):
         """
         Lets pop up a new window with the SDGs list
         :return:
         """
+        #FIXME disable BUTTON
+        from glob import glob
+        import json
+
         dest_sdgs = __get_path__("SDGs\\SDGs.txt")
         with open(dest_sdgs,"r",encoding='utf-8', errors='ignore') as f:
             contents = f.readlines()
@@ -930,19 +986,50 @@ class App:
 
         pad = 3
         id_color_right = "#FCFCFC"
-        popupwindow = Tk()
+        popupwindow = Toplevel(self.__root__)
         popupwindow.configure(bg=id_color_right)
+        popupwindow.configure(width = 900, height = 700)
         popupwindow.wm_title("Obiettivi di Sviluppo Sostenibile: SDGs")
-        master_frame = Frame(popupwindow, bg=id_color_right)
+
+        master_frame = Frame(popupwindow, bg=id_color_right,width = 1000, height = 1000)
         master_frame.grid(row=0, column = 0, padx = 10, pady=10)
 
         # title label
-        title = "Obiettivi di Sviluppo Sostenibile:"
-        title_lbl__ = Label(master_frame, justify="left", text=title,
-                                   font=("Bahnschrift SemiCondensed", 40, "bold"), bg=id_color_right)
-        title_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
+        title = "Obiettivi di Sviluppo Sostenibile"
+        title_lbl__ = Label(master_frame, justify="left", text=title, font=("Bahnschrift SemiCondensed", 40, "bold"), bg=id_color_right)
+        title_lbl__.grid(row=0, column=0, sticky=W, padx=(5), pady=5)
+
+
+        #---------------------------------intern frame
+        intern_frame = Frame(master_frame, bg=id_color_right,width = 900, height = 700)
+        intern_frame.grid(row=1, column = 0, padx = 10, pady=10)
+
+        # ------------------------------------- VARIABLE FRAME
+
+        variable_frame = Frame(master_frame, bg=id_color_right, width=900, height=700)
+
+        variable_scroll = ScrollableFrame(variable_frame, bg=id_color_right)
+
+        variable_scroll.frame_dimension(width=1200)
+        # FIXME
+        prova_l = Label(variable_scroll.scrollable_frame,
+                        text="SDG Prova\n",
+                        bg=id_color_right, justify="left",
+                        font=("Bahnschrift SemiCondensed", 18, "bold")
+                        )
+        prova_l.grid(row=0, column=0, sticky=W, padx=38)
+        prova_descr = Label(variable_scroll.scrollable_frame,
+                            text="Questa è la descrizioneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee È doveroso spendere alcune parole per il logo ideato per il software di cui si sta trattando.\n\n",
+                            bg=id_color_right, justify="left",
+                            font=("Bahnschrift Light", 12)
+                            )
+        prova_descr.grid(row=1, column=0, sticky=W, padx=38)
+
+        variable_scroll.pack()
 
         # ---------------------------------------------------- TEXTBOX Frame
+
+        """
         box_frame = LabelFrame(master_frame, text=" Lista di SDGs: ", padx=5, pady=5,bg=id_color_right, width=popupwindow.winfo_width()-pad)
         box_frame.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E + W + N + S)
 
@@ -959,23 +1046,68 @@ class App:
         txt_box.insert(INSERT, content)
         txt_box.configure(state="disabled")
 
-        close_btn = ttk.Button(master_frame, text="Close", command=popupwindow.destroy)
+        """
 
+        close_btn = ttk.Button(master_frame, command=(lambda:self.__close_popup__(popupwindow)), text="Chiudi")
+        back_btn = ttk.Button(master_frame, text="Indietro", state=DISABLED,command=(lambda:self.__go_back__(back_btn, variable_frame, intern_frame))) #FIXME
         close_btn.grid(row=2, sticky=E, padx=(10), pady=10)
 
-        popupwindow.update()
-        popupwindow.minsize(popupwindow.winfo_width(), popupwindow.winfo_height())
 
-        popupwindow.maxsize(popupwindow.winfo_width(), popupwindow.winfo_height())
+
+
+        # FIXME REMOVE
+        """
+        
+        b1 = Button(intern_frame)
+        b2 = Button(intern_frame)
+        b3 = Button(intern_frame)
+        b4 = Button(intern_frame)
+        b5 = Button(intern_frame)
+        b6 = Button(intern_frame)
+        b7 = Button(intern_frame)
+        b8 = Button(intern_frame)
+        b9 = Button(intern_frame)
+        b10 = Button(intern_frame)
+        b11 = Button(intern_frame)
+        b12 = Button(intern_frame)
+        b13 = Button(intern_frame)
+        b14 = Button(intern_frame)
+        b15 = Button(intern_frame)
+        b16 = Button(intern_frame)
+        b17 = Button(intern_frame)
+
+        btn_list = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17]
+        """
+        dest = __get_path__("utils\\images\\SDG\\goals\\*.png")
+        for img in glob(dest):
+            name = int(path.splitext(path.basename(img))[0])
+            image = PhotoImage(file=img)
+            btn = Button(intern_frame, image=image, cursor ="hand2",command= (lambda:self.__show_targets__(back_btn, variable_frame, intern_frame)))
+            #btn.configure()
+            btn.photo = image # <-- assign PhotoImage to other widget too DO NOT REMOVE!!!!
+            if name >= 1 and name <= 6:
+                btn.grid(row = 0, column = name-1, padx=5, pady=5)
+            elif name >= 7 and name <= 12:
+                btn.grid(row = 1, column = name-7, padx=5, pady=5)
+            else:
+                btn.grid(row = 2, column = name-13, padx=5, pady=5)
+
+        popupwindow.protocol("WM_DELETE_WINDOW",  lambda:self.__close_popup__(popupwindow))
+
+    def __enable_sfogliami(self):
+        """
+        Enables 'Sfogliami' btn
+        :return:
+        """
+        self.__sfogliami_btn__.configure(state=NORMAL, cursor="hand2")
 
     def __consult_sdgs__(self):
         """
         If the sfogliami_btn is pressed it will pop up a page with the SDG list.
         :return:
         """
+        self.__sfogliami_btn__.configure(state=DISABLED, cursor="arrow", bg = "#A6F7AA")
         self.__popup_sdgs__()
-
-
 
     def __start__(self):
         """
@@ -990,7 +1122,7 @@ class App:
             dest = self.__file_name__
             warning = False
             try:
-                output = get_relevant(path_law=self.__file_name__, ngram=self.__ngram__, sim_target=self.__sim_target__)
+                output = get_relevant(path_law=self.__file_name__, ngram=self.__ngram__.get(), sim_target=self.__sim_target__.get())
             except ValueError:
                 messagebox.showwarning("Warning", "Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
                 warning = True
@@ -1011,12 +1143,13 @@ class App:
             else:
                 # get string containing the output
                 self.__output__ = "I primi tre"
-                self.__output__ += (" SDG " if not self.__sim_target__ else " Target ")
+                self.__output__ += (" SDG " if not self.__sim_target__.get() else " Target ")
                 self.__output__ += "più similari alla legge " + file_name + " sono:\n\n" + output + " \n\nPer favore seleziona un'altra Legge per una nuova computazione."
                 self.__txt_box__.configure(state=NORMAL)
                 self.__txt_box__.insert(INSERT, self.__output__)
                 self.__txt_box__.configure(state="disabled")
-                self.__insert_key__.configure(state="normal")
+                self.__keycatch_frame__.configure(text = "  Inserisci la parola chiave ")
+                self.__insert_key__.configure(state="normal", cursor = "xterm")
                 self.__cerca_btn__.configure(state="normal")
                 self.__cerca_btn__.configure(cursor="hand2")
 
@@ -1218,6 +1351,10 @@ class App:
             id of the pressed button
         :return:
         """
+
+        self.__welcome_frame__.grid_forget()
+        self.__right_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "n")
+
         self.__id_btn_selected__ = id
 
         #show the desired frame while hiding the others
@@ -1242,41 +1379,133 @@ class App:
         self.__mid_descr_lbl__.configure(text = self.__get_description_frame__(id))
 
 
-
-
-
-
 # ---------------------------- UTILS -------------------------------------
 class ScrollableFrame(Frame):
     """
     Defines a ScrollbarFrame class
     """
-    def __init__(self, container, *args, **kwargs):
-        id_color_right = "#FCFCFC"
+    def __init__(self, container, width=800, height=700, bg = "#FCFCFC", *args, **kwargs):
         super().__init__(container, *args, **kwargs)
-        #highlightthickness=0 to hide the border
-        self.canvas = Canvas(self, width=800, height=700, bg=id_color_right, highlightthickness=0)
-        #width = 0 to hide the bar
-        scrollbar = Scrollbar(self, orient="vertical", command=self.canvas.yview, bg=id_color_right)
-        self.scrollable_frame = Frame(self.canvas, width=800, height=700, bg=id_color_right)
+        #container.bind("<MouseWheel>", self._on_mousewheel)  # bind on the parent window
 
-        self.scrollable_frame.bind(
+        # highlightthickness=0 to hide the border
+        highlightthickness = 0
+
+        # Create a main frame
+
+        self.main_frame = Frame(container, width=width, height=height,bg=bg)
+        self.main_frame.pack(side=TOP, fill=BOTH, expand=1)  # expand frame to the size of the container
+
+        #create a canvas
+
+        #highlightthickness=0 to hide the border
+        self.canvas = Canvas(self.main_frame, width=width, height=height, bg=bg, highlightthickness=highlightthickness)
+        self.canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        #width = 0 to hide the bar
+
+
+        self.scrollbar = Scrollbar(self.main_frame, orient=VERTICAL, command=self.canvas.yview)
+        self.scrollbar.pack(side=RIGHT, fill=Y)
+
+        self.scrollbar_x = Scrollbar(container, orient=HORIZONTAL, command=self.canvas.xview)
+        self.scrollbar_x.pack(side=BOTTOM, fill=X)
+
+        self.canvas.configure(yscrollcommand=self.scrollbar.set, xscrollcommand=self.scrollbar_x.set)
+
+        self.canvas.bind(
             "<Configure>",
             lambda e: self.canvas.configure(
                 scrollregion=self.canvas.bbox("all")
             )
         )
 
+        #self.canvas.grid(row=0, column = 0)
+
+
+
+        #self.scrollbar.grid(row = 0, column = 1, sticky="NS")
+        #self.scrollbar_x.grid(row=1, column = 0, sticky="EW")
+
+        self.scrollable_frame = Frame(self.canvas, bg=bg)
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.canvas.configure(yscrollcommand=scrollbar.set)
-        self.canvas.pack(side="left", fill="both", expand=True)
 
-        self.canvas.bind_all("<MouseWheel>", self.__on_mousewheel__)
+        #DO NOT TOUCH!!!!!! DO NOT PUT bind_all!!!
+        self.canvas.bind("<MouseWheel>", self._on_mousewheel)
+        self.canvas.bind("<MouseWheel>", self.set_mousewheel(self.canvas, self._on_mousewheel))
 
-        scrollbar.pack(side="right", fill="y")
-
-    def __on_mousewheel__(self, event):
+    def _on_mousewheel(self, event):
+        """
+        Permits to scroll with mouse
+        IF YOU TOUCH ME I WONT WORK ANYMORE!
+        :param event:
+        :return:
+        """
+        #DO NOT TOUCH
         self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+        """
+        shift = (event.state & 0x1) != 0
+        scroll = -1 if event.delta > 0 else 1
+        if shift:
+            self.canvas.xview_scroll(scroll, "units")
+        else:
+            self.canvas.yview_scroll(scroll, "units")
+
+        """
+
+    def set_mousewheel(self, widget, command):
+        """Activate / deactivate mousewheel scrolling when
+        cursor is over / not over the widget respectively."""
+        #DO NOT TOUCH!!!!
+        widget.bind("<Enter>", lambda _: widget.bind_all('<MouseWheel>', command))
+        widget.bind("<Leave>", lambda _: widget.unbind_all('<MouseWheel>'))
+
+
+    def background(self, bg):
+        """
+        Modifies the background color
+        :param bg: string
+            specifies the background color
+            use bg = "#FCFCFC" for a soft green near the white
+        :return:
+        """
+        self.scrollbar.configure(bg=bg)
+        self.scrollable_frame.configure(bg=bg)
+        self.canvas.configure(bg=bg)
+        self.main_frame.configure(bg=bg)
+
+    def bar_width(self, width):
+        """
+        Modifies the bar of the scroll bar width
+        :param width: int
+            bar of the scrollbar dimension
+            if width=0 the bar will disappear
+        :return:
+        """
+        self.scrollbar.config(width=width)
+
+    def highlightthickness(self, highlightthickness):
+        """
+        Modifies the thickness of the border of the frame
+        :param highlightthickness: integer
+            thickness of the border of the frame
+            if highlightthickness=0 the border will disappear
+        :return:
+        """
+        self.canvas.configure(highlightthickness=highlightthickness)
+
+    def frame_dimension(self, width=800, height=700):
+        """
+        Modifies the dimension of the frame
+        :param width: int
+            specified the (orizontal) width of the frame
+        :param height: int
+            specified the (vertical) height of the frame
+        :return:
+        """
+        self.canvas.configure(width=width, height=height)
+        self.scrollable_frame.configure(width=width, height=height)
+        self.main_frame.configure(width=width, height=height)
 
 def __get_path__(relative_path):
     """

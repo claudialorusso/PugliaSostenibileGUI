@@ -19,7 +19,7 @@ class Installation:
     Manages the installation GUI.
     If it is the first execution OR the user doesn't dispose of the needed libs
     asks him if he wants to download them, in which case the program proceeds
-    with the installation. Else, he can easly close the window.
+    with the installation. Else, he can easily close the window.
     """
 
     def __init__(self):
@@ -196,6 +196,12 @@ class Installation:
         self.__installation_root__.update_idletasks()
         from FileHandler import ask_path, extract_content
         self.__progress__["value"] = 87
+        self.__installation_root__.update_idletasks()
+        import json
+        self.__progress__["value"] = 90
+        self.__installation_root__.update_idletasks()
+        from glob import glob
+        self.__progress__["value"] = 98
         self.__installation_root__.update_idletasks()
 
     def __disable_widgets__(self):
@@ -433,12 +439,10 @@ class App:
         self.__welcome_frame__ = Frame(self.__master_frame__)
         self.__welcome_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "ne")
         self.__welcome_frame__.config(bg=id_color_right)
-        welcome_image = PhotoImage(file = __get_path__("utils\\images\\COLORPugliaSostenibile746x687.png"))
+        welcome_image = PhotoImage(file = __get_path__("utils\\images\\welcome_new.png"))
         self.__welcome_lbl__ = Label(self.__welcome_frame__, bg = id_color_right, image = welcome_image)
 
-        w_txt_lbl = Label(self.__welcome_frame__, bg = id_color_right, text = "\n Benvenuto in:",
-                          font=("Bahnschrift SemiCondensed", 60, "bold"), justify = "center")
-        w_txt_lbl.pack(side = "top")
+
 
         self.__welcome_lbl__.pack()
 
@@ -626,12 +630,14 @@ class App:
         self.__info_frame__ = Frame(self.__principal_frame__, bg=id_color_right, width=800, height=800)
 
         self.__scrollableframe__ = ScrollableFrame(self.__info_frame__, bg=id_color_right)
+        Label(self.__scrollableframe__.scrollable_frame, bg=id_color_right, justify= "center", text = "\n"
+                                                      ).grid(row=0, column = 0, sticky = "n")
 
-        image_puglia_sostenibile = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile500x460.png"))
+        image_puglia_sostenibile = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile450x415.png"))
         self.__lbl_image_puglia_sostenibile__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       image = image_puglia_sostenibile,
                                                       bg=id_color_right, justify= "center"
-                                                      ).grid(row=0, column = 0, sticky = "n")
+                                                      ).grid(row=1, column = 0, sticky = "n")
 
         citazione_1 = "\n''Siamo determinati a fare passi audaci e trasformativi urgentemente necessari \nper portare il mondo " \
                     "sulla strada della sostenibilità e della resilienza.\n\n" \
@@ -642,13 +648,13 @@ class App:
                                                       text = citazione_1,
                                                       bg=id_color_right, justify= "center",
                                          font=("Bahnschrift Light", 12, "italic")
-                                                      ).grid(row=1, column = 0, sticky = N)
+                                                      ).grid(row=2, column = 0, sticky = N)
 
         self.__titolo_1_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = "Avvento dell’Agenda 2030\n",
                                                       bg=id_color_right, justify= "left",
                                          font=("Bahnschrift SemiCondensed", 14, "bold")
-                                                      ).grid(row=2, column = 0, sticky = W)
+                                                      ).grid(row=3, column = 0, sticky = W)
 
         par_1 = "Negli ultimi anni organismi internazionali e locali, sensibilizzati " \
                 "da vari accadimenti, \ntra cui quelli naturali, con lo sguardo rivolto " \
@@ -671,18 +677,29 @@ class App:
         self.__parag_1_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = par_1,
                                                       bg=id_color_right, justify= "left",
-                                     font=("Bahnschrift Light", 12)).grid(row=3, column = 0, sticky = W)
+                                     font=("Bahnschrift Light", 12)).grid(row=4, column = 0, sticky = W)
 
         image_obiettivi = PhotoImage(file=__get_path__("utils\\images\\SDG\\SDG_Poster_#nonUN-IT500x290.png"))
         self.__lbl_image_obiettivi__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       image = image_obiettivi,
                                                       bg=id_color_right, justify= "center"
-                                                      ).grid(row=4, column = 0, sticky = "n")
+                                                      ).grid(row=5, column = 0, sticky = "n")
         self.__titolo_2_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = "\nPuglia Sostenibile\n",
                                                       bg=id_color_right, justify= "left",
                                          font=("Bahnschrift SemiCondensed", 14, "bold")
-                                                      ).grid(row=5, column = 0, sticky = W)
+                                                      ).grid(row=6, column = 0, sticky = W)
+
+        citazione_2="''Ho imparato che la Computer Science non si ferma solo\nalla sintassi ed allo scrivere del codice.\n\n" \
+        "Possiamo fare la differenza nella vita delle persone\nattraverso lo sviluppo di applicazioni.''\n" \
+        "\n(Kyle Rector)\n"
+
+
+        self.__citazione_2_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
+                                                      text = citazione_2,
+                                                      bg=id_color_right, justify= "center",
+                                         font=("Bahnschrift Light", 12, "italic")
+                                                      ).grid(row=7, column = 0, sticky = N)
 
         par_2 = "Similarmente a quanto sviluppato dalla Commissione Europea con la loro" \
                 " \npiattaforma KnowSDGs per valutare la correlazione tra i vari SDGs e le " \
@@ -691,39 +708,39 @@ class App:
                 "all’interno delle Leggi Regionali \nPugliesi, in lingua italiana.\n\n" \
                 "Questo lavoro nasce dal progetto, conseguente ad accordi stipulati tra " \
                 "l’Università degli \nStudi di Bari e la Regione Puglia ed oggetto del tirocinio interno, presso la " \
-                "sede del Laboratorio \ndi Sistemi Intelligenti \ndella locale facoltà di " \
-                "Informatica, \npresieduto dal Prof. Giuseppe Pirlo e svolto da Claudia Lorusso" \
-                " in coordinamento con Alessandro \nDattoli , il tutto sotto la supervisione del dott. " \
+                "sede del Laboratorio \ndi Sistemi Intelligenti della locale facoltà di " \
+                "Informatica, presieduto dal Prof. Giuseppe Pirlo \ne svolto da Claudia Lorusso" \
+                " in coordinamento con Alessandro Dattoli, \nil tutto sotto la supervisione del dott. " \
                 "Michele Chieco e della D.ssa Gabriella Calvano.\n\n" \
                 "La finalità del software è quella di capire quali tra gli obiettivi e traguardi " \
                 "dell’Agenda 2030 \nsono stati effettivamente affrontati dai documenti " \
                 "legislativi della Regione Puglia in modo da poter, \ntra l’altro, individuare e " \
                 "correggere eventuali lacune e determinare l’effettivo progresso \nverso il " \
                 "sostenibile.\n\n" \
-                "L’utilizzo del software è, ovviamente, estendibile anche ad altre Legislature.\n\n" \
+                "L’utilizzo del software è, ovviamente, estendibile anche ad altre tipologie normative.\n\n" \
                 "Il linguaggio utilizzato per lo sviluppo di Puglia Sostenibile è il python.\n\n"
 
         self.__parag_2_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = par_2,
                                                       bg=id_color_right, justify= "left",
-                                     font=("Bahnschrift Light", 12)).grid(row=6, column = 0, sticky = W)
+                                     font=("Bahnschrift Light", 12)).grid(row=8, column = 0, sticky = W)
         image_collab = PhotoImage(file=__get_path__("utils\\images\\collab\\trio_collab500x162.png"))
         self.__lbl_image_collab__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       image = image_collab,
                                                       bg=id_color_right, justify= "center"
-                                                      ).grid(row=7, column = 0, sticky = "n")
+                                                      ).grid(row=9, column = 0, sticky = "n")
 
 
         self.__titolo_3_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = "\nIl Logo\n",
                                                       bg=id_color_right, justify= "left",
                                          font=("Bahnschrift SemiCondensed", 14, "bold")
-                                                      ).grid(row=8, column = 0, sticky = W)
+                                                      ).grid(row=10, column = 0, sticky = W)
         image_logo = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile300x276.png"))
         self.__lbl_logo__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       image = image_logo,
                                                       bg=id_color_right, justify= "center"
-                                                      ).grid(row=9, column = 0, sticky = "n")
+                                                      ).grid(row=11, column = 0, sticky = "n")
         citazione_2 = "\n''Credo che abbiamo il dovere di lottare per la vita sulla Terra \ne non solo a nostro beneficio, ma di" \
                       " tutti quelli, umani o meno, \nche ci hanno preceduto ed ai quali siamo legati, \ncosì come coloro che, " \
                       "se siamo abbastanza saggi, \narriveranno più tardi. \nNon c'è una causa più urgente, né più giusta, del " \
@@ -734,7 +751,7 @@ class App:
                                                       text = citazione_2,
                                                       bg=id_color_right, justify= "center",
                                          font=("Bahnschrift Light", 12, "italic")
-                                                      ).grid(row=10 ,column = 0, sticky = N)
+                                                      ).grid(row=12 ,column = 0, sticky = N)
 
         par_3 = "È doveroso spendere alcune parole per il logo ideato per il software di cui si sta trattando.\n\n" \
                       "In primo piano si nota la figura di un albero che riconduce alla mente l’idea della Natura, " \
@@ -744,7 +761,7 @@ class App:
                       "punta verso direzioni differenti che rappresentano le varie branche della sostenibilità \ne che, seppur " \
                       "divergenti, nascono tutte quante da uno stesso principio: \nil bene della comunità raggiungibile tramite " \
                       "un’azione comune.\n\n" \
-                      "Ed è appunto per questo che, alle spalle dell’albero, si intravvede la Terra che ha significato ambivalente: \n" \
+                      "Ed è appunto per questo che, alle spalle dell’albero, si intravede la Terra che ha significato ambivalente: \n" \
                       "sprona ad agire per il suo bene ed allo stesso tempo stimola un’azione comune per l’ottenimento di quel \n" \
                       "tanto agognato cambiamento.\n\n" \
                       "Il logo è stato realizzato dall’esperto di grafica Nicola Surgo.\n\n\n\n\n\n\n\n\n\n"
@@ -753,7 +770,7 @@ class App:
                                                       text = par_3,
                                                       bg=id_color_right, justify= "left",
                                      font=("Bahnschrift Light", 12)
-                                     ).grid(row=11, column = 0, sticky = W)
+                                     ).grid(row=13, column = 0, sticky = W)
 
         self.__scrollableframe__.pack()
 
@@ -764,7 +781,7 @@ class App:
         # -------------------------------------------------------------------------------------- AVANZATE Frame creation
         self.__adv_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
 
-        self.__grammatura_lbl__ = Label(self.__adv_frame__,justify="left", text="Grammatura",
+        self.__grammatura_lbl__ = Label(self.__adv_frame__,justify="left", text="Grammatura (Utente esperto)",
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
         self.__grammatura_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
 
@@ -833,8 +850,6 @@ class App:
         # creating object of ShowPdf from tkPDFViewer.
         pdf_viewer= pdf.ShowPdf()
 
-
-
         # Adding pdf location and width and height.
         self.__show_agenda__ = pdf_viewer.pdf_view(self.__agenda_frame__,
                          pdf_location=agenda_directory,
@@ -854,8 +869,10 @@ class App:
         gui_author = "GUI e back-end:\tLorusso Claudia,\t\tlorussoclaudia95@libero.it"
         logo_author = "Logo:\t\tSurgo Nicola,\t\tsurgo.nicola20@gmail.com"
 
-        cont_authors = "--------------------------------------------------------------------------------\n\n"+supervisors_author + \
-                       "\n\n\n--------------------------------------------------------------------------------\n\nContatti Tecnici:\n\n" \
+        cont_authors = "---------------------------------------------------------------------------" \
+                       "-----\n\n"+supervisors_author + \
+                       "\n\n\n------------------------------------------" \
+                       "--------------------------------------\n\nContatti Tecnici:\n\n" \
                        + gui_author + "\n\n" + logo_author
         self.__contact_lbl__ = Label(self.__contact_frame__, justify="left", text=cont_authors,
                                    font=("Bahnschrift Light", 12), bg=id_color_right)
@@ -949,22 +966,66 @@ class App:
         self.__key_occ__ = ""
         self.__ky_occ_res_label__.configure(text=self.__key_occ__)
 
-    def __show_targets__(self, back_btn, variable_frame, intern_frame):
-        # FIXME
+    def __show_targets__(self, back_btn, btn_frame, variable_frame, sdgs, i):
+
         back_btn.grid(row=2, sticky=W, padx=(10), pady=10)
         back_btn.config(state=NORMAL)
-        variable_frame.grid(row=1, column=0, padx=10, pady=10)  # FIXME
-        intern_frame.grid_forget()
+
+        agenda = sdgs["Agenda"]
+        sdg = agenda[i]
+
+        scrollable_frame = ScrollableFrame(variable_frame, bg="white", width=800, height=500, horizontal = True)
+
+        title = Label(scrollable_frame.scrollable_frame,
+                      text="Goal " + str(sdg["id"]) + ":",
+                      bg="white", justify="left",
+                      font=("Bahnschrift SemiCondensed", 18, "bold")
+                      )
+        title.grid(row=0, column=0, sticky=W)
+        description = Label(scrollable_frame.scrollable_frame,
+                      text=sdg["goal"] + "\n---------------------------------------------------------------------------"
+                                         "-----------------------------------------------------------------------------"
+                                         "-----------------------------------------------------------------------------"
+                                         "------------------------------------------\n",
+                      bg="white", justify="left",
+                      font=("Bahnschrift Light", 14)
+                      )
+        description.grid(row=1, column=0, sticky=W)
+        j = 2
+        for t in sdg["targets"]:
+            id = t["absolute_id"]
+            desc = t["description"]
+            title = Label(scrollable_frame.scrollable_frame,
+                          text="Target " + id + ":",
+                          bg="white", justify="left",
+                          font=("Bahnschrift SemiCondensed", 14, "bold")
+                          )
+            title.grid(row=j, column=0, sticky=W)
+            j += 1
+            descr = Label(scrollable_frame.scrollable_frame,
+                          text=desc + "\n",
+                          bg="white", justify="left",
+                          font=("Bahnschrift Light", 12)
+                          )
+            descr.grid(row=j, column=0, sticky=W)
+            j += 1
+
+        scrollable_frame.pack()
+        variable_frame.pack()
+        btn_frame.pack_forget()
+
 
     def __close_popup__(self, popupwindow):
         # FIXME
         popupwindow.destroy()
         self.__sfogliami_btn__.configure(state=NORMAL, cursor="hand2", bg = "#F0F0F0")
 
-    def __go_back__(self, back_btn, variable_frame, intern_frame):
+    def __go_back__(self, back_btn,  btn_frame, variable_frame):
         # FIXME
-        intern_frame.grid(row=1, column=0, padx=10, pady=10)  # FIXME
-        variable_frame.grid_forget()
+        btn_frame.pack()
+        for widgets in variable_frame.winfo_children():
+            widgets.destroy()
+        variable_frame.pack_forget()
         back_btn.grid_forget()
 
 
@@ -973,124 +1034,61 @@ class App:
         Lets pop up a new window with the SDGs list
         :return:
         """
-        #FIXME disable BUTTON
-        from glob import glob
-        import json
+        #open json file with SDGs and get vocabulary
+        dest_sdgs= __get_path__("SDGs\\SDGs_json.json")
+        with open(dest_sdgs, "r", encoding="utf-8") as file:
+            sdgs = json.load(file)
 
-        dest_sdgs = __get_path__("SDGs\\SDGs.txt")
-        with open(dest_sdgs,"r",encoding='utf-8', errors='ignore') as f:
-            contents = f.readlines()
-        content=""
-        for l in contents:
-            content += l + "\n"
-
-        pad = 3
-        id_color_right = "#FCFCFC"
+        id_color_right = "#F7F7F7"
         popupwindow = Toplevel(self.__root__)
-        popupwindow.configure(bg=id_color_right)
-        popupwindow.configure(width = 900, height = 700)
+        popupwindow.configure(bg="white")
+        popupwindow.configure(width = 1500, height = 700)
         popupwindow.wm_title("Obiettivi di Sviluppo Sostenibile: SDGs")
 
-        master_frame = Frame(popupwindow, bg=id_color_right,width = 1000, height = 1000)
-        master_frame.grid(row=0, column = 0, padx = 10, pady=10)
+        master_frame = Frame(popupwindow, bg="white",width = 1500, height = 700)
+        master_frame.grid(row=0, column = 0, padx = 10, pady=10, ipadx = 10, ipady=10)
 
         # title label
         title = "Obiettivi di Sviluppo Sostenibile"
-        title_lbl__ = Label(master_frame, justify="left", text=title, font=("Bahnschrift SemiCondensed", 40, "bold"), bg=id_color_right)
-        title_lbl__.grid(row=0, column=0, sticky=W, padx=(5), pady=5)
-
+        title_lbl__ = Label(master_frame, justify="center", text=title, font=("Bahnschrift SemiCondensed", 40), bg="white")
+        title_lbl__.grid(row=0, column=0, sticky=N, padx=(10), pady=10)
 
         #---------------------------------intern frame
-        intern_frame = Frame(master_frame, bg=id_color_right,width = 900, height = 700)
-        intern_frame.grid(row=1, column = 0, padx = 10, pady=10)
+        intern_frame = Frame(master_frame, bg="white",width = 1100, height = 700)
+        intern_frame.grid(row=1, column = 0, padx = 10, pady=10, ipadx = 10, ipady=10)
 
-        # ------------------------------------- VARIABLE FRAME
+        variable_frame = Frame(intern_frame, bg="white",width = 1100, height = 700)
 
-        variable_frame = Frame(master_frame, bg=id_color_right, width=900, height=700)
+        # ---------------------------------------------------- BUTTONS
 
-        variable_scroll = ScrollableFrame(variable_frame, bg=id_color_right)
-
-        variable_scroll.frame_dimension(width=1200)
-        # FIXME
-        prova_l = Label(variable_scroll.scrollable_frame,
-                        text="SDG Prova\n",
-                        bg=id_color_right, justify="left",
-                        font=("Bahnschrift SemiCondensed", 18, "bold")
-                        )
-        prova_l.grid(row=0, column=0, sticky=W, padx=38)
-        prova_descr = Label(variable_scroll.scrollable_frame,
-                            text="Questa è la descrizioneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee È doveroso spendere alcune parole per il logo ideato per il software di cui si sta trattando.\n\n",
-                            bg=id_color_right, justify="left",
-                            font=("Bahnschrift Light", 12)
-                            )
-        prova_descr.grid(row=1, column=0, sticky=W, padx=38)
-
-        variable_scroll.pack()
-
-        # ---------------------------------------------------- TEXTBOX Frame
-
-        """
-        box_frame = LabelFrame(master_frame, text=" Lista di SDGs: ", padx=5, pady=5,bg=id_color_right, width=popupwindow.winfo_width()-pad)
-        box_frame.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky=E + W + N + S)
-
-        popupwindow.columnconfigure(0, weight=1)
-        popupwindow.rowconfigure(1, weight=1)
-
-        box_frame.rowconfigure(0, weight=1)
-        box_frame.columnconfigure(0, weight=1)
-
-        # Create the textbox widget
-        txt_box = scrolledtext.ScrolledText(box_frame, bg=id_color_right, width=popupwindow.winfo_width()-pad)
-        txt_box.grid(row=0, column=0, sticky=E + W + N + S)
-
-        txt_box.insert(INSERT, content)
-        txt_box.configure(state="disabled")
-
-        """
-
-        close_btn = ttk.Button(master_frame, command=(lambda:self.__close_popup__(popupwindow)), text="Chiudi")
-        back_btn = ttk.Button(master_frame, text="Indietro", state=DISABLED,command=(lambda:self.__go_back__(back_btn, variable_frame, intern_frame))) #FIXME
+        close_btn = Button(master_frame, bg = id_color_right, height=1, width=10, borderwidth=0, font=("Bahnschrift SemiCondensed", 12),
+                           command=(lambda:self.__close_popup__(popupwindow)), text="Chiudi", cursor = "hand2")
+        back_btn = Button(master_frame, bg = id_color_right,text="Indietro", height=1, width=10, borderwidth=0,  cursor = "hand2", font=("Bahnschrift SemiCondensed", 12),
+                          command=(lambda:self.__go_back__(back_btn, btn_frame, variable_frame)))
         close_btn.grid(row=2, sticky=E, padx=(10), pady=10)
 
+        # ------------------------------------- BTN FRAME
+        btn_frame = Frame(intern_frame, bg=id_color_right, width=1100, height=700)
 
 
-
-        # FIXME REMOVE
-        """
-        
-        b1 = Button(intern_frame)
-        b2 = Button(intern_frame)
-        b3 = Button(intern_frame)
-        b4 = Button(intern_frame)
-        b5 = Button(intern_frame)
-        b6 = Button(intern_frame)
-        b7 = Button(intern_frame)
-        b8 = Button(intern_frame)
-        b9 = Button(intern_frame)
-        b10 = Button(intern_frame)
-        b11 = Button(intern_frame)
-        b12 = Button(intern_frame)
-        b13 = Button(intern_frame)
-        b14 = Button(intern_frame)
-        b15 = Button(intern_frame)
-        b16 = Button(intern_frame)
-        b17 = Button(intern_frame)
-
-        btn_list = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17]
-        """
         dest = __get_path__("utils\\images\\SDG\\goals\\*.png")
-        for img in glob(dest):
+        for img in sorted(glob(dest), key=len):
             name = int(path.splitext(path.basename(img))[0])
             image = PhotoImage(file=img)
-            btn = Button(intern_frame, image=image, cursor ="hand2",command= (lambda:self.__show_targets__(back_btn, variable_frame, intern_frame)))
-            #btn.configure()
-            btn.photo = image # <-- assign PhotoImage to other widget too DO NOT REMOVE!!!!
             if name >= 1 and name <= 6:
-                btn.grid(row = 0, column = name-1, padx=5, pady=5)
+                b = Button(btn_frame, image=image, cursor="hand2", borderwidth=0,command = (lambda name = name: self.__show_targets__(back_btn,  btn_frame, variable_frame, sdgs, name-1)))
+                b.grid(row=0, column=name - 1, padx=5, pady=5)
             elif name >= 7 and name <= 12:
-                btn.grid(row = 1, column = name-7, padx=5, pady=5)
+                b = Button(btn_frame, image=image, cursor="hand2", borderwidth=0,command = (lambda name = name: self.__show_targets__(back_btn,  btn_frame, variable_frame, sdgs, name-1)))
+                b.grid(row=1, column=name - 7, padx=5, pady=5)
             else:
-                btn.grid(row = 2, column = name-13, padx=5, pady=5)
+                b = Button(btn_frame, image=image, cursor="hand2", borderwidth=0,command = (lambda name = name: self.__show_targets__(back_btn,  btn_frame, variable_frame, sdgs, name-1)))
+                b.grid(row=2, column=name - 13, padx=5, pady=5)
+            b.photo = image # <-- assign PhotoImage to other widget too DO NOT REMOVE!!!!
+
+        btn_frame.pack()
+
+        popupwindow.resizable(False, False)
 
         popupwindow.protocol("WM_DELETE_WINDOW",  lambda:self.__close_popup__(popupwindow))
 
@@ -1254,19 +1252,14 @@ class App:
             the description of the selected frame
         """
         frame_description = {
-            0: "Questa sezione è dedicata all'utilizzo di 'Puglia Sostenibile'.\n"
-                "Il software ti permette di scoprire in modo "
-                "semplice ed intuitivo quali tra i vari target e goal, appartenenti all'Agenda 2030,\n"
-                "siano i più rilevanti per la legge da te selezionata. \n'Puglia Sostenibile' ti restituirà"
-                " i tre target/goal che più verosimilmente trattano quest'ultima. "
+            0: "Questa sezione è dedicata all'utilizzo di 'Puglia Sostenibile'."
+               "\nIl software ti permette di estrapolare, in modo semplice ed intuitivo, i tre goal (o target), appartenenti all'Agenda 2030,\n"
+                "più rilevanti per la legge da te selezionata.\n"
                 "\nUtilizzare 'Puglia Sostenibile' è molto semplice!\n"
-                "Ti basta selezionare il file contenente la legge che vorresti analizzare per poi spingere sul pulsante"
-                " 'Start'.\nMi raccomando, il file deve necessariamente avere una tra le seguenti estensioni: "
-               "'.pdf', '.docx' o '.txt'.\n"
-                "Puoi anche effettuare una ricerca manuale per capire se una parola chiave sia inclusa, o meno, all'interno del"
-                " contenuto della legge. \nDevi soltanto digitare la keyword nell'apposito box e, dopo aver premuto il pulsante 'Cerca',"
-               " il programma ti restituirà il numero di \nvolte che la stessa compare nel testo.\n\n"
-                "Come vedi, niente di più semplice!",
+                "Ti basterà selezionare il file ('.pdf', '.docx' o '.txt') contenente la legge che vorresti analizzare e quindi cliccare sul pulsante 'Start'.\n\n"
+                "Inoltre, potrai anche effettuare una ricerca manuale per capire se una parola chiave è inclusa, o meno, all'interno della legge; \n"
+               "per farlo, devi soltanto digitare la keyword nell'apposito box e, dopo aver premuto il pulsante 'Cerca',"
+               " il programma ti restituirà il \nnumero di volte che la stessa compare nel testo.\n",
             1: "Questa sezione è dedicata alla storia dell'Agenda 2030 e di 'Puglia Sostenibile'.\n"
                "Se sei curioso di conoscere com'è nato questo progetto, prosegui nella lettura.",
             2: "In questa sezione potrai mettere mano alle impostazioni avanzate di 'Puglia Sostenibile', cambiando le"
@@ -1284,14 +1277,14 @@ class App:
                "\nNella computazione Unigram ogni keyphrase è composta da una singola parola (DEFAULT).\n"
                "\nNella computazione Bigram ogni keyphrase è composta da una o due parole:\n"
                "esempi di keyphrase Bigram sono 'Emancipazione Femminile', 'Paternariato', 'Povertà Assoulta', etc.\n\n"
-               "Come già specificato, di Default il sofware effettua computazioni Unigram.\nFai attenzione, però, nel caso "
+               "Come già specificato, di default il sofware effettua computazioni Unigram.\nFai attenzione, però, nel caso "
                "di grammatura Bigram la computazione risulterà più"
                " precisa ma allo stesso tempo più selettiva.\n\nPuoi, inoltre, selezionare il tipo di output da computare "
                "decidendo tra il visualizzare gli SDGs più similari alla Legge (es. SDG 5, SDG 3, SDG 15, etc.)\n"
                "ovvero, nello specifico, i Target più rilevanti (es. Target 5.5, Target 3.1, Target 15.c, etc.).\nPer farlo, ti basta modificare "
                "l'apposita impostazione.\n\nOra tocca a te!",
             3: "In questa sezione puoi consultare l'Agenda 2030.\n\n"
-               "Per maggiori informazioni, consultare il sito https://unric.org/it/agenda-2030/ .",
+               "Per maggiori informazioni visita il sito ''https://unric.org/it/agenda-2030/''.",
             4: "In questa sezione trovi tutti i contatti necessari per inviare feedback, chiedere informazioni e"
                " comunicare qualsiasi \ntipo di problema dovessi riscontrare con il programma."
         }
@@ -1384,8 +1377,9 @@ class ScrollableFrame(Frame):
     """
     Defines a ScrollbarFrame class
     """
-    def __init__(self, container, width=800, height=700, bg = "#FCFCFC", *args, **kwargs):
+    def __init__(self, container, width=800, height=700, bg = "#FCFCFC", horizontal = False,*args, **kwargs):
         super().__init__(container, *args, **kwargs)
+        self.horizontal = horizontal
         #container.bind("<MouseWheel>", self._on_mousewheel)  # bind on the parent window
 
         # highlightthickness=0 to hide the border
@@ -1404,13 +1398,15 @@ class ScrollableFrame(Frame):
         #width = 0 to hide the bar
 
 
-        self.scrollbar = Scrollbar(self.main_frame, orient=VERTICAL, command=self.canvas.yview)
+        self.scrollbar = Scrollbar(self.main_frame, orient=VERTICAL, command=self.canvas.yview, bg = bg)
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
-        self.scrollbar_x = Scrollbar(container, orient=HORIZONTAL, command=self.canvas.xview)
-        self.scrollbar_x.pack(side=BOTTOM, fill=X)
+        if self.horizontal:
+            self.scrollbar_x = Scrollbar(container, orient=HORIZONTAL, command=self.canvas.xview, bg = bg)
+            self.scrollbar_x.pack(side=BOTTOM, fill=X)
+            self.canvas.configure(xscrollcommand = self.scrollbar_x.set)
 
-        self.canvas.configure(yscrollcommand=self.scrollbar.set, xscrollcommand=self.scrollbar_x.set)
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
         self.canvas.bind(
             "<Configure>",
@@ -1419,10 +1415,8 @@ class ScrollableFrame(Frame):
             )
         )
 
+        #if I need greed
         #self.canvas.grid(row=0, column = 0)
-
-
-
         #self.scrollbar.grid(row = 0, column = 1, sticky="NS")
         #self.scrollbar_x.grid(row=1, column = 0, sticky="EW")
 
@@ -1438,7 +1432,6 @@ class ScrollableFrame(Frame):
         Permits to scroll with mouse
         IF YOU TOUCH ME I WONT WORK ANYMORE!
         :param event:
-        :return:
         """
         #DO NOT TOUCH
         self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
@@ -1470,6 +1463,8 @@ class ScrollableFrame(Frame):
         :return:
         """
         self.scrollbar.configure(bg=bg)
+        if self.horizontal:
+            self.scrollbar_x.configure(bg=bg)
         self.scrollable_frame.configure(bg=bg)
         self.canvas.configure(bg=bg)
         self.main_frame.configure(bg=bg)
@@ -1531,6 +1526,8 @@ if __name__ == '__main__':
         from FileHandler import ask_path, extract_content
         from tkPDFViewer import tkPDFViewer as pdf
         from re import sub
+        from glob import glob
+        import json
         termination = True
     except ModuleNotFoundError:
         install = Installation()

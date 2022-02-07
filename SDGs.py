@@ -2,6 +2,11 @@
 """
 Created on Wed Jun 16 11:34:20 2021
 
+It represents the set of SDGs that belongs to the Agenda 2030.
+Each SDG has:
+-   a Goal
+-   a list of Target
+
 @author: Claudia Lorusso
 """
 
@@ -12,8 +17,8 @@ class SDGs:
     """
     It represents the set of SDGs that belongs to the Agenda 2030.
     Each SDG has:
-        - a Goal
-        - a list of Target
+    -   a Goal
+    -   a list of Target
     """
     def __init__(self):
        self.__sdgs__ = []
@@ -24,11 +29,11 @@ class SDGs:
         """
         Adds a SDG to the SDG list.
 
-        Parameters
+        :parameter:
         ----------
         sdg : SDG to insert into the SDG list
 
-        Returns
+        :return:
         -------
         None.
 
@@ -42,9 +47,9 @@ class SDGs:
 
     def get_SDGs(self):
         """
-        Returns
+        :return: SDGs
         -------
-        Restituisce le SDG
+        Rreturns a SDGs object containing each SDG
 
         """
         return self.__sdgs__
@@ -55,9 +60,9 @@ class SDGs:
 
         Parameters
         ----------
-        id : identifier of the SDG to be returned.
+        :parameter: id : integer identifier of the SDG to be returned.
 
-        Returns
+        :return: SDG
         -------
         The is-th SDG
 
@@ -94,7 +99,7 @@ class SDGs:
     def __str__(self):
         """
         Override of str function
-        Returns
+        :return:
         -------
         Returns a string containing each SDG that belongs to the Agenda 2030.:
             "AGENDA 2030:"
@@ -111,11 +116,6 @@ class SDGs:
     def print_SDGs(self):
         """
         Prints each SDG
-
-        Returns
-        -------
-        None.
-
         """
         print(self)
 
@@ -123,7 +123,7 @@ class SDGs:
         """
         Returns the total number of SDGs
 
-        Returns
+        :return:
         -------
         int
             Total number of SDGs
@@ -136,7 +136,7 @@ class SDGs:
         """
         returns the number of targets
 
-        Returns
+        :return:
         -------
         tot : int
             total number of targets

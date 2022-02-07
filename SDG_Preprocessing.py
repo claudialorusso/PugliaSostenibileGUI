@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Jul 30 10:34:13 2021
-
-@author: ClaudiaLorusso
-"""
-
-from SDGs_Extractor import SDGs_Extractor
-import pandas as pd
-import sys
-from os import path, stat, makedirs
-
-"""
 Offers the method to preprocess all of the SDGs.
 NB. By default was chosen to preprocess the SDGs_indicatori.json file
 which contains each SDG in addition to the global indicators.
 If you want to compute only the SDGs please change the path in the SDGs_Extractor class
-to SDG_jason.json .
+to SDG_json.json .
 
 On both goals and targets description:
     -   removes all of the digits
@@ -26,14 +16,20 @@ At the end, you'll get a new folder with two xls:
     -   "LEMMAS\\lemma_sdgs.xlsx" : which contains the lemma of all of the SDGs
     -   "LEMMAS\\lemma_targets.xlsx": which contains the lemma of all of the targets (only)
     -   computes the vocabulary.
+@author: Claudia Lorusso
 """
+
+from SDGs_Extractor import SDGs_Extractor
+import pandas as pd
+import sys
+from os import path, stat, makedirs
 
 
 def preprocess_SDGs():
     """
-    Preprocess all of the SDGs creating, respectively:
-    -   one file xls containing sdgs (SDG = goal + target) lemma
-    -   one file xls containing only targets lemma
+    Preprocesses all of the SDGs creating, respectively:
+    -   one xlsx file, containing the lemma's sdgs (SDG = goal + target);
+    -   one xlsx file, containing only the lemma's targets.
     :return:
     """
     extractor = SDGs_Extractor()
@@ -77,9 +73,8 @@ def __preprocess_goal__(sdg):
     -   lowercases the corresponding LEMMA
     -   removes all of the trailing spaces
 
-    Parameters
     ----------
-    sdg : SDG
+    :parameter: sdg : SDG
         the sdg from which extract the description of the goal with the aim to process it
 
     Returns
@@ -103,13 +98,10 @@ def __preprocess_targets__(sdg):
     that belongs to sdg (argument) to preprocess their description.
     Computes the dataframe containing the lemma of the description of
     the targets (and not of the goal).
-    Parameters
     ----------
-    sdg : sdg to be preprocessed
-
-    Returns
+    :parameter: sdg : sdg to be preprocessed
     -------
-    lemma: a string containing the lemma of all of the targets
+    :return: lemma: a string containing the lemma of all of the targets
     df_tgs: dataframe of the corresponding targets' lemma
     """
     df_tgs = pd.DataFrame(columns=['name', 'body'])
@@ -135,13 +127,7 @@ def __preprocess_target__(target):
     -   lowercases the corresponding LEMMA
     -   removes all of the trailing spaces
 
-    Parameters
-    ----------
-    target : target da processare.
-
-    Returns
-    -------
-    None.
+    :parameter: target : target da processare.
 
     """
 
@@ -186,10 +172,11 @@ def get_vocabulary(path_lemma_sdgs):
     voc, df = compute_vocabulary(path_lemma_sdgs, 2)
     return voc, df
 
-def get_lemma_targets(dest ="LEMMAS\\lemma_sdgs.xlsx"):
+
+def get_lemma_targets(dest="LEMMAS\\lemma_sdgs.xlsx"):
     """
     Returns the target's lemma dataframe.
-    If it doesn't exists, it will compute it and return it.
+    If it doesn't exist, it will compute it and return it.
     :param dest: string
         path of the target's lemma xlsx
     :return: Dataframe
@@ -204,10 +191,11 @@ def get_lemma_targets(dest ="LEMMAS\\lemma_sdgs.xlsx"):
 
     return df
 
-def get_vocab_dataframe(dest = "VOCAB\\vocabulary.xlsx"):
+
+def get_vocab_dataframe(dest="VOCAB\\vocabulary.xlsx"):
     """
     Returns the sdg's vocab dataframe.
-    If it doesn't exists, it will compute it and return it.
+    If it doesn't exist, it will compute it and return it.
     :param dest: string
         path of the sdg's vocab xlsx
     :return: Dataframe
@@ -225,10 +213,11 @@ def get_vocab_dataframe(dest = "VOCAB\\vocabulary.xlsx"):
             voc, df = get_vocabulary(lemma_targ)
     return df
 
-def get_vocab_list(dest = "VOCAB\\vocabulary.xlsx"):
+
+def get_vocab_list(dest="VOCAB\\vocabulary.xlsx"):
     """
     Returns the sdg's vocab list.
-    If it doesn't exists, it will compute it and return it.
+    If it doesn't exist, it will compute it and return it.
     :param dest: string
         path of the sdg's vocab xlsx
     :return: List of strings

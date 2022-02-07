@@ -13,6 +13,7 @@ Contains all of the necessary methods to manage files with the following extensi
 import sys
 from os import path, stat
 
+
 def ask_path():
     """
     Asks the user for the path's file
@@ -77,10 +78,10 @@ def extract_content(destination):
             "Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
     if not stat(destination).st_size > 0:
         raise IOError("Impossibile processare il file per uno dei seguenti motivi:"
-                                                    "\n-\til file è vuoto;"
-                                                    "\n-\til file contiene solo immagini;"
-                                                    "\n-\til file è corrotto."
-                                                  "\n\nPer favore, seleziona un altro file.")
+                      "\n-\til file è vuoto;"
+                      "\n-\til file contiene solo immagini;"
+                      "\n-\til file è corrotto."
+                      "\n\nPer favore, seleziona un altro file.")
     return content
 
 
@@ -121,11 +122,11 @@ def __extract_pdf__(destination):
     :return: string
         content: string that contains the content of the file
     """
-    from PyPDF2 import PdfFileReader
+    import PyPDF2
     # creating an object
     file = open(destination, 'rb')
     # creating a pdf reader object
-    file_reader = PdfFileReader(file, strict=False)
+    file_reader = PyPDF2.PdfFileReader(file, strict=False)
     content = ""
     for page in file_reader.pages:
         for line in page.extractText().splitlines():
@@ -149,7 +150,7 @@ def __get_path__(relative_path):
     return path.join(base_path, relative_path)
 
 
-def get_content(destination = ""):
+def get_content(destination=""):
     """
     Returns the content of a specified path.
     If no argument is setted, it asks the path, then extracts the content.
@@ -169,14 +170,15 @@ def get_content(destination = ""):
     cont = extract_content(destination)
     file_name = get_filename_no_extension(destination)
 
-    if len(cont)<2:
+    if len(cont) < 2:
         raise IOError("Impossibile processare il file per uno dei seguenti motivi:"
-                                                    "\n-\til file è vuoto;"
-                                                    "\n-\til file contiene solo immagini;"
-                                                    "\n-\til file è corrotto."
-                                                  "\n\nPer favore, seleziona un altro file.")
+                      "\n-\til file è vuoto;"
+                      "\n-\til file contiene solo immagini;"
+                      "\n-\til file è corrotto."
+                      "\n\nPer favore, seleziona un altro file.")
 
     return cont, file_name
+
 
 def get_basename(destination):
     """
@@ -191,6 +193,7 @@ def get_basename(destination):
     """
     file_name = path.basename(destination)
     return file_name
+
 
 def get_filename_no_extension(file_name):
     """
@@ -221,8 +224,9 @@ def filetypes():
     )
     return filetypes
 
-#test
-#remove triple prime to test the class
+
+# test
+# remove triple prime to test the class
 """
 if __name__ == '__main__':
     try:

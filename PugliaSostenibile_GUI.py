@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Jan 29 15:39:51 2022
-
+Manages the GUI of the program.
 @author: ClaudiaLorusso
 """
 
 from tkinter import *
 from tkinter import ttk, scrolledtext, messagebox
 from tkinter import filedialog as fd
-
-#from tkinter.filedialog import asksaveasfile
 import sys
 from os import path
 
@@ -18,13 +16,13 @@ class Installation:
     """
     Manages the installation GUI.
     If it is the first execution OR the user doesn't dispose of the needed libs
-    asks him if he wants to download them, in which case the program proceeds
+    the program asks him if he wants to download them, in which case the software proceeds
     with the installation. Else, he can easily close the window.
     """
 
     def __init__(self):
 
-        # ------------------------------- Termination variable. Default = False; if True wont open App.
+        # ------------------------------- Termination variable. Default = False; if True, wont open App.
         self.__termination__ = False
         # ------------------------------- Installation root creation
         self.__installation_root__ = Tk()
@@ -122,7 +120,7 @@ class Installation:
         # terminate installation, open app
         self.__installation_root__.mainloop()
 
-    def get_terimantion(self):
+    def get_termination(self):
         """
         Returns the termination variable
         :return:
@@ -188,7 +186,7 @@ class Installation:
         from re import sub
         self.__installation_root__.update_idletasks()
         self.__progress__["value"] = 47
-        from tkPDFViewer import tkPDFViewer as pdf
+        from tkPDFViewer import tkPDFViewer
         self.__progress__["value"] = 60
         self.__installation_root__.update_idletasks()
         from Compute_Similarity import get_relevant
@@ -219,6 +217,7 @@ class Installation:
         Destroys installation root after installation.
         :return:
         """
+
         # disable checkbox and next buttons
         self.__disable_widgets__()
         # download and install packages
@@ -227,9 +226,9 @@ class Installation:
         self.__install_libs__()
         self.__progress__["value"] = 55
         self.__import_packs__()
-        self.__termination__ = True
         self.__progress__["value"] = 100
         self.__installation_root__.update_idletasks()
+        self.__termination__ = True
         # destroy the installation root
         self.__installation_root__.destroy()
 
@@ -238,18 +237,20 @@ class App:
     """
     Defines the Puglia Sostenibile GUI.
     Pressing the "Select File" button the user can simply choose the desired file that has one of the following extentions:
-    - .pdf
-    - .docx
-    - .txt
+        - .pdf
+        - .docx
+        - .txt
     Pressing the "Start" button, the program will compute the reading time of the doc.
     The game is done.
 
     BASICALLY:
-    The GUI is divided into two main vertical Frames, inserted into a __master_frame__:
+    The GUI is divided into three main vertical Frames, inserted into a __master_frame__:
         - __left_frame__ (0,0):
                 contains the logo ( into __up_dialog_frame__ (0, 0)) and the
                 buttons ( into __button_frame__ (1, 0)).
                 Each button manages the selection of the desired Variable Frame.
+                There's also another button which is separated from the others: sfoglia_btn.
+                It will open a window in which the user can easily browse all of the SDGs (in Italian).
         - __line_frame__ (0, 1): contains a vertical image with each SDG representation.
         - __right_frame__ (0, 2): contains:
                 -   the __title_lbl__ (0, 0): "Puglia Sostenibile"
@@ -279,28 +280,37 @@ class App:
                                 He must insert the keyphrase in the box and click on the "Cerca" button
                                 (or press the "Enter" key on the keyboard).
                                 The result will appear under the box.
-                    -   __info_frame__ :    #TODO
+                    -   __info_frame__ :    Shows the user some information about the Agenda, the program and the logo.
                     -   __adv_frame__ :     Enables the user to change the Grammature from Unigram to Bigram and
                                             vice-versa.
                     -   __agenda_frame__ :  Permits the user to consult the pdf of the Agenda 2030.
-                    -   __contact_frame__ : #TODO
+                    -   __contact_frame__ : Shows the user the technical contacts.
 
     """
 
     def __init__(self):
-
+        from tkPDFViewer import tkPDFViewer
         # ------------------------------- Installation root creation
         self.__root__ = Tk()
 
-        # -----set root to full screen
+        # Maximises screen but not full
         pad = 3
         self.__root__.geometry("{0}x{1}+0+0".format(
-            self.__root__.winfo_screenwidth() - 3, self.__root__.winfo_screenheight() - 3))
+            self.__root__.winfo_screenwidth() - pad, self.__root__.winfo_screenheight() - pad))
+
         # -----set root to full screen
+        self.__root__.state("zoomed")
+
+        """
+        #WIDE FULL SCREEN: erases tool and top bar BUT if you press on the escape
+        #button it will show everything
+        self.__root__.attributes("-fullscreen", True)
+        self.fullScreenState = False
+        self.__root__.bind("<F11>", self.__toggleFullScreen__)
+        self.__root__.bind("<Escape>", self.__quitFullScreen__)
+        """
 
         self.__root__.configure(background="white")
-        # self.__root__.attributes('-alpha', )#('-alpha', 1.0)#    "transparentcolor", '#ab23ff'
-        # Make the root window always on top
 
         # set root title
         title = "Puglia Sostenibile"
@@ -332,8 +342,7 @@ class App:
         #                            ---------------    TOP LEFT    ---------------
 
         # --------------------------------------------------------------- Left frame creation (where the magic happens)
-        self.__left_frame__ = Frame(self.__master_frame__)  # , background = "#ab23ff")#, background= "#88cffa")#F6ECEC
-        #self.__left_frame__.pack(side=LEFT, anchor="ne", padx=(10), pady=10, ipadx=(10), ipady=10)
+        self.__left_frame__ = Frame(self.__master_frame__)
         self.__left_frame__.grid(row = 0, column = 0, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "nw")
         self.__left_frame__.config(bg='white')
 
@@ -353,14 +362,6 @@ class App:
         self.__button_frame__ = Frame(self.__left_frame__, bg="white")
         self.__button_frame__.grid(row=1, column=0, padx=(10), pady=10, sticky = "n")
 
-
-
-        # id btn selected
-        self.__id_btn_selected__ = IntVar() #FIXME
-        self.__id_btn_selected__ = 0
-
-        # color btn selected
-        color_btn_selected = self.__get_color_btn__(self.__id_btn_selected__)
         color_btn_base = "white"
 
         # home button
@@ -388,14 +389,14 @@ class App:
                                       font=("Bahnschrift Light", 12), height=2, width=40,
                                       borderwidth=0, background=color_btn_base , cursor = "hand2", anchor = "w")
 
-        #set the command for each button #FIXME create function
+        #set the command for each button
         self.__home_btn__.configure(command=(lambda:self.__hide__(0)))
         self.__info_btn__.configure(command=(lambda:self.__hide__(1)))
         self.__advanced_btn__.configure(command=(lambda:self.__hide__(2)))
         self.__agenda_btn__.configure(command=(lambda:self.__hide__(3)))
         self.__contact_btn__.configure(command=(lambda:self.__hide__(4)))
 
-        #positions each button #FIXME create function
+        #positions each button
         self.__home_btn__.grid(row=0, column=0, sticky=E + N)
         self.__info_btn__.grid(row=1, column=0, sticky=E + N)
         self.__advanced_btn__.grid(row=2, column=0, sticky=E + N)
@@ -449,7 +450,6 @@ class App:
 
         # ----------------------------------------------------------------------------------- Master right frame creation
         self.__right_frame__ = Frame(self.__master_frame__)
-        #self.__right_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "n")
         self.__right_frame__.config(bg=id_color_right)
         self.__right_frame__.rowconfigure(index=1, minsize=900, weight=1)
 
@@ -848,7 +848,7 @@ class App:
         # -----------------------------------------------------------------
 
         # creating object of ShowPdf from tkPDFViewer.
-        pdf_viewer= pdf.ShowPdf()
+        pdf_viewer= tkPDFViewer.ShowPdf()
 
         # Adding pdf location and width and height.
         self.__show_agenda__ = pdf_viewer.pdf_view(self.__agenda_frame__,
@@ -892,6 +892,14 @@ class App:
 
         self.__root__.mainloop()
 
+    def __toggleFullScreen__(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.__root__.attributes("-fullscreen", self.fullScreenState)
+
+    def __quitFullScreen__(self, event):
+        self.fullScreenState = False
+        self.__root__.attributes("-fullscreen", self.fullScreenState)
+
     def __grid_variable_frames__(self):
         """
         Places each variable frame into the right master frame
@@ -910,32 +918,13 @@ class App:
         for frame in self.__get_variable_frame_list__():
             frame.grid_forget()
 
-
-    def __unbind_ngram__(self,  widget):
-        """
-        unbinds the radiobutton
-        NOT USEFUL ANYMORE
-        """
-
-        """
-        try:
-            widget.unbind("<Leave>", lambda e: None)
-        except:
-            pass
-        """
-
     def __change_sim_target_title__(self):
         """
         Changes the sdg or target Title and unbinds the radiobutton
 
         """
         self.__ric_targets_lbl__.configure(text = "Ricerca Target" if self.__sim_target__.get() else "Ricerca SDGs")
-        """
-        try:
-            widget.unbind("<Leave>", lambda e: None)
-        except:
-            pass
-        """
+
 
     def __select_file__(self):
         """
@@ -1016,12 +1005,24 @@ class App:
 
 
     def __close_popup__(self, popupwindow):
-        # FIXME
+        """
+        Closes the popupwindow
+        :param popupwindow: TopLevel
+            the popupwindow
+        :return:
+        """
         popupwindow.destroy()
         self.__sfogliami_btn__.configure(state=NORMAL, cursor="hand2", bg = "#F0F0F0")
 
     def __go_back__(self, back_btn,  btn_frame, variable_frame):
-        # FIXME
+        """
+        Manages the go back button belonging to the popupwindow toplevel
+        :param back_btn: Button, the back button
+        :param btn_frame: Frame, the Frame containing the buttons
+        :param variable_frame: Frame, the Frame containing each SDG description (SDG description is updated each
+        time the use clicks on a button)
+        :return:
+        """
         btn_frame.pack()
         for widgets in variable_frame.winfo_children():
             widgets.destroy()
@@ -1031,7 +1032,7 @@ class App:
 
     def __popup_sdgs__(self):
         """
-        Lets pop up a new window with the SDGs list
+        Pops up a new window with the SDGs list
         :return:
         """
         #open json file with SDGs and get vocabulary
@@ -1121,11 +1122,9 @@ class App:
             warning = False
             try:
                 output = get_relevant(path_law=self.__file_name__, ngram=self.__ngram__.get(), sim_target=self.__sim_target__.get())
+
             except ValueError:
                 messagebox.showwarning("Warning", "Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
-                warning = True
-            except OSError:
-                messagebox.showwarning("Warning", "Il file risulta essere vuoto\noppure è composto da sole immagini.\nPer favore, seleziona un altro file.")
                 warning = True
             except IOError:
                 messagebox.showwarning("Warning", "Impossibile processare il file per uno dei seguenti motivi:"
@@ -1134,10 +1133,16 @@ class App:
                                                     "\n-\til file è corrotto."
                                                   "\n\nPer favore, seleziona un altro file.")
                 warning = True
+            except Exception as e:
+                messagebox.showerror("Error", e + "\nContatta gli sviluppatori per fare un report del problema.\n")
+                warning = True
+
             # get file name from path
             file_name = path.basename(dest)
-            if warning:
-                pass
+            if warning: #if law wasn't correctly selected
+                self.__adv_sel_lbl__.config(
+                    text="Il file selezionato ('" + file_name + "') non può essere processato. Per favore, seleziona un'altra legge.")
+                self.__sel_lbl__.config(text="Premi su 'Seleziona Legge'")
             else:
                 # get string containing the output
                 self.__output__ = "I primi tre"
@@ -1151,7 +1156,12 @@ class App:
                 self.__cerca_btn__.configure(state="normal")
                 self.__cerca_btn__.configure(cursor="hand2")
 
+                self.__adv_sel_lbl__.config(text="")
         self.__start_btn__.configure(state="disabled")
+        self.__start_btn__.configure(cursor="arrow")
+
+
+
 
     def __cerca_occorrenze__(self):
         """
@@ -1323,11 +1333,11 @@ class App:
     def __get_btns__(self):
         """
         returns a list containing each of the following buttons:
-        -home
-        -info
-        -advanced
-        -agenda
-        -contact
+            - home
+            - info
+            - advanced
+            - agenda
+            - contact
 
         :return: list of buttons
         """
@@ -1347,8 +1357,6 @@ class App:
 
         self.__welcome_frame__.grid_forget()
         self.__right_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "n")
-
-        self.__id_btn_selected__ = id
 
         #show the desired frame while hiding the others
         frame_list = self.__get_variable_frame_list__()
@@ -1392,7 +1400,6 @@ class ScrollableFrame(Frame):
 
         #create a canvas
 
-        #highlightthickness=0 to hide the border
         self.canvas = Canvas(self.main_frame, width=width, height=height, bg=bg, highlightthickness=highlightthickness)
         self.canvas.pack(side=LEFT, fill=BOTH, expand=1)
         #width = 0 to hide the bar
@@ -1520,18 +1527,35 @@ def __get_path__(relative_path):
 
 
 if __name__ == '__main__':
+
+    # use the code below only for CLI uses;
+    # to extract the exe with pyinstaller comment the code below
+    # and remove the comments at the bottom of the page
     termination = False
     try:
+        from re import sub
+        from tkPDFViewer import tkPDFViewer
         from Compute_Similarity import get_relevant
         from FileHandler import ask_path, extract_content
-        from tkPDFViewer import tkPDFViewer as pdf
-        from re import sub
-        from glob import glob
         import json
+        from glob import glob
+
         termination = True
     except ModuleNotFoundError:
         install = Installation()
-        termination = install.get_terimantion()
+        termination = install.get_termination()
 
     if termination:
         app = App()
+    """
+    #README before attempting to create the .exe
+    #PYINSTALLER DOESN'T NEED THE INSTALLATION MODULE
+    #YOU NEED TO COMMENT THE CODE ABOVE AND USE WHAT'S BELOW !ONLY!
+    from Compute_Similarity import get_relevant
+    from FileHandler import ask_path, extract_content
+    from tkPDFViewer import tkPDFViewer as pdf
+    from re import sub
+    from glob import glob
+    import json
+    app = App()
+    """

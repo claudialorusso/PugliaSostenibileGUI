@@ -2,24 +2,24 @@
 """
 Created on Mon Jul 26 17:09:16 2021
 Provides the methods to perform different kinds of text preprocessing:
--   Remove noise:
-    -   remove_digits:  remove digits;
-    -   replace_syb:    replace a substring with another substring;
-    -   clean_text:     cleans text from special characters;
-    -   remove_new_lines:   removes unnecessary new lines;
--   NLP spacy:
-    -   nlp_SPACY:  loads the italian NLP from SPACY
--   LEMMA:
-    -   preprocess_lemma:   computes the lemma of a text;
-    -   get_lemma_SPACY:    provides the SPACY lemma.
--   VOCABULARY:
-    -   compute_vocabulary: computes the vocabulary.
--   TOKENIZER:
-    -   word_tokenize_NLTK: provides the NLTK tokenizer.
--   STOPWORDS:
-    -   stop_words_ita: computes a customized set of italian stopwords.
--   TFIDF:
-    - tfidf:    computes the tfidf matrix
+    - Remove noise:
+        - remove_digits:    remove digits;
+        - replace_syb:  replace a substring with another substring;
+        - clean_text:   cleans text from special characters;
+        - remove_new_lines: removes unnecessary new lines;
+    - NLP spacy:
+        - nlp_SPACY:    loads the italian NLP from SPACY
+    - LEMMA:
+        - preprocess_lemma:   computes the lemma of a text;
+        - get_lemma_SPACY:    provides the SPACY lemma.
+    - VOCABULARY:
+        - compute_vocabulary: computes the vocabulary.
+    - TOKENIZER:
+        - word_tokenize_NLTK: provides the NLTK tokenizer.
+    - STOPWORDS:
+        - stop_words_ita: computes a customized set of italian stopwords.
+    - TFIDF:
+        - tfidf:    computes the tfidf matrix
 
 @author: ClaudiaLorusso
 """
@@ -41,14 +41,13 @@ def remove_digits(text):
     """
     Removes all of the digits from text (argument)
 
-    Parameters
     ----------
-    text : string
+    :parameter: text : string
         string to process for the removal of the digits
 
     Returns
     -------
-    string
+    :return: string
         the argument without digits
 
     """
@@ -60,18 +59,14 @@ def replace_symb(symb, digit, text):
     Replaces each occurrence of symb (first argument)
     with digit (second argument) in text (third argument).
 
-    Parameters
     ----------
-    text : string
+    :parameter: text : string
         string on which perform the replacement
-    symb : string
+    :parameter: symb : string
         string to be replaced
-    digit: string
+    parameter: digit: string
         string that replaces symb
-
-    Returns
-    -------
-    string
+    :return: string
         text deprived of all the occurrences of symb, replaced by digit
     """
     return sub(symb, digit, text)
@@ -126,10 +121,10 @@ def __nlp_SPACY__():
 def preprocess_lemma(txt):
     """
     Preprocesses a string (txt = argument):
-    -   removes all of the digits
-    -   computes the LEMMA using SPACY
-    -   lowercases the corresponding LEMMA
-    -   removes all of the trailing spaces
+        -   removes all of the digits
+        -   computes the LEMMA using SPACY
+        -   lowercases the corresponding LEMMA
+        -   removes all of the trailing spaces
     :param txt: string
         the text on which perform the lemma
     :return: string
@@ -179,12 +174,12 @@ def get_lemma_SPACY(tokens):
     Computes the tokens lemma
     Parameters
     ----------
-    tokens : token
+    :parameter: tokens : token
         a sequence of tokens from which compute the lemma
 
     Returns
     -------
-    string
+    :return: string
         tokens lemma
 
     """
@@ -203,17 +198,17 @@ def compute_vocabulary(lemma_path="LEMMAS\\lemma_sdgs.xlsx", n_gram=1, path_out=
     By default the computation is setted to unigram (1 token for each keyphrase)
     but you can also change the parameter, e.g. to bigram (1 or 2 token for each keyphrase)
     by passing another value to the n_gram argument, for e.g.:
-        n_gram = 2 (bigram), possible keyphrases are:
-            "cibo scarso",
-            "emancipazione femminile",
-            "bambini",
-            etc.
-        n_gram = 1 (unigram, DEFAULT case), possible keyphrases are:
-            "cibo",
-            "scarso",
-            "emancipazione",
-            "femminile",
-            "bambini",
+        -   n_gram = 2 (bigram), possible keyphrases are:
+                -   "cibo scarso",
+                -   "emancipazione femminile",
+                -   "bambini",
+                -   etc.
+        -   n_gram = 1 (unigram, DEFAULT case), possible keyphrases are:
+                -   "cibo",
+                -   "scarso",
+                -   "emancipazione",
+                -   "femminile",
+                -   "bambini",
             etc.
     :param lemma_path: string
         destination + name of the xlsx file containing the lemma.

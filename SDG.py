@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jun 15 17:36:52 2021
-
+Represents a SDG that belongs to the Agenda 2030
+Each SDG has the following properties:
+    -   one Goal;
+    -   a list of Target;
 @author: Claudia Lorusso
 """
 
@@ -9,8 +12,8 @@ class SDG:
     """
     Represents a SDG that belongs to the Agenda 2030
     Each SDG has the following properties:
-        - one Goal
-        - a list of Target
+        -   one Goal
+        -   a list of Target
     """
     def __init__(self, goal):
        self.__goal__ = goal
@@ -18,10 +21,9 @@ class SDG:
        self.__target_list__ = []
     
     def get_Goal(self):
-        """ 
-        Returns
+        """
         -------
-        returns the current Goal
+        :return: Goal: the current Goal
 
         """
         return self.__goal__
@@ -31,14 +33,9 @@ class SDG:
         """
         Adds a Target to the Target list associated to the current SDG.
 
-        Parameters
         ----------
-        target: Target
+        :parameter: target: Target
             Target to add to the Target List
-        
-        Returns
-        -------
-        None.
 
         """
         if(self.__target_list__ == []):
@@ -51,11 +48,10 @@ class SDG:
         """
         Parameters
         ----------
-        description : Target's description
-        
-        Returns
+        :parameter: string, description : Target's description
+
         -------
-        Returns the id of the Target which description
+        :return: string, the id of the Target which description
         is the same as the argument, if it exists;
          -1, else
         """
@@ -71,11 +67,9 @@ class SDG:
         """
         Parameters
         ----------
-        id : Target's id
+        :parameter: string, id : Target's id
         
-        Returns
-        -------
-        Returns the description of the id-th Target,
+        :return; string, the description of the id-th Target,
         if it exists; else, "-1".
 
         """
@@ -91,7 +85,7 @@ class SDG:
         """
         Returns
         -------
-        Returns the list of Target, __target_list_,
+        :return: the list of Target, __target_list_,
         of the current Goal
         """
         return self.__target_list__
@@ -101,7 +95,7 @@ class SDG:
         """
         Returns
         -------
-        int
+        :return: int
             the goal id
         """
         
@@ -112,7 +106,7 @@ class SDG:
         """
         Returns
         -------
-        a string containing the Goal description
+        :return: string containing the Goal description
         
         """
         return self.__goal__.get_description()
@@ -121,7 +115,7 @@ class SDG:
         """
         Returns
         -------
-        Returns a string describing the current SDG, in the following way:
+        :return: a string describing the current SDG, in the following way:
             "Goal m"
                 "Target 1"
                 "Target 2"
@@ -137,10 +131,6 @@ class SDG:
         """
         Prints the current SDG
 
-        Returns
-        -------
-        None.
-
         """
         print(self)
 
@@ -148,9 +138,7 @@ class SDG:
         """
         Returns the total number of targets contained in the current SDG
 
-        Returns
-        -------
-        integer
+        :return: integer
             the total number of targets contained in the current SDG
 
         """

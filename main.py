@@ -3,22 +3,23 @@
 Created on Fri Jan 28 16:37:31 2022
 
 main.py permits you to run "Puglia Sostenibile" with CLI setted to its default properties:
--   ngram = unigram :       the computation of the similarity will be done by means of the
-                            TFIDF matrix whose keyphrases will be composed by only one token.
-                            Based on the resultant matrix, the cossim similarity will be computed
-                            between the law and all of the SDGs.
--   sim_target = False :    the similarity will be computed between the law and each SDGs.
-                            An SDG = Goal description + each Target description.
-                            You can choose to compute the most relevant Targets (target description only)
-                            by changing the value to True
+
+    -   ngram = unigram : the computation of the similarity will be done by means of the
+        TFIDF matrix whose keyphrases will be composed by only one token.
+        Based on the resultant matrix, the cossim similarity will be computed
+        between the law and all of the SDGs.
+    -   sim_target = False : the similarity will be computed between the law and each SDGs.
+        An SDG = Goal description + each Target description.
+        You can choose to compute the most relevant Targets (target description only)
+        by changing the value to True
 The result will be the first n (=3) relevant SDGs for the law.
 
 IF it is the first time the user executes the program (or detected that some libreries are missing or needs to update them
 ), the software will ask him if he wants to install each packages (HE MUST NEED AN INTERNET CONNECTION AND PYTHON 3.9
 INSTALLED ON THE MACHINE):
--   YES:    the software will install the packages (using the requirements.txt file) and will ask him the law's path
-            in order to correctly use Puglia Sostenibile;
--   NO:     the program will stop its execution.
+    -   YES: the software will install the packages (using the requirements.txt file) and will ask him the law's path
+        in order to correctly use Puglia Sostenibile;
+    -   NO: the program will stop its execution.
 
 Python 3.9 needed! (current packages versions are NOT compatible with Python 3.10)
 
@@ -50,8 +51,8 @@ def __get_path__(relative_path):
 if __name__ == '__main__':
     """
     it checks if all of the required packages are installed:
-        yes:    imports packages and runs the program
-        no:     asks the user if he wants to install all of the packages
+    -   yes:    imports packages and runs the program
+    -   no:     asks the user if he wants to install all of the packages
                 contained in the requirements.txt file:
                     yes:    installs and imports all of the packages and
                             runs the program

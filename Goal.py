@@ -27,7 +27,7 @@ class Goal:
         """
         Returns the goal id
         -------
-        integer
+        :return: integer
             Goal's id
         """
         
@@ -38,7 +38,7 @@ class Goal:
         """
         Returns the goal description
         -------
-        String
+        :return: String
             Goal's description
         
         """
@@ -46,9 +46,8 @@ class Goal:
         
     def __str__(self):
         """
-        Returns
-        -------
-        Returns a string which describes the current Goal:
+
+        :return: a string which describes the current Goal:
             "#id": "description"
         """
         return "Goal " + str(self.__id__) + ": " + self.__description__
@@ -57,11 +56,6 @@ class Goal:
     def print_Goal(self):
         """
         Prints the Goal.
-
-        Returns
-        -------
-        None.
-
         """
         print(self, "\n")
 

@@ -80,8 +80,8 @@ def replace_symb(symb, digit, text):
 def clean_text(text):
     """
     Each apice in the text it's substituted by the classical apice.
-    :param text: text to clean
-    :return: text cleaned
+    :param text: string: text to clean
+    :return: string: text cleaned
 
     """
 
@@ -108,8 +108,8 @@ def remove_new_lines(text):
 def __nlp_SPACY__():
     """
     Loads the italian NLP from SPACY
-    :return:
-        the Italian NLP
+    :return: (Language)
+        the loaded Italian NLP object
     """
     # for computing lemma
     from spacy import load
@@ -117,7 +117,7 @@ def __nlp_SPACY__():
     #use this return for CLI use
     return load("it_core_news_sm")   #
     # use this return (with your virtual env path) for exe extraction purposes
-    # !!remember to create hook file for pyinstaller!!
+    # !!remember to create the hook file for pyinstaller!!
     #return load(__get_path__(r"C:\\PUGLIA_SOSTENIBILE_GUI\\venvPS_GUI\\Lib\\site-packages\\it_core_news_sm\\it_core_news_sm-3.2.0"))#
 
 
@@ -149,14 +149,14 @@ def preprocess_lemma(txt):
 
 def get_lemma_targets_laws_df(path_law="", sim_target = False):
     """
-    Computes a DataFrame which contains both targets lemma and law's lemma.
+    Computes a DataFrame which contains both SDGs lemma and law's lemma.
     :param path_law: string
         law's path
     :param sim_target: boolean
         True if the user wants to compute the similarity between the law and each target (only)
-        False if he wants to compute the similarity between the law and each SDGs (SDG = Goal + list of Target)
+        False (DEFAULT) if he wants to compute the similarity between the law and each SDGs (SDG = Goal + list of Target)
     :return: DataFrame
-        containing the concatenation between law's df and targets df
+        containing the concatenation between law's and SDGs lemma's df
     """
     from SDG_Preprocessing import get_lemma_targets
     from LawPreprocessing import get_df_laws_lemma
@@ -184,7 +184,7 @@ def get_lemma_SPACY(tokens):
 
     Returns
     -------
-    lemma
+    string
         tokens lemma
 
     """
@@ -199,7 +199,7 @@ def get_lemma_SPACY(tokens):
 def compute_vocabulary(lemma_path="LEMMAS\\lemma_sdgs.xlsx", n_gram=1, path_out="VOCAB\\ngram\\vocabulary_1.xlsx"):
     """
     Computes a vocabulary (list of strings) having in input a lemma (first argument).
-    Each keyphrase contained into the vocabulary can be composed of 1, 2 or more tokens.
+    Each keyphrase contained into the vocabulary can be composed by 1, 2 or more tokens.
     By default the computation is setted to unigram (1 token for each keyphrase)
     but you can also change the parameter, e.g. to bigram (1 or 2 token for each keyphrase)
     by passing another value to the n_gram argument, for e.g.:
@@ -292,15 +292,15 @@ def get_list_vocabulary(dest, ngram=1):
 # -------------------------------- TOKENIZER -----------------------------
 def word_tokenize_NLTK(text):
     """
-    Tokenizes a text (by the italian rules) by the use of NLTK.
+    Tokenizes a text (following the italian grammar rules) by means of NLTK.
     Parameters
     ----------
-    text : string
+    :param: text : string
         text to tokenize
 
-    Returns
+    :return:
     -------
-    the tokenized text
+    string, the tokenized text
 
     """
     return word_tokenize(text, "italian")
@@ -350,7 +350,7 @@ def stop_words_ita():
 def tfidf(ngram=1, path_law="", sim_target = False):
     """
     Creates the TFIDF term document matrix between the law (specified in path_law)
-    and all of the targets.
+    and all of the SDGs.
     :param ngram: integer
         specifies how many tokens a keyphrase will contain
     :param path_law: string
@@ -382,7 +382,7 @@ def tfidf(ngram=1, path_law="", sim_target = False):
     # -------------------------------------SET TOKENIZER
     tokenizer = word_tokenize_NLTK
 
-    # -------------------------------------LEMMA LAWS and TARGETS
+    # -------------------------------------LEMMA LAWS and SDGS
     path_law = __get_path__(path_law)
     lemma_targets_laws_df = get_lemma_targets_laws_df(path_law=path_law, sim_target=sim_target)
     index = lemma_targets_laws_df['name'].tolist()
@@ -407,7 +407,7 @@ def __get_path__(relative_path):
     """
     Converts the relative path into an absolute path
     :param relative_path: relative path of the file
-    :return:
+    :return: string
         absolute path: base path + relative path
     """
     try:

@@ -2,7 +2,7 @@
 """
 Created on Tue Jun 15 17:36:52 2021
 
-Contains methods to manage files with the following extensions:
+Contains all of the necessary methods to manage files with the following extensions:
     - .txt
     - .docx
     - .pdf
@@ -13,12 +13,11 @@ Contains methods to manage files with the following extensions:
 import sys
 from os import path, stat
 
-
 def ask_path():
     """
     Asks the user for the path's file
-    :return:
-        destination: path of the file
+    :return: string
+        path of the file
     """
     exists = False
     destination = ""
@@ -31,8 +30,10 @@ def __check_file__():
     """
     Checks if the file actually exists.
     :return:
-        destination: path of the file
-        exists: control variable: it is True if the file actually exists; either it is False.
+        string
+            destination: path of the file.
+        boolean
+                exists: (control variable) it is True if the file actually exists; either it is False.
     """
     destination = input("Enter Filename:\t")
     exists = True
@@ -50,15 +51,17 @@ def __check_file__():
 
 def extract_content(destination):
     """
-    Extracts the content of the specified file by destination.
-    The file must either: ".txt", ".docx", ".pdf"
+    Extracts the content of the file specified by the argument (destination).
+    The file must be either: ".txt", ".docx" or ".pdf"
     The content is then saved into a string.
-    Return an empty string in case the file is empty.
+    Returns an empty string in case the file is empty.
     :param destination: path of the doc
     :return: string
         content: a string that contains the content of the file
     :raises:
         ValueError: in case the specified file is protected by password
+    :raises:
+        IOError: in case the specified file is empty or corrupted or contains only images.
     """
 
     content = ""
@@ -70,12 +73,14 @@ def extract_content(destination):
         elif destination.endswith(".pdf"):
             content = __extract_pdf__(destination)
     except Exception:
-
         raise ValueError(
-            "ValueError: WARNING, The file you selected maybe protected by password.\nPlease select another file.")
+            "Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
     if not stat(destination).st_size > 0:
-        raise OSError("OSError: WARNING, Empty File.\nPlease select another file.")
-
+        raise IOError("Impossibile processare il file per uno dei seguenti motivi:"
+                                                    "\n-\til file è vuoto;"
+                                                    "\n-\til file contiene solo immagini;"
+                                                    "\n-\til file è corrotto."
+                                                  "\n\nPer favore, seleziona un altro file.")
     return content
 
 
@@ -116,11 +121,11 @@ def __extract_pdf__(destination):
     :return: string
         content: string that contains the content of the file
     """
-    import PyPDF2
+    from PyPDF2 import PdfFileReader
     # creating an object
     file = open(destination, 'rb')
     # creating a pdf reader object
-    file_reader = PyPDF2.PdfFileReader(file, strict=False)
+    file_reader = PdfFileReader(file, strict=False)
     content = ""
     for page in file_reader.pages:
         for line in page.extractText().splitlines():
@@ -147,7 +152,7 @@ def __get_path__(relative_path):
 def get_content(destination = ""):
     """
     Returns the content of a specified path.
-    If no argument is setted asks the path, then extracts the content.
+    If no argument is setted, it asks the path, then extracts the content.
     :param destination: string
         path of the file
     :return:
@@ -165,7 +170,11 @@ def get_content(destination = ""):
     file_name = get_filename_no_extension(destination)
 
     if len(cont)<2:
-        raise IOError("IOError: WARNING, The file you selected maybe scanned, contains images only or maybe corrupted.\nPlease select another file.")
+        raise IOError("Impossibile processare il file per uno dei seguenti motivi:"
+                                                    "\n-\til file è vuoto;"
+                                                    "\n-\til file contiene solo immagini;"
+                                                    "\n-\til file è corrotto."
+                                                  "\n\nPer favore, seleziona un altro file.")
 
     return cont, file_name
 

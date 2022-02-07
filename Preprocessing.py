@@ -1,6 +1,25 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jul 26 17:09:16 2021
+Provides the methods to perform different kinds of text preprocessing:
+-   Remove noise:
+    -   remove_digits:  remove digits;
+    -   replace_syb:    replace a substring with another substring;
+    -   clean_text:     cleans text from special characters;
+    -   remove_new_lines:   removes unnecessary new lines;
+-   NLP spacy:
+    -   nlp_SPACY:  loads the italian NLP from SPACY
+-   LEMMA:
+    -   preprocess_lemma:   computes the lemma of a text;
+    -   get_lemma_SPACY:    provides the SPACY lemma.
+-   VOCABULARY:
+    -   compute_vocabulary: computes the vocabulary.
+-   TOKENIZER:
+    -   word_tokenize_NLTK: provides the NLTK tokenizer.
+-   STOPWORDS:
+    -   stop_words_ita: computes a customized set of italian stopwords.
+-   TFIDF:
+    - tfidf:    computes the tfidf matrix
 
 @author: ClaudiaLorusso
 """
@@ -11,8 +30,7 @@ from re import sub
 # per rimozione STOPWORDS NLTK
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-
-# if you haven't done it yet: python3 -m spacy download it_core_news_sm
+# if you haven't done it yet: python3 -m spacy download it_core_news_sm (not needed if you use the requirement.txt file)
 import sys
 from os import path, stat, makedirs
 
@@ -95,7 +113,12 @@ def __nlp_SPACY__():
     """
     # for computing lemma
     from spacy import load
-    return load("it_core_news_sm")
+
+    #use this return for CLI use
+    return load("it_core_news_sm")   #
+    # use this return (with your virtual env path) for exe extraction purposes
+    # !!remember to create hook file for pyinstaller!!
+    #return load(__get_path__(r"C:\\PUGLIA_SOSTENIBILE_GUI\\venvPS_GUI\\Lib\\site-packages\\it_core_news_sm\\it_core_news_sm-3.2.0"))#
 
 
 # ------------------------------- LEMMA -------------------------------------

@@ -2,6 +2,12 @@
 """
 Created on Tue Jun 15 18:10:04 2021
 
+Represents a Goal representative of a SDG belonging to the Agenda 2030.
+Each Goal has the following properties:
+        -   a numerical identifier (id). Goals in total are 17 so
+            each id belongs to the domain (1, 17).
+        -   a description, in the shape of a string.
+
 @author: Claudia Lorusso
 """
 
@@ -11,25 +17,26 @@ class Goal:
     Each Goal has the following properties:
         -   a numerical identifier (id). Goals in total are 17 so
             each id belongs to the domain (1, 17).
-        -   a descriprion, in the shape of a string.
+        -   a description, in the shape of a string.
     """
     def __init__(self, index, description):
-        self.__index__, self.__description__ = index, description
+        self.__id__, self.__description__ = index, description
         
         
     def get_id(self):
         """
-        Returns
+        Returns the goal id
         -------
-        Goal's id
+        integer
+            Goal's id
         """
         
-        return self.__index__
+        return self.__id__
     
     
     def get_description(self):
         """
-        Returns
+        Returns the goal description
         -------
         String
             Goal's description
@@ -44,7 +51,7 @@ class Goal:
         Returns a string which describes the current Goal:
             "#id": "description"
         """
-        return "Goal " + str(self.__index__) + ": " + self.__description__ 
+        return "Goal " + str(self.__id__) + ": " + self.__description__
     
     
     def print_Goal(self):

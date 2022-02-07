@@ -2,6 +2,8 @@
 """
 Created on Thu Jan 27 18:54:57 2022
 
+Provides the methods to preprocess a law by computing the lemma of its content.
+
 @author: ClaudiaLorusso
 """
 import pandas as pd
@@ -46,6 +48,8 @@ def get_df_laws_lemma(path_law = ""):
         path of the file containing the law
     :return: DataFrame
         dataframe containing the law's lemma
+    :raises: ValueError
+        in case the file is protected by password
     """
     from FileHandler import get_content
     try:

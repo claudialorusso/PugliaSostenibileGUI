@@ -2,6 +2,8 @@
 """
 Created on Fr Jan 28 12:02:50 2022
 
+Computes the n most relevant sdgs or targets based on the law the user inputted.
+The computation is done by means of the cosine similarity.
 @author: ClaudiaLorusso
 """
 from Preprocessing import tfidf
@@ -14,7 +16,7 @@ def get_cossim(ngram = 1, path_law = "", sim_target = False):
     """
     Computes a DataFrame containing the cossim matrix,
     starting from the TFIDF term document matrix,
-    between the law and all of the targets.
+    between the law and all of the sdgs (or targets, if sim_target = True).
 
     :param ngram: integer
         number of tokens into each keyphrase
@@ -63,7 +65,7 @@ def get_cossim(ngram = 1, path_law = "", sim_target = False):
 
 def get_relevant(ngram = 1, path_law = "", sim_target = False):
     """
-    Computes the first three relevant targets
+    Computes the first n (= 3) relevant targets
     detected by the cossim matrix.
     :param ngram: integer
         number of tokens contained into each keyphrase
@@ -73,14 +75,18 @@ def get_relevant(ngram = 1, path_law = "", sim_target = False):
         True if the user wants to compute the similarity between the law and each target (only)
         False if he wants to compute the similarity between the law and each SDGs (SDG = Goal + list of Target)
     :return: string
-        containing the first three relevant targets
+        containing the first n (= 3) relevant targets
     """
 
     path_law = __get_path__(path_law)
     cossim_df = get_cossim(ngram = ngram, path_law = path_law, sim_target = sim_target)
+
+    # cossim_df.to_excel("file.xlsx") #TEST PURPOSES
+
     #to change the number of targets outputted
     #just switch the number 3 to whatever you want
-    largest = cossim_df.stack().nlargest(3)
+    n = 3
+    largest = cossim_df.stack().nlargest(n)
     largest = largest.multiply(100).round(2)
     largest = largest.unstack()
 

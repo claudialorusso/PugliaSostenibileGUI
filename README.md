@@ -2,7 +2,7 @@
 
 <img align="right" width="40%" src="https://github.com/claudialorusso/PugliaSostenibileGUI/blob/master/utils/images/COLORPugliaSostenibile746x687.png" alt="Puglia Sostenibile">
 
-Graphic User Interface for **Puglia Sostenibile**.
+Graphical User Interface for **Puglia Sostenibile**.
 
 ### What is Puglia Sostenibile
 
@@ -52,7 +52,7 @@ The <i>logo</i> was designed by the graphic expert <a href="https://www.linkedin
 
 **Puglia Sostenibile** is easy as a pie!
 
-And to provide a better experience, it comes with an intelligible yet pleasant graphic user interface.
+And to provide a better experience, it comes with an intelligible yet pleasant graphical user interface.
 
 You can either choose to download the executable <a href="https://github.com/claudialorusso/PugliaSostenibileGUI/raw/master/PugliaSostenibile.exe">PugliaSostenibile.exe</a> or charge it via command line.
 

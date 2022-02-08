@@ -1,23 +1,14 @@
 # -*- mode: python
 
-#from PyInstaller.utils.hooks import collect_submodules
-
-#from PyInstaller.utils.hooks import collect_data_files
-
-#import pkgutil
-
-#hiddenimports = collect_submodules('sklearn')
-
-
 block_cipher = None
 datas = []
-#datas+=collect_data_files("it_core_news_sm")
 
-#datas += pkgutil.get_data('it_core_news_sm','it_core_news_sm-3.2.0\\ner\\model')
-
+# download https://developer.microsoft.com/it-it/windows/downloads/windows-sdk/
 
 a = Analysis(['PugliaSostenibile_GUI.py'],
-             pathex=["C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI"],
+             pathex=["C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI",
+			 "C:\Program Files (x86)\Windows Kits\10\Redist\D3D\x64",
+			 "C:\Program Files (x86)\Windows Kits\10\Redist\D3D\x86"],
              binaries=[],
              datas=datas,
              hiddenimports=["sklearn.tree._utils", "sklearn.neighbors.quad_tree","sklearn.utils._typedefs", "sklearn.utils._cython_blas", "sklearn.neighbors.typedefs", "sklearn.neighbors._typedefs"],

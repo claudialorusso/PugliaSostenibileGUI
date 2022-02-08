@@ -220,7 +220,7 @@ Per favore, assicurati di essere connesso ad internet.
   <img width=60% src= "https://user-images.githubusercontent.com/38263840/152874773-366f5dbf-4693-47d2-a25d-cca78c7c4a56.png" alt="Installazione">
 </p>
 
-Spunta la relativa box e clicca sual pulsante "Avanti": **Puglia Sostenibile** verrà aperto.
+Spunta la relativa box e clicca sul pulsante "Avanti": al termine del caricamento si aprirà, finalmente, **Puglia Sostenibile**.
 
 ![Benvenuto](https://user-images.githubusercontent.com/38263840/152880138-151f384b-6b88-4817-837e-eb1c4b32c540.png)
 

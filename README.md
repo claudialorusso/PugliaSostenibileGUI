@@ -120,7 +120,7 @@ Click on the desired SDG to consult its goal and targets.
 
 ### UWP
 
-<b>Puglia Sostenibile</b> is an <b>UPW</b> (<i>Universal Windows Platform</i>) this means that it is compatible with several windows version, according to the <a href="https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/">windows SDK</a> requirements.
+<b>Puglia Sostenibile</b> is an <b>UWP</b> (<i>Universal Windows Platform</i>) this means that it is compatible with several windows version, according to the <a href="https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/">windows SDK</a> requirements.
 
 ### Libraries
 
@@ -264,7 +264,7 @@ Ti basterà, infine, cliccare sull'SDG di cui vuoi scoprire l'obiettivo ed i var
 
 ### UWP
 
-<b>Puglia Sostenibile</b> è una <b>UPW</b> (<i>Piattaforma Windows Universale</i>) il che significa che è compatibile con diverse versioni di windows, in accordo ai requisiti di <a href="https://developer.microsoft.com/it-it/windows/downloads/windows-sdk/">windows SDK</a>.
+<b>Puglia Sostenibile</b> è una <b>UWP</b> (<i>Piattaforma Windows Universale</i>) il che significa che è compatibile con diverse versioni di windows, in accordo ai requisiti di <a href="https://developer.microsoft.com/it-it/windows/downloads/windows-sdk/">windows SDK</a>.
 
 ### Libraries
 

@@ -290,8 +290,54 @@ class App:
 
     def __init__(self):
         from tkPDFViewer import tkPDFViewer
+
+        # ------- display adaptation
+
+        """
+        import ctypes
+
+        # Query DPI Awareness (Windows 10 and 8)
+        awareness = ctypes.c_int()
+        errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
+        print(awareness.value)
+
+        # Set DPI Awareness  (Windows 10 and 8)
+        errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(2)
+        # the argument is the awareness level, which can be 0, 1 or 2:
+        # for 1-to-1 pixel control I seem to need it to be non-zero (I'm using level 2)
+
+        # Set DPI Awareness  (Windows 7 and Vista)
+        success = ctypes.windll.user32.SetProcessDPIAware()
+        # behaviour on later OSes is undefined, although when I run it on my Windows 10 machine, it seems to work with effects identical to SetProcessDpiAwareness(1)
+        """
+
+        """     
+        import ctypes
+        try:  # Windows 8.1 and later
+            ctypes.windll.shcore.SetProcessDpiAwareness(2)
+        except Exception as e:
+            pass
+        try:  # Before Windows 8.1
+            ctypes.windll.user32.SetProcessDPIAware()
+        except:  # Windows 8 or before
+            pass
+        """
+        import ctypes
+
+        ctypes.windll.shcore.SetProcessDpiAwareness(1)
+
         # ------------------------------- Installation root creation
         self.__root__ = Tk()
+
+        self.__root__.update()
+
+        width = self.__root__.winfo_screenwidth()
+
+        if width<1680:
+            self.__root__.tk.call("tk", "scaling", 1)
+        if width>2000:
+            self.__root__.tk.call("tk", "scaling", 1.5)
+        self.__root__.update()
 
         # Maximises screen but not full
         pad = 3
@@ -299,8 +345,9 @@ class App:
             self.__root__.winfo_screenwidth() - pad, self.__root__.winfo_screenheight() - pad))
 
         # -----set root to full screen
-        self.__root__.state("zoomed")
 
+        self.__root__.state("zoomed")
+        self.__root__.update()
         """
         #WIDE FULL SCREEN: erases tool and top bar BUT if you press on the escape
         #button it will show everything
@@ -335,7 +382,7 @@ class App:
         #                            ---------------    MASTER FRAME    ---------------
 
         self.__master_frame__ = Frame(self.__root__)
-        self.__master_frame__.pack(side=LEFT, anchor="ne", padx=(10), pady=10, ipadx=(10), ipady=10)
+        self.__master_frame__.pack(side=LEFT, anchor="ne", padx=(10), pady=10)
         self.__master_frame__.config(bg='white')
 
 
@@ -343,12 +390,12 @@ class App:
 
         # --------------------------------------------------------------- Left frame creation (where the magic happens)
         self.__left_frame__ = Frame(self.__master_frame__)
-        self.__left_frame__.grid(row = 0, column = 0, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "nw")
+        self.__left_frame__.grid(row = 0, column = 0, padx=(10), pady=10, sticky = "nw")
         self.__left_frame__.config(bg='white')
 
         # -------------------------------------------------------------------------------------- UP Dialog Frame creation
         self.__up_dialog_frame__ = Frame(self.__left_frame__, bg="white")
-        self.__up_dialog_frame__.grid(row=0, column=0, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "n")
+        self.__up_dialog_frame__.grid(row=0, column=0, padx=(10), pady=10, sticky = "n")
         # ---------------------------------- Image lbl
         self.__image_lbl__ = Label(self.__up_dialog_frame__, image=self.__mini_logo__, bg="white")
         self.__image_lbl__.grid(row=0, column=0, padx=(10), pady=10, sticky = "n")
@@ -397,22 +444,23 @@ class App:
         self.__contact_btn__.configure(command=(lambda:self.__hide__(4)))
 
         #positions each button
-        self.__home_btn__.grid(row=0, column=0, sticky=E + N)
-        self.__info_btn__.grid(row=1, column=0, sticky=E + N)
-        self.__advanced_btn__.grid(row=2, column=0, sticky=E + N)
-        self.__agenda_btn__.grid(row=3, column=0, sticky=E + N)
-        self.__contact_btn__.grid(row=4, column=0, sticky=E + N)
+        self.__home_btn__.grid(row=0, column=0, sticky=W + N)
+        self.__info_btn__.grid(row=1, column=0, sticky=W + N)
+        self.__advanced_btn__.grid(row=2, column=0, sticky=W + N)
+        self.__agenda_btn__.grid(row=3, column=0, sticky=W + N)
+        self.__contact_btn__.grid(row=4, column=0, sticky=W + N)
 
 
         # --------------------------------------------------------------------------------------------------------------SFOGLIAMI BTN
-
+        """
         self.__sfoglia_frame__ = Frame(self.__button_frame__)
         self.__sfoglia_frame__.grid(row=5, sticky=S + E)
+        """
 
-        self.__sfogliami_btn__ = Button(self.__sfoglia_frame__, text = "Sfoglia gli SDGs", justify="center",
+        self.__sfogliami_btn__ = Button(self.__button_frame__, text = "Sfoglia gli SDGs", justify="center",
                                    font=("Bahnschrift SemiCondensed", 14, "bold"), command=self.__consult_sdgs__, height=2, width=40,
                                       borderwidth=0, background="#F0F0F0" , cursor = "hand2")
-        self.__sfogliami_btn__.pack(anchor="s")
+        self.__sfogliami_btn__.grid(row=5,column=0, sticky=W + N)#pack(anchor="s")
 
 
 
@@ -438,9 +486,9 @@ class App:
         id_color_right = "#FCFCFC"
 
         self.__welcome_frame__ = Frame(self.__master_frame__)
-        self.__welcome_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "ne")
+        self.__welcome_frame__.grid(row = 0, column = 2, sticky = "ne")
         self.__welcome_frame__.config(bg=id_color_right)
-        welcome_image = PhotoImage(file = __get_path__("utils\\images\\welcome_new.png"))
+        welcome_image = PhotoImage(file = __get_path__("utils\\images\\welcome_new.png" if self.__root__.winfo_screenwidth()>=1680 else "utils\\images\\welcome_new_min.png"))
         self.__welcome_lbl__ = Label(self.__welcome_frame__, bg = id_color_right, image = welcome_image)
 
 
@@ -454,6 +502,7 @@ class App:
         self.__right_frame__.rowconfigure(index=1, minsize=900, weight=1)
 
         # ------------------------------------------------------------------------------------- Principal Frame creation
+
         self.__principal_frame__ = Frame(self.__right_frame__, bg=id_color_right)
         self.__principal_frame__.grid(row=0, column=0, sticky=W, padx=(10), pady=5)
 
@@ -489,11 +538,18 @@ class App:
         #                                        ---------  HOME --------                                                               0.   HOME
 
         # ------------------------------------------------------------------------------------------ HOME Frame creation
-        self.__home_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
+        self.__home_frame__ = Frame(self.__principal_frame__, bg=id_color_right, width = self.__root__.winfo_screenwidth())
 
-
+        height = self.__root__.winfo_screenheight()
+        if height<=720:
+            self.__home_scroll_frame__ = ScrollableFrame(self.__home_frame__, bg=id_color_right, width = self.__root__.winfo_screenwidth())
+            fr_home = self.__home_scroll_frame__.scrollable_frame
+        else:
+            self.__home_scroll_frame__ = Frame(self.__home_frame__, bg=id_color_right,
+                                                         width=self.__root__.winfo_screenheight() - 100)
+            fr_home = self.__home_scroll_frame__
         # --------------------------------------------------------------------------------------- UP HOME Frame creation
-        self.__home_up_frame__ = Frame(self.__home_frame__, bg=id_color_right)
+        self.__home_up_frame__ = Frame(fr_home, bg=id_color_right)
         self.__home_up_frame__.grid(row=0, column=0)
         # ----------------------------------------------------------------------------------------- title Frame creation
         self.__title_frame__ = Frame(self.__home_up_frame__, bg = id_color_right)
@@ -502,12 +558,12 @@ class App:
         res_targ_text = "Ricerca Target" if self.__sim_target__.get() else "Ricerca SDGs"
         self.__ric_targets_lbl__ = Label(self.__title_frame__, justify="left", text=res_targ_text,
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
-        self.__ric_targets_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
+        self.__ric_targets_lbl__.grid(row=0, column=0, sticky=W, padx = 5)
 
         spec_sel_law_text = "Seleziona la legge e premi su 'Start'."
         self.__sel_law_lbl__ = Label(self.__title_frame__, justify="left", text=spec_sel_law_text,
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
-        self.__sel_law_lbl__.grid(row=1, column=0, sticky=N, padx = 5, pady=5)
+        self.__sel_law_lbl__.grid(row=1, column=0, sticky=N, padx = 5)
 
 
 
@@ -515,7 +571,7 @@ class App:
 
         self.__adv_sel_lbl__ = Label(self.__home_up_frame__, justify="left", text="",
                                        font=("Bahnschrift Light", 10, "bold"), bg=id_color_right)
-        self.__adv_sel_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
+        self.__adv_sel_lbl__.grid(row=1, column=0, sticky=W, padx = 5)
 
         # ------------------------------------------------------------------------------------COMPUTATION FRAME creation
         computation_color = id_color_right
@@ -526,7 +582,7 @@ class App:
 
         # ---------------------------------------------------------------------------- HOME BTN selection Frame creation
         self.__btn_select_frame__ = Frame(self.__computation_frame__, bg=computation_color)
-        self.__btn_select_frame__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
+        self.__btn_select_frame__.grid(row=0, column=0, sticky=W)
 
 
         # HOME BTN select file
@@ -555,7 +611,7 @@ class App:
 
         self.__output_frame__ = LabelFrame(self.__computation_frame__, width=100, height=10,padx=5, borderwidth=0.4,
                                            pady=5,font=("Bahnschrift SemiCondensed",10), bg=computation_color,text = "  Output ")
-        self.__output_frame__.grid(row=0, column = 1, padx = 10, pady=10)
+        self.__output_frame__.grid(row=0, column = 1, padx = 10)
 
         self.__root__.columnconfigure(0, weight=1)
         self.__root__.rowconfigure(1, weight=1)
@@ -572,7 +628,7 @@ class App:
 
 
         # ------------------------------------------------------------------------------------- DOWN HOME Frame creation
-        self.__home_down_frame__ = Frame(self.__home_frame__, bg=id_color_right)
+        self.__home_down_frame__ = Frame(fr_home, bg=id_color_right)
         self.__home_down_frame__.grid(row=1, column=0, sticky = W)
 
 
@@ -591,7 +647,7 @@ class App:
                                              padx=5, pady=5, borderwidth = 0.4,
                                              font = ("Bahnschrift SemiCondensed", 10),
                                              bg=id_color_right)
-        self.__keycatch_frame__.grid(row=2, column = 0, padx = 10, pady=10, sticky = W)
+        self.__keycatch_frame__.grid(row=2, column = 0, padx = 10 if self.__root__.winfo_screenheight()>768 else 2, pady=10 if self.__root__.winfo_screenheight()>768 else 2, sticky = W)
 
         self.__root__.columnconfigure(0, weight=1)
         self.__root__.rowconfigure(1, weight=1)
@@ -615,25 +671,35 @@ class App:
         self.__cerca_btn__ = Button(self.__keycatch_frame__, text="Cerca",
                                        font=("Bahnschrift SemiCondensed", 12), height=1, width=10, command=self.__cerca_occorrenze__,
                                        borderwidth=0.0, background="#F0F0F0", state = DISABLED)
-        self.__cerca_btn__.grid(row=0, column=1, sticky=N, pady=10, padx=10)
+        self.__cerca_btn__.grid(row=0, column=1, sticky=N, pady= 0 if self.__root__.winfo_screenheight()<=768 else 10, padx=10 if self.__root__.winfo_screenheight()<=768 else 10)
 
         self.__key_occ__ = StringVar()
         self.__key_occ__ = ""
 
         self.__ky_occ_res_label__ = Label(self.__home_down_frame__, justify="left", text=self.__key_occ__,
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
-        self.__ky_occ_res_label__.grid(row=3, column=0, sticky=W, padx = 5, pady=5)
+        self.__ky_occ_res_label__.grid(row=3, column=0, sticky=W, padx = 0 if self.__root__.winfo_screenheight()<=768 else 5, pady=0 if self.__root__.winfo_screenheight()<=768 else 5)
+
+        self.__root__.update()
+        width = self.__root__.winfo_screenwidth()
+        if width<1920:
+            Label(self.__home_down_frame__, justify="left", text="\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+                                              font=("Bahnschrift Light", 12), bg=id_color_right).grid(row=4, column=0, sticky=W, padx=5, pady=5)
+
+        self.__home_scroll_frame__.pack()
 
         #                                        ---------  Informazioni --------                                                       1.   Informazioni
 
         # ---------------------------------------------------------------------------------- INFORMAZIONI Frame creation
-        self.__info_frame__ = Frame(self.__principal_frame__, bg=id_color_right, width=800, height=800)
+        self.__info_frame__ = Frame(self.__principal_frame__, bg=id_color_right, width=1200 if self.__root__.winfo_screenwidth()>=2000 else 810 if self.__root__.winfo_screenwidth()>=1600 else 600, height=800)
 
-        self.__scrollableframe__ = ScrollableFrame(self.__info_frame__, bg=id_color_right)
+        self.__scrollableframe__ = ScrollableFrame(self.__info_frame__, bg=id_color_right, width=1200 if self.__root__.winfo_screenwidth()>=2000 else 810 if self.__root__.winfo_screenwidth()>=1600 else 600, height=800)
+
+        # new line label \n
         Label(self.__scrollableframe__.scrollable_frame, bg=id_color_right, justify= "center", text = "\n"
                                                       ).grid(row=0, column = 0, sticky = "n")
 
-        image_puglia_sostenibile = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile450x415.png"))
+        image_puglia_sostenibile = PhotoImage(file=__get_path__("utils\\images\\COLORPugliaSostenibile450x415.png" if self.__root__.winfo_screenwidth()>=1600 else "utils\\images\\COLORPugliaSostenibile450x415.png"))
         self.__lbl_image_puglia_sostenibile__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       image = image_puglia_sostenibile,
                                                       bg=id_color_right, justify= "center"
@@ -646,9 +712,9 @@ class App:
 
         self.__citazione_1_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = citazione_1,
-                                                      bg=id_color_right, justify= "center",
+                                                      bg=id_color_right, justify= "center" if self.__root__.winfo_screenwidth()>=1600 else "left",
                                          font=("Bahnschrift Light", 12, "italic")
-                                                      ).grid(row=2, column = 0, sticky = N)
+                                                      ).grid(row=2, column = 0, sticky = N if self.__root__.winfo_screenwidth()>=1600 else W)
 
         self.__titolo_1_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = "Avvento dell’Agenda 2030\n",
@@ -682,8 +748,8 @@ class App:
         image_obiettivi = PhotoImage(file=__get_path__("utils\\images\\SDG\\SDG_Poster_#nonUN-IT500x290.png"))
         self.__lbl_image_obiettivi__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       image = image_obiettivi,
-                                                      bg=id_color_right, justify= "center"
-                                                      ).grid(row=5, column = 0, sticky = "n")
+                                                      bg=id_color_right, justify= "center" if self.__root__.winfo_screenwidth()>=1600 else "left"
+                                                      ).grid(row=5, column = 0, sticky = "n" if self.__root__.winfo_screenwidth()>=1600 else "w")
         self.__titolo_2_info_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = "\nPuglia Sostenibile\n",
                                                       bg=id_color_right, justify= "left",
@@ -697,9 +763,9 @@ class App:
 
         self.__citazione_2_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = citazione_2,
-                                                      bg=id_color_right, justify= "center",
+                                                      bg=id_color_right, justify= "center" if self.__root__.winfo_screenwidth()>=1600 else "left",
                                          font=("Bahnschrift Light", 12, "italic")
-                                                      ).grid(row=7, column = 0, sticky = N)
+                                                      ).grid(row=7, column = 0, sticky = N if self.__root__.winfo_screenwidth()>=1600 else W)
 
         par_2 = "Similarmente a quanto sviluppato dalla Commissione Europea con la loro" \
                 " \npiattaforma KnowSDGs per valutare la correlazione tra i vari SDGs e le " \
@@ -724,7 +790,7 @@ class App:
                                                       text = par_2,
                                                       bg=id_color_right, justify= "left",
                                      font=("Bahnschrift Light", 12)).grid(row=8, column = 0, sticky = W)
-        image_collab = PhotoImage(file=__get_path__("utils\\images\\collab\\trio_collab500x162.png"))
+        image_collab = PhotoImage(file=__get_path__("utils\\images\\collab\\trio_collab500x162.png" if self.__root__.winfo_screenwidth()>=1600 else "utils\\images\\collab\\trio_collab400x97.png"))
         self.__lbl_image_collab__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       image = image_collab,
                                                       bg=id_color_right, justify= "center"
@@ -749,9 +815,9 @@ class App:
 
         self.__citazione_2_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = citazione_2,
-                                                      bg=id_color_right, justify= "center",
+                                                      bg=id_color_right, justify= "center" if self.__root__.winfo_screenwidth()>=1600 else "left",
                                          font=("Bahnschrift Light", 12, "italic")
-                                                      ).grid(row=12 ,column = 0, sticky = N)
+                                                      ).grid(row=12 ,column = 0, sticky = N if self.__root__.winfo_screenwidth()>=1600 else W)
 
         par_3 = "È doveroso spendere alcune parole per il logo ideato per il software di cui si sta trattando.\n\n" \
                       "In primo piano si nota la figura di un albero che riconduce alla mente l’idea della Natura, " \
@@ -764,7 +830,8 @@ class App:
                       "Ed è appunto per questo che, alle spalle dell’albero, si intravede la Terra che ha significato ambivalente: \n" \
                       "sprona ad agire per il suo bene ed allo stesso tempo stimola un’azione comune per l’ottenimento di quel \n" \
                       "tanto agognato cambiamento.\n\n" \
-                      "Il logo è stato realizzato dall’esperto di grafica Nicola Surgo.\n\n\n\n\n\n\n\n\n\n"
+                      "Il logo è stato realizzato dall’esperto di grafica Nicola Surgo.\n\n\n\n\n\n\n\n\n\n\n\n\n\n" \
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 
         self.__parag_3_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = par_3,
@@ -779,15 +846,16 @@ class App:
         #                                        ---------  AVANZATE --------                                                           2.   Avanzate
 
         # -------------------------------------------------------------------------------------- AVANZATE Frame creation
-        self.__adv_frame__ = Frame(self.__principal_frame__, bg=id_color_right)
+        self.__adv_frame__ = Frame(self.__principal_frame__, bg=id_color_right, width = self.__root__.winfo_screenwidth())
+
 
         self.__grammatura_lbl__ = Label(self.__adv_frame__,justify="left", text="Grammatura (Utente esperto)",
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
-        self.__grammatura_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
+        self.__grammatura_lbl__.grid(row=0, column=0, sticky=W, padx = 0 if self.__root__.winfo_screenheight()<=768 else 5, pady=0 if self.__root__.winfo_screenheight()<=768 else 5)
 
         self.__grammatura_expl_lbl__ = Label(self.__adv_frame__, justify="left", text="Clicca sulla Grammatura che preferisci:",
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
-        self.__grammatura_expl_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
+        self.__grammatura_expl_lbl__.grid(row=1, column=0, sticky=W, padx = 0 if self.__root__.winfo_screenheight()<=768 else 5, pady=0 if self.__root__.winfo_screenheight()<=768 else 5)
 
         r1 = Radiobutton(self.__adv_frame__,
                        text="Bigram",
@@ -809,11 +877,11 @@ class App:
 
         self.__choose_t_sdg_lbl__ = Label(self.__adv_frame__,justify="left", text="Rileva SDG o Target",
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
-        self.__choose_t_sdg_lbl__.grid(row=3, column=0, sticky=W, padx = 5, pady=5)
+        self.__choose_t_sdg_lbl__.grid(row=3, column=0, sticky=W, padx = 0 if self.__root__.winfo_screenheight()<=768 else 5, pady=0 if self.__root__.winfo_screenheight()<=768 else 5)
 
         self.__choose_t_sdg_expl_lbl__ = Label(self.__adv_frame__, justify="left", text="Scegli tra SDG e Target:",
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
-        self.__choose_t_sdg_expl_lbl__.grid(row=4, column=0, sticky=W, padx = 5, pady=5)
+        self.__choose_t_sdg_expl_lbl__.grid(row=4, column=0, sticky=W, padx = 0 if self.__root__.winfo_screenheight()<=768 else 5, pady=0 if self.__root__.winfo_screenheight()<=768 else 5)
 
         r3 = Radiobutton(self.__adv_frame__,
                        text="Target",
@@ -833,8 +901,9 @@ class App:
 
         r3.bind("<Leave>", lambda e: "break")
 
-
-
+        Label(self.__adv_frame__, text = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", bg=id_color_right, justify= "left",
+                                     font=("Bahnschrift Light", 12)
+                                     ).grid(row=6, column = 0, sticky = W)
 
         #                                        ---------  AGENDA 2030 --------                                                        3.   Agenda 2030
 
@@ -853,7 +922,8 @@ class App:
         # Adding pdf location and width and height.
         self.__show_agenda__ = pdf_viewer.pdf_view(self.__agenda_frame__,
                          pdf_location=agenda_directory,
-                         width=80, height=43)
+                         width=(self.__root__.winfo_screenwidth()//25) +10 if self.__root__.winfo_screenwidth()>=1680 else self.__root__.winfo_screenwidth()//14,
+                                                   height=43 if self.__root__.winfo_screenheight()>=1050 else (48 if self.__root__.winfo_screenheight()>=768 else 35))
 
         # Placing Pdf in my gui.
         self.__show_agenda__.pack()
@@ -877,12 +947,6 @@ class App:
         self.__contact_lbl__ = Label(self.__contact_frame__, justify="left", text=cont_authors,
                                    font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__contact_lbl__.grid(row=0, column=0, sticky=W, padx=(10), pady=10)
-
-
-
-
-
-
 
         #grid the home_fram ONLY. The other Variable Frame will be gridded when needed
         self.__home_frame__.grid(row=3, column=0, sticky=W, padx=(10), pady=10)
@@ -957,7 +1021,7 @@ class App:
 
     def __show_targets__(self, back_btn, btn_frame, variable_frame, sdgs, i):
 
-        back_btn.grid(row=2, sticky=W, padx=(10), pady=10)
+        back_btn.grid(row=2, sticky=W, padx=(5), pady=5)
         back_btn.config(state=NORMAL)
 
         agenda = sdgs["Agenda"]
@@ -975,7 +1039,7 @@ class App:
                       text=sdg["goal"] + "\n---------------------------------------------------------------------------"
                                          "-----------------------------------------------------------------------------"
                                          "-----------------------------------------------------------------------------"
-                                         "------------------------------------------\n",
+                                         "------------------------------------------",
                       bg="white", justify="left",
                       font=("Bahnschrift Light", 14)
                       )
@@ -1044,19 +1108,27 @@ class App:
         popupwindow = Toplevel(self.__root__)
         popupwindow.configure(bg="white")
         popupwindow.configure(width = 1500, height = 700)
+
+        width = popupwindow.winfo_screenwidth()
+
+        if width<1680:
+            popupwindow.tk.call("tk", "scaling", 1)
+        if width>2000:
+            popupwindow.tk.call("tk", "scaling", 1.5)
+
         popupwindow.wm_title("Obiettivi di Sviluppo Sostenibile: SDGs")
 
-        master_frame = Frame(popupwindow, bg="white",width = 1500, height = 700)
-        master_frame.grid(row=0, column = 0, padx = 10, pady=10, ipadx = 10, ipady=10)
+        master_frame = Frame(popupwindow, bg="white",width = 1500, height = 700 )
+        master_frame.grid(row=0, column = 0, padx = 10, pady=10)
 
         # title label
         title = "Obiettivi di Sviluppo Sostenibile"
-        title_lbl__ = Label(master_frame, justify="center", text=title, font=("Bahnschrift SemiCondensed", 40), bg="white")
-        title_lbl__.grid(row=0, column=0, sticky=N, padx=(10), pady=10)
+        title_lbl__ = Label(master_frame, justify="center", text=title, font=("Bahnschrift SemiCondensed", 35), bg="white")
+        title_lbl__.grid(row=0, column=0, sticky=N)
 
         #---------------------------------intern frame
         intern_frame = Frame(master_frame, bg="white",width = 1100, height = 700)
-        intern_frame.grid(row=1, column = 0, padx = 10, pady=10, ipadx = 10, ipady=10)
+        intern_frame.grid(row=1, column = 0, padx = 5, pady=5)
 
         variable_frame = Frame(intern_frame, bg="white",width = 1100, height = 700)
 
@@ -1066,13 +1138,20 @@ class App:
                            command=(lambda:self.__close_popup__(popupwindow)), text="Chiudi", cursor = "hand2")
         back_btn = Button(master_frame, bg = id_color_right,text="Indietro", height=1, width=10, borderwidth=0,  cursor = "hand2", font=("Bahnschrift SemiCondensed", 12),
                           command=(lambda:self.__go_back__(back_btn, btn_frame, variable_frame)))
-        close_btn.grid(row=2, sticky=E, padx=(10), pady=10)
+        close_btn.grid(row=2, sticky=E, padx=(5), pady=5)
 
         # ------------------------------------- BTN FRAME
         btn_frame = Frame(intern_frame, bg=id_color_right, width=1100, height=700)
 
 
-        dest = __get_path__("utils\\images\\SDG\\goals\\*.png")
+        heigh = popupwindow.winfo_screenheight()
+
+        if heigh<900:
+            dest = __get_path__("utils\\images\\SDG\\goals_min\\*.png")
+        else:
+            dest = __get_path__("utils\\images\\SDG\\goals\\*.png")
+
+
         for img in sorted(glob(dest), key=len):
             name = int(path.splitext(path.basename(img))[0])
             image = PhotoImage(file=img)
@@ -1122,7 +1201,6 @@ class App:
             warning = False
             try:
                 output = get_relevant(path_law=self.__file_name__, ngram=self.__ngram__.get(), sim_target=self.__sim_target__.get())
-
             except ValueError:
                 messagebox.showwarning("Warning", "Il file selezionato potrebbe essere protetto da password.\nPer favore, seleziona un altro file.")
                 warning = True
@@ -1269,29 +1347,28 @@ class App:
                 "Ti basterà selezionare il file ('.pdf', '.docx' o '.txt') contenente la legge che vorresti analizzare e quindi cliccare sul pulsante 'Start'.\n\n"
                 "Inoltre, potrai anche effettuare una ricerca manuale per capire se una parola chiave è inclusa, o meno, all'interno della legge; \n"
                "per farlo, devi soltanto digitare la keyword nell'apposito box e, dopo aver premuto il pulsante 'Cerca',"
-               " il programma ti restituirà il \nnumero di volte che la stessa compare nel testo.\n",
+               " il programma ti restituirà il \nnumero di volte che la stessa compare nel testo.",
             1: "Questa sezione è dedicata alla storia dell'Agenda 2030 e di 'Puglia Sostenibile'.\n"
                "Se sei curioso di conoscere com'è nato questo progetto, prosegui nella lettura.",
-            2: "In questa sezione potrai mettere mano alle impostazioni avanzate di 'Puglia Sostenibile', cambiando le"
-               " seguenti proprietà:"
-               "\n-\tGrammatura;"
-               "\n-\tRileva SDG o Target.\n\n"
-               "Prima di andare avanti, è bene forniti delle informazioni preliminari.\n"
-               "Devi sapere che 'Puglia Sostenibile', per il momento, effettua la computazione di similarità"
-               " tra il documento da te caricato (la Legge) ed \ni vari Obiettivi di Sviluppo Sostenibile (SDGs),"
-               " dell'Agenda 2030, per mezzo della Similarità del Coseno.\n"
-               "La matrice TFIDF, propedeutica a questo calcolo, suddivide ogni documento"
-               " in una serie di parole chiave (keyphrase).\n\nUn esempio di keyphrase è 'Emancipazione' oppure 'Femminile'.\n\n"
-               "Si è dato modo all'utente di cambiare la Grammatura, ossia il numero di parole da cui è composta ogni parola chiave, "
-               "facendoti scegliere \ntra una computazione Unigram ed una Bigram.\n"
-               "\nNella computazione Unigram ogni keyphrase è composta da una singola parola (DEFAULT).\n"
-               "\nNella computazione Bigram ogni keyphrase è composta da una o due parole:\n"
+            2: "In questa sezione potrai mettere mano alle impostazioni avanzate di 'Puglia Sostenibile', cambiando le"+
+               " seguenti proprietà:"+
+               "\n-\tGrammatura;"+
+               "\n-\tRileva SDG o Target.\n\n"+
+               "Prima di andare avanti, è bene forniti delle informazioni preliminari.\n"+
+               "Devi sapere che 'Puglia Sostenibile', per il momento, effettua la computazione di similarità"+
+               " tra il documento da te caricato (la Legge) ed \ni vari Obiettivi di Sviluppo Sostenibile (SDGs),"+
+               " dell'Agenda 2030, per mezzo della Similarità del Coseno.\n"+
+               "La matrice TFIDF, propedeutica a questo calcolo, suddivide ogni documento"+
+               " in una serie di parole chiave (keyphrase).\n\nUn esempio di keyphrase è 'Emancipazione' oppure 'Femminile'.\n\n"+
+               "Si è dato modo all'utente di cambiare la Grammatura, ossia il numero di parole da cui è composta ogni parola chiave, "+
+               "facendoti scegliere \ntra una computazione Unigram ed una Bigram.\n" +
+               "\nNella computazione Unigram ogni keyphrase è composta da una singola parola (DEFAULT)." + ("\n" if self.__root__.winfo_screenheight()>768 and not self.__root__.winfo_screenheight()==800 else "") +
+               "\nNella computazione Bigram ogni keyphrase è composta da una o due parole:\n"+
                "esempi di keyphrase Bigram sono 'Emancipazione Femminile', 'Paternariato', 'Povertà Assoulta', etc.\n\n"
-               "Come già specificato, di default il sofware effettua computazioni Unigram.\nFai attenzione, però, nel caso "
-               "di grammatura Bigram la computazione risulterà più"
-               " precisa ma allo stesso tempo più selettiva.\n\nPuoi, inoltre, selezionare il tipo di output da computare "
-               "decidendo tra il visualizzare gli SDGs più similari alla Legge (es. SDG 5, SDG 3, SDG 15, etc.)\n"
-               "ovvero, nello specifico, i Target più rilevanti (es. Target 5.5, Target 3.1, Target 15.c, etc.).\nPer farlo, ti basta modificare "
+               "Fai attenzione, però, nel caso di grammatura Bigram la computazione risulterà più"+
+               " precisa ma allo stesso tempo più selettiva.\n\nPuoi, inoltre, selezionare il tipo di output da computare "+
+               "decidendo tra il visualizzare gli SDGs più similari alla Legge (es. SDG 5, SDG 3, SDG 15, etc.)\n"+
+               "ovvero, nello specifico, i Target più rilevanti (es. Target 5.5, Target 3.1, Target 15.c, etc.). Per farlo, ti basta modificare "+
                "l'apposita impostazione.\n\nOra tocca a te!",
             3: "In questa sezione puoi consultare l'Agenda 2030.\n\n"
                "Per maggiori informazioni visita il sito ''https://unric.org/it/agenda-2030/''.",
@@ -1356,13 +1433,13 @@ class App:
         """
 
         self.__welcome_frame__.grid_forget()
-        self.__right_frame__.grid(row = 0, column = 2, padx=(10), pady=10, ipadx=(10), ipady=10, sticky = "n")
+        self.__right_frame__.grid(row = 0, column = 2, sticky = "n")
 
         #show the desired frame while hiding the others
         frame_list = self.__get_variable_frame_list__()
 
         self.__forget_grid_variable_frames__()
-        frame_list[id].grid(row=3, column=0, sticky=W, padx=(10), pady=10)
+        frame_list[id].grid(row=3, column=0, sticky=W)
 
 
         #change buttons color

@@ -108,13 +108,12 @@ def __nlp_SPACY__():
     """
     # for computing lemma
     from spacy import load
-
+    import it_core_news_sm
     #use this return for CLI use
-    return load("it_core_news_sm")   #
+    #return load("it_core_news_sm")   #
     # use this return (with your virtual env path) for exe extraction purposes
     # !!remember to create the hook file for pyinstaller!!
-    #return load(__get_path__(r"C:\\PUGLIA_SOSTENIBILE_GUI\\venvPS_GUI\\Lib\\site-packages\\it_core_news_sm\\it_core_news_sm-3.2.0"))#
-
+    return it_core_news_sm.load()
 
 # ------------------------------- LEMMA -------------------------------------
 

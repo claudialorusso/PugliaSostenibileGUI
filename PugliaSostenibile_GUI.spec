@@ -7,11 +7,12 @@ datas = []
 
 a = Analysis(['PugliaSostenibile_GUI.py'],
              pathex=["C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI",
-			 "C:\Program Files (x86)\Windows Kits\10\Redist\D3D\x64",
-			 "C:\Program Files (x86)\Windows Kits\10\Redist\D3D\x86"],
+			 "C:\\Program Files (x86)\\Windows Kits\\10\\Redist\\D3D\\x64",
+			 "C:\\Program Files (x86)\\Windows Kits\\10\\Redist\\D3D\\x86",
+			 "C:\\PUGLIA_SOSTENIBILE_GUI\\venvPS_GUI\\Lib\\site-packages\\it_core_news_sm\\it_core_news_sm-3.2.0"],
              binaries=[],
              datas=datas,
-             hiddenimports=["sklearn.tree._utils", "sklearn.neighbors.quad_tree","sklearn.utils._typedefs", "sklearn.utils._cython_blas", "sklearn.neighbors.typedefs", "sklearn.neighbors._typedefs"],
+             hiddenimports=["it_core_news_sm","sklearn.tree._utils", "sklearn.neighbors.quad_tree","sklearn.utils._typedefs", "sklearn.utils._cython_blas", "sklearn.neighbors.typedefs", "sklearn.neighbors._typedefs"],
              hookspath=[],
              hooksconfig={},
              runtime_hooks=[],
@@ -58,7 +59,8 @@ a.datas += [
 ("utils\\images\\SDG\\goals\\14.png","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\utils\\images\\SDG\\goals\\14.png","Data"),
 ("utils\\images\\SDG\\goals\\15.png","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\utils\\images\\SDG\\goals\\15.png","Data"),
 ("utils\\images\\SDG\\goals\\16.png","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\utils\\images\\SDG\\goals\\16.png","Data"),
-("utils\\images\\SDG\\goals\\17.png","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\utils\\images\\SDG\\goals\\17.png","Data")
+("utils\\images\\SDG\\goals\\17.png","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\utils\\images\\SDG\\goals\\17.png","Data"),
+("\\PugliaSostenibile\\python39.dll","C:\\PUGLIA_SOSTENIBILE_GUI\\PugliaSostenibileGUI\\dll\\python39.dll", "Data")
 ]
 
 

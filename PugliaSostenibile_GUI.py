@@ -322,9 +322,9 @@ class App:
         except:  # Windows 8 or before
             pass
         """
-        import ctypes
+        #import ctypes
 
-        ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        #ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
         # ------------------------------- Installation root creation
         self.__root__ = Tk()
@@ -332,7 +332,7 @@ class App:
         self.__root__.update()
 
         width = self.__root__.winfo_screenwidth()
-
+        print(width)
         if width<1680:
             self.__root__.tk.call("tk", "scaling", 1)
         if width>2000:

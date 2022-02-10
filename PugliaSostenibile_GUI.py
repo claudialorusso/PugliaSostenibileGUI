@@ -332,7 +332,7 @@ class App:
         self.__root__.update()
 
         width = self.__root__.winfo_screenwidth()
-        print(width)
+
         if width<1680:
             self.__root__.tk.call("tk", "scaling", 1)
         if width>2000:

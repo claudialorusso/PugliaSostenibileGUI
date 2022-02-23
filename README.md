@@ -97,8 +97,9 @@ Check the box and click on the "Avanti" button: **Puglia Sostenibile** will, fin
 <ul>
 <li><b>Home Page:</b> it's the main page. You can simply upload the document (allowed extensions: '.pdf', '.docx', 'txt' only) by clicking on the "Seleziona Documento" button. Then, press "Start" and the software will compute the three first most relevant <i>SDGs</i>.
 <p align="center">
-	<img src= "https://user-images.githubusercontent.com/38263840/152885066-fe5e0ae7-6bf3-46f3-8735-c6a0af434d7c.png" alt="Home Page">
+	<img src= "https://user-images.githubusercontent.com/38263840/155298801-4a6d976c-7d82-4dcc-ba9f-d88fe2c26d9f.png" alt="Home Page">
 </p>
+
 You can, also, find the occurrences of  a keyphrase: you just need to insert it in the box, click on the "Cerca" button and the software will tell you how many times it occurs into the document;</li>
 <li><b>Info Page:</b> In this section you can find informations about the <i>Agenda 2030</i> and <b>Puglia Sostenibile</b>;</li>
 <li><b>Advanced Page:</b> In this page you can change some advanced properties:
@@ -116,7 +117,7 @@ You can, also, find the occurrences of  a keyphrase: you just need to insert it 
 <li><b>Contacts Page:</b> if you encounter any troubles with something or want to submit some feedback, in this section you can find the contacts you need: any suggestions for improvement are welcome!</li>
 <li><b>Browes SDGs Page:</b> at any moment, if you need to consult the <i>SDGs</i> you can simply click on the "Sfoglia gli SDGs" button and a window will instantly pop-up allowing you to discover the related *goal* and *targets*.
   <p align="center">
-    <img src= "https://user-images.githubusercontent.com/38263840/152884773-ec6d666c-a3ee-4d8d-86ad-cdd29cb4a507.png" alt="Sfoglia">
+    <img src= "https://user-images.githubusercontent.com/38263840/155299040-8d9f92df-1f55-48d3-9c70-64b32ab4687c.png" alt="Sfoglia">
   </p>
   </li>
 </ul>
@@ -241,7 +242,7 @@ Spunta la relativa casella e clicca sul pulsante "Avanti": al termine del carica
 <ul>
 <li><b>Home Page:</b> è la pagina principale. Ti basta caricare il documento (formati: '.pdf', '.docx', 'txt') cliccando semplicemente sul pulsante "Seleziona Documento". In seguito, clicca su "Start" ed il software computerà i primi tre <i>SDGs</i> più rilevanti.
 <p align="center">
-	<img src= "https://user-images.githubusercontent.com/38263840/152885066-fe5e0ae7-6bf3-46f3-8735-c6a0af434d7c.png" alt="Home Page">
+	<img src= "https://user-images.githubusercontent.com/38263840/155298801-4a6d976c-7d82-4dcc-ba9f-d88fe2c26d9f.png" alt="Home Page">
 </p>
 Puoi anche cercare le occorrenze di una parola chiave: devi soltanto digitarla nell'apposita box, cliccare sul pulsante "Cerca" ed il software ti mostrerà quante volte appare nel testo;</li>
 <li><b>Informazioni:</b> In questa sezione puoi scoprire informazioni sull'<i>Agenda 2030</i> e su <b>Puglia Sostenibile</b>;</li>
@@ -261,8 +262,9 @@ Quest'ultima si basa su di una matrice TFIDF tra tutti gli <i>SDGs</i> e la legg
 <li><b>Contatti:</b> se riscontri difficoltà o errori nell'utilizzo del software o vuoi semplicemente inviare un feedback, in questa sezione trovi tutti i contatti necessari ogni suggerimento per il miglioramento è benvenuto!</li>
 <li><b>Sfoglia gli SDGs:</b> in qualsiasi momento, se hai bisogno di consultare gli <i>SDGs</i> puoi farlo semplicemente cliccando sul pulsante "Sfoglia gli SDGs" ed una finestra comparirà all'istante permettendoti di scoprire l'obiettivo ed i vari traguardi ad esso correlati.
   <p align="center">
-    <img src= "https://user-images.githubusercontent.com/38263840/152884773-ec6d666c-a3ee-4d8d-86ad-cdd29cb4a507.png" alt="Sfoglia">
+    <img src= "https://user-images.githubusercontent.com/38263840/155299040-8d9f92df-1f55-48d3-9c70-64b32ab4687c.png" alt="Sfoglia">
   </p>
+
   </li>
 </ul>
 

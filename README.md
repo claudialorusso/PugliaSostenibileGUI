@@ -115,7 +115,7 @@ You can, also, find the occurrences of  a keyphrase: you just need to insert it 
 </li>
 <li><b>Agenda 2030 Page:</b> in this page you can consult the <i>Agenda 2030</i>;</li>
 <li><b>Contacts Page:</b> if you encounter any troubles with something or want to submit some feedback, in this section you can find the contacts you need: any suggestions for improvement are welcome!</li>
-<li><b>Browes SDGs Page:</b> at any moment, if you need to consult the <i>SDGs</i> you can simply click on the "Sfoglia gli SDGs" button and a window will instantly pop-up allowing you to discover the related *goal* and *targets*.
+<li><b>Browes SDGs Page:</b> at any moment, if you need to consult the <i>SDGs</i> you can simply click on the "Sfoglia gli SDGs" button and a window will instantly pop-up allowing you to discover the related <i>goal</i> and <i>targets</i>.
   <p align="center">
     <img src= "https://user-images.githubusercontent.com/38263840/155299040-8d9f92df-1f55-48d3-9c70-64b32ab4687c.png" alt="Sfoglia">
   </p>

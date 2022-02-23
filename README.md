@@ -164,7 +164,7 @@ La sensibilità verso le relazioni tra uomo e ambiente, e degli individui tra lo
 
 Nel settembre 2015, tutti i 193 Paesi delle <a href="https://unric.org/it/">Nazioni Unite</a> , tra cui l’Italia, hanno concepito un piano d’azione per contribuire allo sviluppo globale, promuovere il benessere umano e proteggere l’ambiente.
 
-Il bisogno di garantire un presente ed un futuro migliore al nostro Pianeta e alle persone che lo abitano è sfociato nella definizione e condivisione di **Obiettivi di Sviluppo Sostenibile** (*Sustainable Development Goals* – il cui acronimo inglese è *SDGs*) da raggiungere entro il 2030: è nata, così l’Agenda 2030 che si propone di agire collettivamente in modo sostenibile verso17 obiettivi, o <i>goal</i>, declinati in 169 traguardi, anche detti target, in relazione ai vari domini dello sviluppo sociale ed economico.
+Il bisogno di garantire un presente ed un futuro migliore al nostro Pianeta e alle persone che lo abitano è sfociato nella definizione e condivisione di **Obiettivi di Sviluppo Sostenibile** (*Sustainable Development Goals* – il cui acronimo inglese è *SDGs*) da raggiungere entro il 2030: è nata, così l’Agenda 2030 che si propone di agire collettivamente in modo sostenibile verso 17 obiettivi, o <i>goal</i>, declinati in 169 traguardi, anche detti target, in relazione ai vari domini dello sviluppo sociale ed economico.
 
 Per maggiori informazioni consultare la pagina delle <a href="https://unric.org/it/agenda-2030/">Nazioni Unite</a>.
 

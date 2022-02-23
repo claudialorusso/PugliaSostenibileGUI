@@ -26,6 +26,15 @@ class Installation:
         self.__termination__ = False
         # ------------------------------- Installation root creation
         self.__installation_root__ = Tk()
+
+        width = self.__installation_root__.winfo_screenwidth()
+
+        if width<1680:
+            self.__installation_root__.tk.call("tk", "scaling", 1)
+        if width>2000:
+            self.__installation_root__.tk.call("tk", "scaling", 1.5)
+        self.__installation_root__.update()
+
         self.__installation_root__.title("Puglia Sostenibile: Installazione")
         # path logo
         logo = __get_path__("utils\\images\\PugliaSostenibile2200x2239.png")
@@ -560,7 +569,7 @@ class App:
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
         self.__ric_targets_lbl__.grid(row=0, column=0, sticky=W, padx = 5)
 
-        spec_sel_law_text = "Seleziona la legge e premi su 'Start'."
+        spec_sel_law_text = "Seleziona il Documento e premi su 'Start'."
         self.__sel_law_lbl__ = Label(self.__title_frame__, justify="left", text=spec_sel_law_text,
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__sel_law_lbl__.grid(row=1, column=0, sticky=N, padx = 5)
@@ -586,7 +595,7 @@ class App:
 
 
         # HOME BTN select file
-        self.__select_btn__ = Button(self.__btn_select_frame__, text="Seleziona Legge",
+        self.__select_btn__ = Button(self.__btn_select_frame__, text="Seleziona Documento",
                                    font=("Bahnschrift SemiCondensed", 12, "bold"), height=2, width=20, command=self.__select_file__,
                                    borderwidth=0.0, background="#F0F0F0" , cursor = "hand2")
         self.__select_btn__.grid(row=0, column=0, sticky=N, pady=5)
@@ -638,7 +647,7 @@ class App:
                                        font=("Bahnschrift SemiCondensed", 14, "bold"), bg=id_color_right)
         self.__occ_text_lbl__.grid(row=0, column=0, sticky=W, padx = 5, pady=5)
 
-        expl_occ_text = "Inserisci una parola chiave e premi sul pulsante 'Cerca' per sapere quante volte compare nella Legge:"
+        expl_occ_text = "Inserisci una parola chiave e premi sul pulsante 'Cerca' per sapere quante volte compare nel Documento:"
         self.__expl_occ_lbl__ = Label(self.__home_down_frame__, justify="left", text=expl_occ_text,
                                        font=("Bahnschrift Light", 12), bg=id_color_right)
         self.__expl_occ_lbl__.grid(row=1, column=0, sticky=W, padx = 5, pady=5)
@@ -665,7 +674,7 @@ class App:
         self.__insert_key__.grid(row=0, column=0, sticky=W)
 
         self.__insert_key__.bind('<Return>', lambda _: self.__cerca_occorrenze__())
-        self.__keycatch_frame__.configure(text = "  Inserisci la parola chiave " if (str(self.__insert_key__["state"])== "normal") else "  Seleziona una nuova Legge ed inserisci la parola chiave ")
+        self.__keycatch_frame__.configure(text = "  Inserisci la parola chiave " if (str(self.__insert_key__["state"])== "normal") else "  Seleziona un nuovo Documento ed inserisci la parola chiave ")
 
         # cerca btn
         self.__cerca_btn__ = Button(self.__keycatch_frame__, text="Cerca",
@@ -705,9 +714,11 @@ class App:
                                                       bg=id_color_right, justify= "center"
                                                       ).grid(row=1, column = 0, sticky = "n")
 
-        citazione_1 = "\n''Siamo determinati a fare passi audaci e trasformativi urgentemente necessari \nper portare il mondo " \
+        citazione_1 = "\n''Siamo determinati a fare passi audaci e trasformativi urgentemente necessari " \
+                      "\nper portare il mondo " \
                     "sulla strada della sostenibilità e della resilienza.\n\n" \
-                    "Nell’intraprendere questo grande viaggio collettivo, \npromettiamo che nessuno verrà lasciato indietro.''\n" \
+                    "Nell’intraprendere questo grande viaggio collettivo, " \
+                      "\npromettiamo che nessuno verrà lasciato indietro.''\n" \
                     "\n(Onu, Agenda 2030)\n"
 
         self.__citazione_1_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
@@ -722,23 +733,24 @@ class App:
                                          font=("Bahnschrift SemiCondensed", 14, "bold")
                                                       ).grid(row=3, column = 0, sticky = W)
 
-        par_1 = "Negli ultimi anni organismi internazionali e locali, sensibilizzati " \
-                "da vari accadimenti, \ntra cui quelli naturali, con lo sguardo rivolto " \
-                "alle future generazioni, hanno sentito \nla necessità di intervenire in " \
-                "modo deciso a sostegno dello Sviluppo Sostenibile.\n\n" \
-                "In sintesi, tale tematica si concentra su di un progresso che non risulta essere \ncircostanziato " \
-                "al mero soddisfacimento dei bisogni attuali bensì si pone il problema \ndi agire " \
-                "positivamente in vista di esigenze future, per il bene delle prossime generazioni.\n\n" \
-                "Conseguentemente, nel settembre 2015, tutti i 193 Paesi delle Nazioni Unite, " \
-                "tra cui l’Italia, \nhanno concepito un piano d’azione per contribuire allo sviluppo " \
-                "globale, promuovere il \nbenessere umano e proteggere l’ambiente.\n\n" \
-                "Il bisogno di garantire un presente ed un futuro migliore al nostro " \
-                "Pianeta e alle persone \nche lo abitano è sfociato nella definizione " \
-                "di Obiettivi di Sviluppo Sostenibile (Sustainable \nDevelopment Goals" \
-                " – il cui acronimo inglese è SDGs) da raggiungere entro il 2030:\n" \
-                "è nata, così l’Agenda 2030 che si propone di agire in modo sostenibile " \
-                "e che consta di 17 \nobiettivi, o goal, declinati in 169 traguardi, " \
-                "anche detti target, in relazione ai vari domini \ndello sviluppo sociale ed economico.\n\n"
+        par_1 = "La sensibilità verso le relazioni tra uomo e ambiente, e degli individui tra loro, e "\
+                "\nla percezione della responsabilità verso le future generazioni sono progressivamente " \
+                "\naumentate nei decisori, nel corso degli ultimi decenni, portando ad orientare l'azione" \
+                "\ndelle istituzioni e dei singoli in modo deciso verso lo Sviluppo Sostenibile.\n\n" \
+                "In sintesi, tale tematica si concentra su di un progresso che non risulta essere " \
+                "\ncircostanziato al mero soddisfacimento dei bisogni attuali bensì si pone il problema " \
+                "\ndi agire positivamente in vista di esigenze future, per il bene delle prossime generazioni.\n\n" \
+                "Nel settembre 2015, tutti i 193 Paesi delle Nazioni Unite, tra cui l’Italia, " \
+                "\nhanno concepito un piano d’azione per contribuire allo sviluppo globale, promuovere il " \
+                "\nbenessere umano e proteggere l’ambiente." \
+                "\n\n" \
+                "Il bisogno di garantire un presente ed un futuro migliore al nostro Pianeta e alle persone " \
+                "\nche lo abitano è sfociato nella definizione di Obiettivi di Sviluppo Sostenibile (Sustainable " \
+                "\nDevelopment Goals – il cui acronimo inglese è SDGs) da raggiungere entro il 2030:" \
+                "\n" \
+                "è nata, così l’Agenda 2030 che si propone di agire collettivamente in modo sostenibile verso 17 " \
+                "\nobiettivi, o goal, declinati in 169 traguardi, anche detti target, in relazione ai vari domini " \
+                "\ndello sviluppo sociale ed economico.\n\n"
 
         self.__parag_1_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
                                                       text = par_1,
@@ -767,23 +779,26 @@ class App:
                                          font=("Bahnschrift Light", 12, "italic")
                                                       ).grid(row=7, column = 0, sticky = N if self.__root__.winfo_screenwidth()>=1600 else W)
 
-        par_2 = "Similarmente a quanto sviluppato dalla Commissione Europea con la loro" \
-                " \npiattaforma KnowSDGs per valutare la correlazione tra i vari SDGs e le " \
-                "normative Europee, \nscritte in lingua inglese, è stato ideato 'Puglia Sostenibile':\n" \
-                "un software in grado di monitorare la presenza degli SDGs " \
-                "all’interno delle Leggi Regionali \nPugliesi, in lingua italiana.\n\n" \
-                "Questo lavoro nasce dal progetto, conseguente ad accordi stipulati tra " \
-                "l’Università degli \nStudi di Bari e la Regione Puglia ed oggetto del tirocinio interno, presso la " \
-                "sede del Laboratorio \ndi Sistemi Intelligenti della locale facoltà di " \
-                "Informatica, presieduto dal Prof. Giuseppe Pirlo \ne svolto da Claudia Lorusso" \
-                " in coordinamento con Alessandro Dattoli, \nil tutto sotto la supervisione del dott. " \
-                "Michele Chieco e della D.ssa Gabriella Calvano.\n\n" \
-                "La finalità del software è quella di capire quali tra gli obiettivi e traguardi " \
-                "dell’Agenda 2030 \nsono stati effettivamente affrontati dai documenti " \
-                "legislativi della Regione Puglia in modo da poter, \ntra l’altro, individuare e " \
-                "correggere eventuali lacune e determinare l’effettivo progresso \nverso il " \
-                "sostenibile.\n\n" \
-                "L’utilizzo del software è, ovviamente, estendibile anche ad altre tipologie normative.\n\n" \
+        par_2 = "Similarmente a quanto sviluppato dalla Commissione Europea con la sua" \
+                " \npiattaforma KnowSDGs che fa attualmente riferimento a normative Europee" \
+                "\nscritte in lingua inglese, è stato ideato 'Puglia Sostenibile':\n" \
+                "un software in grado di verificare quanto un documento sia coerente" \
+                "\nlessicalmente con quanto enunciato nell'Agenda 2030.\n\n" \
+                "Il software è stato 'addestrato', in particolare, attraverso l'analisi" \
+                "\ndelle oltre 2000 Leggi Regionali, emanate in Puglia negli ultimi 50 anni.\n\n" \
+                "L'attività si inquadra nella collaborazione istituzionale tra Consiglio Regionale\n" \
+                "della Puglia, rappresentato dalla Presidente Loredana Capone, e dalla Sezione Studio\n" \
+                "e Supporto alla Legislazione e alle Politiche di Garanzia, all'UNIBA (Università degli\n" \
+                "Studi di Bari, Aldo Moro) e, in particolare, è stata svolta nell'ambito di un tirocinio\n" \
+                "interno approntato presso la sede del Laboratorio di Sistemi Intelligenti della locale\n" \
+                "sede di Informatica (DIB), presieduto dal Prof. Giuseppe Pirlo il tutto cotto la supervisione\n" \
+                "del Dr. Michele Chieco e della D.ssa Gabriella Calvano.\n\n" \
+                "L'uso del software, per quanto testato sulle leggi regionali della Puglia, è estendibile ad\n" \
+                "altri documenti analoghi di diverso livello territorial o ad altri tesi in generale:\n" \
+                "caricando il documento, il software restituirà gli SDGs sulla base dell'analisi del testo.\n\n" \
+                "Come nel caso della piattaforma europea KnowSDGs, l'analisi effettuata dal software è basata\n" \
+                "sulla ricorrenza di parole e loro associazioni e non su una valutazione contenutistica che può,\n" \
+                "invece, essere oggetto di studi specifici di comparqazione tra il testo in esame e l'Agenda 2030.\n\n" \
                 "Il linguaggio utilizzato per lo sviluppo di Puglia Sostenibile è il python.\n\n"
 
         self.__parag_2_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
@@ -820,17 +835,20 @@ class App:
                                                       ).grid(row=12 ,column = 0, sticky = N if self.__root__.winfo_screenwidth()>=1600 else W)
 
         par_3 = "È doveroso spendere alcune parole per il logo ideato per il software di cui si sta trattando.\n\n" \
-                      "In primo piano si nota la figura di un albero che riconduce alla mente l’idea della Natura, " \
-                      "\na quel meccanismo tanto complesso che trasforma ogni singola azione in vita.\n\n" \
-                      "Ma la sostenibilità non è l’agire positivamente solo ed esclusivamente per il bene dell’ambiente.\n\n" \
-                      "Di fatto, dal tronco dell’albero fuoriescono dei rami le cui estremità si plasmano in frecce; \nogni freccia " \
-                      "punta verso direzioni differenti che rappresentano le varie branche della sostenibilità \ne che, seppur " \
-                      "divergenti, nascono tutte quante da uno stesso principio: \nil bene della comunità raggiungibile tramite " \
-                      "un’azione comune.\n\n" \
-                      "Ed è appunto per questo che, alle spalle dell’albero, si intravede la Terra che ha significato ambivalente: \n" \
-                      "sprona ad agire per il suo bene ed allo stesso tempo stimola un’azione comune per l’ottenimento di quel \n" \
-                      "tanto agognato cambiamento.\n\n" \
-                      "Il logo è stato realizzato dall’esperto di grafica Nicola Surgo.\n\n\n\n\n\n\n\n\n\n\n\n\n\n" \
+                 "In primo piano si nota la figura di un albero che richiama alla mente l’idea della Natura e " \
+                "\ndella complessità di meccanismi ed interrelazioni che collegano i viventi tra loro e con" \
+                "\nl'ambiente.\n\n" \
+                "Infatti, la sostenibilità non va intesa solo in riferimento all'agire positivamente solo per" \
+                "\nil bene dell'ambiente ma anche nelle relazioni, nell'equità, nella cura reciproca." \
+                "\n\nDal tronco dell'albero fuoriescono rami le cui estremità si plasmano in frecce; ogni freccia" \
+                "\npunta verso direzioni differenti che rappresentano varie declinazioni della sostenibilità" \
+                "\ne che, seppur divergenti, nascono tutte quante da uno stesso principio:" \
+                "\nil bene comune è raggiungibile solo tramite un'azione comune.\n\n" \
+                "La Terra, alle spalle dell'albero, è la presenza che deve ricordarci sempre la nostra condizione" \
+                "\ndi essere tutti abitanti di uno stesso luogo con risorse limitate che spronano ad un'azione" \
+                "\ncomune per la loro salvaguardia, se vogliamo il suo bene, ed allo stesso tempo stimola per" \
+                "\nl'ottenimento di quel tanto agognato cambiamento.\n\n" \
+                "Il logo è stato realizzato dall’esperto di grafica Nicola Surgo.\n\n\n\n\n\n\n\n\n\n\n\n\n\n" \
                 "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 
         self.__parag_3_lbl__ = Label(self.__scrollableframe__.scrollable_frame,
@@ -1008,11 +1026,11 @@ class App:
         file_name = path.basename(self.__file_name__)
         # specify doc selected
         doc_select_rd_txt = "Premi 'Start' per continuare"
-        self.__sel_lbl__.config(text=doc_select_rd_txt if not file_name == "" else "Premi su 'Seleziona Legge'")
+        self.__sel_lbl__.config(text=doc_select_rd_txt if not file_name == "" else "Premi su 'Seleziona Documento'")
         self.__start_btn__.config(cursor="hand2" if not file_name == "" else "arrow")
         self.__adv_sel_lbl__.config(text="É stato selezionato il file '"+file_name+"'." if not file_name == '' else "")
         self.__insert_key__.delete("1.0", END)
-        self.__keycatch_frame__.configure(text="  Seleziona una nuova Legge ed inserisci la parola chiave ")
+        self.__keycatch_frame__.configure(text="  Seleziona un nuovo Documento ed inserisci la parola chiave ")
         self.__insert_key__.configure(state="disabled", cursor = "arrow")
         self.__cerca_btn__.configure(state="disabled")
         self.__cerca_btn__.configure(cursor="arrow")
@@ -1219,13 +1237,13 @@ class App:
             file_name = path.basename(dest)
             if warning: #if law wasn't correctly selected
                 self.__adv_sel_lbl__.config(
-                    text="Il file selezionato ('" + file_name + "') non può essere processato. Per favore, seleziona un'altra legge.")
-                self.__sel_lbl__.config(text="Premi su 'Seleziona Legge'")
+                    text="Il file selezionato ('" + file_name + "') non può essere processato. Per favore, seleziona un altro Documento.")
+                self.__sel_lbl__.config(text="Premi su 'Seleziona Documento'")
             else:
                 # get string containing the output
                 self.__output__ = "I primi tre"
                 self.__output__ += (" SDG " if not self.__sim_target__.get() else " Target ")
-                self.__output__ += "più similari alla legge " + file_name + " sono:\n\n" + output + " \n\nPer favore seleziona un'altra Legge per una nuova computazione."
+                self.__output__ += "più similari al Documento " + file_name + " sono:\n\n" + output + " \n\nPer favore seleziona un altro Documento per una nuova computazione."
                 self.__txt_box__.configure(state=NORMAL)
                 self.__txt_box__.insert(INSERT, self.__output__)
                 self.__txt_box__.configure(state="disabled")
@@ -1342,10 +1360,10 @@ class App:
         frame_description = {
             0: "Questa sezione è dedicata all'utilizzo di 'Puglia Sostenibile'."
                "\nIl software ti permette di estrapolare, in modo semplice ed intuitivo, i tre goal (o target), appartenenti all'Agenda 2030,\n"
-                "più rilevanti per la legge da te selezionata.\n"
+                "più rilevanti per il documento da te selezionato.\n"
                 "\nUtilizzare 'Puglia Sostenibile' è molto semplice!\n"
-                "Ti basterà selezionare il file ('.pdf', '.docx' o '.txt') contenente la legge che vorresti analizzare e quindi cliccare sul pulsante 'Start'.\n\n"
-                "Inoltre, potrai anche effettuare una ricerca manuale per capire se una parola chiave è inclusa, o meno, all'interno della legge; \n"
+                "Ti basterà selezionare il file ('.pdf', '.docx' o '.txt') contenente il Documento che vorresti analizzare e quindi cliccare sul pulsante 'Start'.\n\n"
+                "Inoltre, potrai anche effettuare una ricerca manuale per capire se una parola chiave è inclusa, o meno, all'interno del Documento; \n"
                "per farlo, devi soltanto digitare la keyword nell'apposito box e, dopo aver premuto il pulsante 'Cerca',"
                " il programma ti restituirà il \nnumero di volte che la stessa compare nel testo.",
             1: "Questa sezione è dedicata alla storia dell'Agenda 2030 e di 'Puglia Sostenibile'.\n"
@@ -1356,7 +1374,7 @@ class App:
                "\n-\tRileva SDG o Target.\n\n"+
                "Prima di andare avanti, è bene forniti delle informazioni preliminari.\n"+
                "Devi sapere che 'Puglia Sostenibile', per il momento, effettua la computazione di similarità"+
-               " tra il documento da te caricato (la Legge) ed \ni vari Obiettivi di Sviluppo Sostenibile (SDGs),"+
+               " tra il documento da te caricato ed \ni vari Obiettivi di Sviluppo Sostenibile (SDGs),"+
                " dell'Agenda 2030, per mezzo della Similarità del Coseno.\n"+
                "La matrice TFIDF, propedeutica a questo calcolo, suddivide ogni documento"+
                " in una serie di parole chiave (keyphrase).\n\nUn esempio di keyphrase è 'Emancipazione' oppure 'Femminile'.\n\n"+
@@ -1367,7 +1385,7 @@ class App:
                "esempi di keyphrase Bigram sono 'Emancipazione Femminile', 'Paternariato', 'Povertà Assoulta', etc.\n\n"
                "Fai attenzione, però, nel caso di grammatura Bigram la computazione risulterà più"+
                " precisa ma allo stesso tempo più selettiva.\n\nPuoi, inoltre, selezionare il tipo di output da computare "+
-               "decidendo tra il visualizzare gli SDGs più similari alla Legge (es. SDG 5, SDG 3, SDG 15, etc.)\n"+
+               "decidendo tra il visualizzare gli SDGs più similari al Documento (es. SDG 5, SDG 3, SDG 15, etc.)\n"+
                "ovvero, nello specifico, i Target più rilevanti (es. Target 5.5, Target 3.1, Target 15.c, etc.). Per farlo, ti basta modificare "+
                "l'apposita impostazione.\n\nOra tocca a te!",
             3: "In questa sezione puoi consultare l'Agenda 2030.\n\n"

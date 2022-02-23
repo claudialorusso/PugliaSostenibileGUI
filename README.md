@@ -6,16 +6,15 @@ Graphical User Interface for **Puglia Sostenibile**.
 
 ### What is Puglia Sostenibile
 
-**Puglia Sostenibile** is a portable software that enables the user to monitor the presence of the *Sustainable Development Goals* (also known as *SDGs*) into italian normatives or laws.
-
+**Puglia Sostenibile** is a portable software that enables the user to monitor semantic consistency with the *Sustainable Development Goals* (also known as *SDGs*) within institutional documents such as, for instance, laws, strategies, planning acts, etc. , written in italian.
 
 ### Agenda 2030: A brief introduction
 
-Over the past few years, international and local organizations, sensitized by various events, including natural ones, with regard to future generations, have felt the need to intervene decisively in support of Sustainable Development.
+The sensitivity towards the relationships between man and environments, and of individuals among them, as well as the perception of responsibility towards future generations have progressively increased in decision-makers over the last few decades, leading to orient the action of instituzions and individuals in a decisive way towards Sustainable Development.
 
-Consequently, in September 2015, all 193 <a href="https://www.un.org/en/">United Nations</a> Countries, including Italy, conceived an action plan to contribute to global development, promote human well-being and protect the environment.
+In September 2015, all 193 <a href="https://www.un.org/en/">United Nations</a> Countries, including Italy, conceived an action plan to contribute to global development, promote human well-being and protect the environment.
 
-The need to guarantee a better present and future for our Planet and the people who inhabit it has resulted in the definition of **Sustainable Development Goals** - whose acronym is *SDGs* - to be achieved by 2030: this gives rise to the *Agenda 2030* which aims to act in a sustainable way and which consists of 17 goals divided into 169  targets in relation to the various domains of social and economic development.
+The need to guarantee a better present and future for our Planet and the people who inhabit it has resulted in the definition and sharing of **Sustainable Development Goals** - whose acronym is *SDGs* - to be achieved by 2030: this gives rise to the *Agenda 2030* which aims to act collectively in a sustainable way towards 17 goals divided into 169  targets in relation to the various domains of social and economic development.
 
 For further informations consult the <a href="https://sdgs.un.org/goals">United Nations</a> web page.
 
@@ -23,11 +22,15 @@ For further informations consult the <a href="https://sdgs.un.org/goals">United 
 
 *Computer Science* plays a key role in handle social and environmental challenges with regard to a sustainable future.
 
-Similarly to the *European Commission*'s platform, <a href="https://knowsdgs.jrc.ec.europa.eu/">KnowSDGs</a>, which merely refers to European Regulations written in English, **Puglia Sostenibile** monitors the presence of the *SDGs* within *Apulian Regional Laws*, in Italian language.
+Similarly to the *European Commission*'s platform, <a href="https://knowsdgs.jrc.ec.europa.eu/">KnowSDGs</a>, which currently refers to European Regulations, written in English, **Puglia Sostenibile** is capable of verifying how much a document is lexically consistent with what is stated in the *Agenda 2030*.
 
-This work stems from the project required by the <a href="https://www.regione.puglia.it/">Regione Puglia</a>, in the person of the President of the Council of the Apulia Region, <a href="https://trasparenza.regione.puglia.it/personale/loredana-capone">Loredana Capone</a>, which realisation was addressed to the <a href="https://www.uniba.it/">UNIBA</a> (<i>University of Bari, Aldo Moro</i>) and that represented the subject of an internal internship prepared at the headquarters of the <a href="https://islab.di.uniba.it/">Intelligent Systems Laboratory</a> of the local <a href= "https://www.uniba.it/ricerca/dipartimenti/informatica">DIB</a> (<i>Computer Science Department</i>), chaired by <a href="https://www.uniba.it/portal_memberdata/giuseppe.pirlo">Prof. Giuseppe Pirlo</a> all under the supervision of <a href="https://www.google.com/url?sa=t&source=web&rct=j&url=https://it.linkedin.com/in/michele-chieco-135a0a93&ved=2ahUKEwjEloGmuvD1AhW2hP0HHfE8BK8Qjjh6BAgfEAE&usg=AOvVaw0Tj3ZxfzVm0-2V8-JcMRne">Dr. Michele Chieco</a> and <a href="https://www.uniba.it/docenti/calvano-gabriella">Dr. Gabriella Calvano</a>.
+The software has been "trained", in particular, through the analysis of the more than 2000 *Regional Laws*, enacted in Puglia in the last 50 years.
 
-Obviously, the use of the software is extendable to any kind of Italian Normative: you just need to upload the law and the software will output the most relevant *SDGs* for the document.
+The activity is part of the institutional collaboration between <a href="https://www.consiglio.puglia.it/">Apulian Regional Council</a>, represented by the President <a href="https://trasparenza.regione.puglia.it/personale/loredana-capone">Loredana Capone</a>, and the <a href = "https://garantedetenuti.consiglio.puglia.it/struttura-di-supporto-al-garante">Study and Support Section for Legislation and Guarantee Policies</a>, at <a href="https://www.uniba.it/">UNIBA</a> (<i>University of Bari, Aldo Moro</i>) and, in particular, it was carried out as a part of an internal internship at the headquarters of the <a href="https://islab.di.uniba.it/">Intelligent Systems Laboratory</a> of the local <a href= "https://www.uniba.it/ricerca/dipartimenti/informatica">DIB</a> (<i>Computer Science Department</i>), chaired by <a href="https://www.uniba.it/portal_memberdata/giuseppe.pirlo">Prof. Giuseppe Pirlo</a> all under the supervision of <a href="https://www.google.com/url?sa=t&source=web&rct=j&url=https://it.linkedin.com/in/michele-chieco-135a0a93&ved=2ahUKEwjEloGmuvD1AhW2hP0HHfE8BK8Qjjh6BAgfEAE&usg=AOvVaw0Tj3ZxfzVm0-2V8-JcMRne">Dr. Michele Chieco</a> and <a href="https://www.uniba.it/docenti/calvano-gabriella">Dr. Gabriella Calvano</a>.
+
+The use of the software, although tested on the Apulian Regional Laws, can be extended to other similar documents of different territorial levels or to other texts in general: by loading the document, the software will return the *SDGs* based on the analysis of the text.
+
+As in the case of the *KnowSDGs* European platform, the analysis carried out by the software is based on the recurrence of words and their associations and not on a content evaluation which can, instead, be the subject of specific comparative studies between the text in question and the *Agenda 2030*.
 
 <p align="center">
   <img src= "https://github.com/claudialorusso/PugliaSostenibileGUI/blob/master/utils/images/collab/trio_collab500x162.png" alt="Trio Collab: UNIBA ISL Apulian Region">
@@ -37,15 +40,17 @@ Obviously, the use of the software is extendable to any kind of Italian Normativ
 
 <img align="right" width="30%" src="https://github.com/claudialorusso/PugliaSostenibileGUI/blob/master/utils/images/COLORPugliaSostenibile746x687.png" alt="Logo">
 
-In the foreground of the <i>logo</i> you can notice the shape of a tree that raises the idea of Nature: that intricate mechanism that transforms every single action in life.
+In the foreground of the <i>logo</i> you can notice the shape of a tree that brings to mind the idea of Nature and the complexity of mechanisms and interrelations that connect living beings with each other and with the environment.
 
-But, sustainability is not only acting positively for the sake of the environment.
+In fact, sustainability should not be considered only in reference to acting positively for the sake of the environment but also in relationships, in equity, in mutual care.
 
-In fact, branches emerge from the trunk of the tree the ends of which are shaped into arrows; each arrow points towards different directions that represent the various branches of sustainability and which, although divergent, all arise from the same principle: the good of the community reachable through common action.
+Branches emerge from the trunk of the tree, the ends of which are shaped into arrows; each arrow points towards different directions that represent various declinations of sustainability and which, although divergent, all arise from the same principle: the common good can only be reached though common action.
+
+Th Earth, behind the tree, is the presence that must always remind us of our condition of being inhabitants of the same place with limited resources that encourage us to take common action for their protection, if we want its good, and, at the same time, it stimulates to obatin that much-needed change.
 
 And it's exactly for this reason that, behind the tree, we glimpse the Earth which has an ambivalent meaning: it spurs us to act for her good and, at the same time, stimulates a common action to obtain that much-needed change.
 
-The <i>logo</i> was designed by the graphic expert <a href="https://www.linkedin.com/in/nicola-surgo-77a843227/recent-activity/">Nicola Surgo</a>.
+The <i>logo</i> was designed by the graphic expert <a href="https://www.linkedin.com/in/nicolasurgo/">Nicola Surgo</a>.
 
 
 ### Usage
@@ -90,11 +95,11 @@ Check the box and click on the "Avanti" button: **Puglia Sostenibile** will, fin
 **Puglia Sostenibile** can be divided into six main sections:
 
 <ul>
-<li><b>Home Page:</b> it's the main page. You can simply upload the law ('.pdf', '.docx', 'txt' only) by clicking on the "Seleziona Legge" button. Then, press "Start" and the software will compute the three first most relevant <i>SDGs</i>.
+<li><b>Home Page:</b> it's the main page. You can simply upload the document (allowed extensions: '.pdf', '.docx', 'txt' only) by clicking on the "Seleziona Documento" button. Then, press "Start" and the software will compute the three first most relevant <i>SDGs</i>.
 <p align="center">
 	<img src= "https://user-images.githubusercontent.com/38263840/152885066-fe5e0ae7-6bf3-46f3-8735-c6a0af434d7c.png" alt="Home Page">
 </p>
-You can, also, find the occurrences of  a keyphrase: you just need to insert it in the box, click on the "Cerca" button and the software will tell you how many times it occurs into the law;</li>
+You can, also, find the occurrences of  a keyphrase: you just need to insert it in the box, click on the "Cerca" button and the software will tell you how many times it occurs into the document;</li>
 <li><b>Info Page:</b> In this section you can find informations about the <i>Agenda 2030</i> and <b>Puglia Sostenibile</b>;</li>
 <li><b>Advanced Page:</b> In this page you can change some advanced properties:
 
@@ -108,9 +113,8 @@ You can, also, find the occurrences of  a keyphrase: you just need to insert it 
 </ul>
 </li>
 <li><b>Agenda 2030 Page:</b> in this page you can consult the <i>Agenda 2030</i>;</li>
-<li><b>Contacts Page:</b> if you encounter any troubles with something or want to submit some feedback, in this section you can find the contacts you need!</li>
-<li><b>Browes SDGs Page:</b> at any moment, if you need to consult the <i>SDGs</i> you can simply click on the "Sfoglia gli SDGs" button and a window will instantly pop-up.
-Click on the desired SDG to consult its goal and targets.
+<li><b>Contacts Page:</b> if you encounter any troubles with something or want to submit some feedback, in this section you can find the contacts you need: any suggestions for improvement are welcome!</li>
+<li><b>Browes SDGs Page:</b> at any moment, if you need to consult the <i>SDGs</i> you can simply click on the "Sfoglia gli SDGs" button and a window will instantly pop-up allowing you to discover the related *goal* and *targets*.
   <p align="center">
     <img src= "https://user-images.githubusercontent.com/38263840/152884773-ec6d666c-a3ee-4d8d-86ad-cdd29cb4a507.png" alt="Sfoglia">
   </p>
@@ -151,16 +155,16 @@ Interfaccia grafica per <b>Puglia Sostenibile</b>.
 
 ### Che cos'è Puglia Sostenibile
 
-**Puglia Sostenibile** è un programma portabile che permette all'utente di monitorare la presenza degli <b>Obiettivi di Sviluppo Sostenibile</b> (anche detti <i>SDGs</i>) all'interno di leggi o normative scritte in lingua italiana.
+**Puglia Sostenibile** è un'applicazione' portabile che permette all'utente di monitorare la coerenza semantica con gli <b>Obiettivi di Sviluppo Sostenibile</b> (acronimo <i>OSS</i> o <i>SDGs</i>) all'interno di documenti istituzionali quali, ad esempio, leggi, strategie, atti di programmazione, ecc., scritti in lingua italiana.
 
 
-### Agenda 2030: A brief introduction
+### Agenda 2030: Una breve introduzione
 
-Negli ultimi anni, organismi internazionali e locali, sensibilizzati da vari accadimenti, tra cui quelli naturali, con lo sguardo rivolto alle future generazioni, hanno sentito la necessità di intervenire in modo deciso a sostegno dello Sviluppo Sostenibile.
+La sensibilità verso le relazioni tra uomo e ambiente, e degli individui tra loro, e la percezione della responsabilità verso le future generazioni sono progressivamente aumentate nei decisori nel corso degli ultimi decenni portando ad orientare l'azione delle istituzioni e dei singoli in modo deciso verso lo Sviluppo Sostenibile.
 
-Conseguentemente, nel settembre 2015, tutti i 193 Paesi delle <a href="https://unric.org/it/">Nazioni Unite</a> , tra cui l’Italia, hanno concepito un piano d’azione per contribuire allo sviluppo globale, promuovere il benessere umano e proteggere l’ambiente.
+Nel settembre 2015, tutti i 193 Paesi delle <a href="https://unric.org/it/">Nazioni Unite</a> , tra cui l’Italia, hanno concepito un piano d’azione per contribuire allo sviluppo globale, promuovere il benessere umano e proteggere l’ambiente.
 
-Il bisogno di garantire un presente ed un futuro migliore al nostro Pianeta e alle persone che lo abitano è sfociato nella definizione di **Obiettivi di Sviluppo Sostenibile** (*Sustainable Development Goals* – il cui acronimo inglese è *SDGs*) da raggiungere entro il 2030: è nata, così l’Agenda 2030 che si propone di agire in modo sostenibile e che consta di 17 obiettivi, o goal, declinati in 169 traguardi, anche detti target, in relazione ai vari domini dello sviluppo sociale ed economico.
+Il bisogno di garantire un presente ed un futuro migliore al nostro Pianeta e alle persone che lo abitano è sfociato nella definizione e condivisione di **Obiettivi di Sviluppo Sostenibile** (*Sustainable Development Goals* – il cui acronimo inglese è *SDGs*) da raggiungere entro il 2030: è nata, così l’Agenda 2030 che si propone di agire collettivamente in modo sostenibile verso17 obiettivi, o <i>goal</i>, declinati in 169 traguardi, anche detti target, in relazione ai vari domini dello sviluppo sociale ed economico.
 
 Per maggiori informazioni consultare la pagina delle <a href="https://unric.org/it/agenda-2030/">Nazioni Unite</a>.
 
@@ -168,11 +172,13 @@ Per maggiori informazioni consultare la pagina delle <a href="https://unric.org/
 
 La *Computer Science* gioca un ruolo fondamentale nell’essere d’ausilio a sfide sociali ed ambientali con riguardo ad un futuro sostenibile.
 
-Similarmente a quanto sviluppato dalla *Commissione Europea*, con la sua piattaforma <a href="https://knowsdgs.jrc.ec.europa.eu/">KnowSDGs</a> , che fa prettamente riferimento a normative Europee scritte in lingua inglese, **Puglia Sostenibile** è un software in grado di monitorare la presenza degli *SDGs* all’interno delle *Leggi Regionali Pugliesi*, presentate in lingua italiana.
+Similarmente a quanto sviluppato dalla *Commissione Europea*, con la sua piattaforma <a href="https://knowsdgs.jrc.ec.europa.eu/">KnowSDGs</a> , che fa attualmente riferimento a normative Europee, scritte in lingua inglese, **Puglia Sostenibile** è un software in grado di verificare quanto un documento sia coerente lessicalmente con quanto enunciato nell'<i>Agenda 2030</i>. Il software è stato "addestrato", in particolare, attraverso l'analisi delle oltre 2000 leggi regionali, emanate in Puglia negli ultimi 50 anni.
 
-Di fatto, questo lavoro nasce dal progetto richiesto dalla <a href="https://www.regione.puglia.it/">Regione Puglia</a>, nella persona del Presidente del Consiglio della Regione Puglia, <a href="https://trasparenza.regione.puglia.it/personale/loredana-capone">Loredana Capone</a>, all’<a href="https://www.uniba.it/">UNIBA</a> (<i>Università degli Studi di Bari, Aldo Moro</i>) a seguito di un tirocinio interno approntato presso la sede del <a href="https://islab.di.uniba.it/">Laboratorio di Sistemi Intelligenti</a> della locale <a href= "https://www.uniba.it/ricerca/dipartimenti/informatica">Facoltà di Informatica</a> (<i>DIB</i>), presieduto dal <a href="https://www.uniba.it/portal_memberdata/giuseppe.pirlo">Prof. Giuseppe Pirlo</a> il tutto sotto la supervisione del <a href="https://www.google.com/url?sa=t&source=web&rct=j&url=https://it.linkedin.com/in/michele-chieco-135a0a93&ved=2ahUKEwjEloGmuvD1AhW2hP0HHfE8BK8Qjjh6BAgfEAE&usg=AOvVaw0Tj3ZxfzVm0-2V8-JcMRne">Dr. Michele Chieco</a> e della <a href="https://www.uniba.it/docenti/calvano-gabriella">D.ssa Gabriella Calvano</a>.
+L'attività si inquadra nella collaborazione istituzionale tra <a href="https://www.consiglio.puglia.it/">Consiglio Regionale della Puglia</a>, rappresentato dalla Presidente <a href="https://trasparenza.regione.puglia.it/personale/loredana-capone">Loredana Capone</a>, e dalla <a href = "https://garantedetenuti.consiglio.puglia.it/struttura-di-supporto-al-garante">Sezione Studio e Supporto alla Legislazione e alle Politiche di Garanzia</a>, all’<a href="https://www.uniba.it/">UNIBA</a> (<i>Università degli Studi di Bari, Aldo Moro</i>) e, in particolare, è stata svolta nell'ambito di un tirocinio interno approntato presso la sede del <a href="https://islab.di.uniba.it/">Laboratorio di Sistemi Intelligenti</a> della locale <a href= "https://www.uniba.it/ricerca/dipartimenti/informatica">Facoltà di Informatica</a> (<i>DIB</i>), presieduto dal <a href="https://www.uniba.it/portal_memberdata/giuseppe.pirlo">Prof. Giuseppe Pirlo</a> il tutto sotto la supervisione del <a href="https://www.google.com/url?sa=t&source=web&rct=j&url=https://it.linkedin.com/in/michele-chieco-135a0a93&ved=2ahUKEwjEloGmuvD1AhW2hP0HHfE8BK8Qjjh6BAgfEAE&usg=AOvVaw0Tj3ZxfzVm0-2V8-JcMRne">Dr. Michele Chieco</a> e della <a href="https://www.uniba.it/docenti/calvano-gabriella">D.ssa Gabriella Calvano</a>.
 
-Ovviamente, l'uso del software è estendibile ad ogni altra legge o normativa italiana: basta caricare il documento ed il software restituirà gli *SDGs* ad esso più attinenti.
+L'uso del software, per quanto testato sulle leggi regionali della Puglia, è estendibile ad altri documenti analoghi di diverso livello territoriale o ad altri testi in generale: caricando il documento, il software restituirà gli *SDGs* sulla base dell'analisi del testo.
+
+Come nel caso della piattaforma europea <i>KnowSDGs</i>, l'analisi effettuata dal software è basata sulla ricorrenza di parole e loro associazioni e non su una valutazione contenutistica che può, invece, essere oggetto di studi specifici di comparazione tra il testo in esame e l'<i>Agenda 2030</i>.
 
 <p align="center">
   <img src= "https://github.com/claudialorusso/PugliaSostenibileGUI/blob/master/utils/images/collab/trio_collab500x162.png" alt="Trio Collab: UNIBA ISL Apulian Region">
@@ -182,30 +188,30 @@ Ovviamente, l'uso del software è estendibile ad ogni altra legge o normativa it
 
 <img align="right" width="30%" src="https://github.com/claudialorusso/PugliaSostenibileGUI/blob/master/utils/images/COLORPugliaSostenibile746x687.png" alt="Logo">
 
-Nel <i>logo</i>, in primo piano si nota la figura di un albero che riconduce alla mente l’idea della Natura, a quel meccanismo tanto complesso che trasforma ogni singola azione in vita.
+Nel <i>logo</i>, in primo piano si nota la figura di un albero che richiama alla mente l’idea della Natura e della complessità di meccanismi ed interrelazioni che collegano i viventi tra loro e con l'ambiente.
 
-Ma la sostenibilità non è l’agire positivamente solo ed esclusivamente per il bene dell’ambiente.
+Infatti, la sostenibilità non va intesa solo in riferimento all’agire positivamente solo per il bene dell’ambiente ma anche nelle relazioni, nell'equità, nella cura reciproca.
 
-Di fatto, dal tronco dell’albero fuoriescono dei rami le cui estremità si plasmano in frecce; ogni freccia punta verso direzioni differenti che rappresentano le varie branche della sostenibilità e che, seppur divergenti, nascono tutte quante da uno stesso principio: il bene della comunità raggiungibile tramite un’azione comune.
+Dal tronco dell’albero fuoriescono rami le cui estremità si plasmano in frecce; ogni freccia punta verso direzioni differenti che rappresentano varie declinazioni della sostenibilità e che, seppur divergenti, nascono tutte quante da uno stesso principio: il bene comune è raggiungibile solo tramite un’azione comune.
 
-Ed è appunto per questo che, alle spalle dell’albero, si intravvede la Terra che ha significato ambivalente: sprona ad agire per il suo bene ed allo stesso tempo stimola un’azione comune per l’ottenimento di quel tanto agognato cambiamento.
+La Terra, alle spalle dell'albero, è la presenza che deve ricordarci sempre la nostra condizione di essere tutti abitanti di uno stesso luogo con risorse limitate che spronano ad un'azione comune per la loro salvaguardia, se vogliamo il suo bene, ed allo stesso tempo stimola per l’ottenimento di quel tanto agognato cambiamento.
 
-Il <i>logo</i> è stato realizzato dall’esperto di grafica <a href="https://www.linkedin.com/in/nicola-surgo-77a843227/recent-activity/">Nicola Surgo</a>.
+Il <i>logo</i> è stato realizzato dall’esperto di grafica <a href="https://www.linkedin.com/in/nicolasurgo/">Nicola Surgo</a>.
 
 ### Utilizzo  
 **Puglia Sostenibile** è molto semplice da usare!
 
-E per garantire all'utente una migliore esperienza, dispone di una interfaccia grafica piacevole ed intelligibile.
+Per garantire all'utente una migliore esperienza, l'applicazione dispone di una interfaccia grafica piacevole ed intelligibile.
 
 Puoi decidere se effettuare il download del file eseguibile <a href="https://github.com/claudialorusso/PugliaSostenibileGUI/raw/master/PugliaSostenibile.exe">PugliaSostenibile.exe</a> o se avviarlo via linea di comando.
 
-Se scegli di scaricare il file *.exe.*, il software è direttamente pronto all'uso mentre se scegli l'opzione della linea di comando sei pregato di leggere la sezione successiva per una corretta esecuzione.
+Se scegli di scaricare il file <i>.exe.</i>, il software è direttamente pronto all'uso mentre se scegli l'opzione della linea di comando puoi leggere la sezione successiva che ti guiderà per una corretta esecuzione.
 
 ### Command Line Experience
 
-Per prima cosa, poichè il programma è basato su <b>Python 3</b>, è necessario scaricarlo sulla tua macchina.
+Per prima cosa, poiché il programma è basato su <b>Python 3</b>, è necessario scaricare quest'ultimo sulla tua macchina.
 
-**Attenzione**: le versioni delle attuali librerie **non sono compatibili** con Python 3.10. Si prega di installare **Python 3.9** o versioni precedenti.
+**Attenzione**: le versioni delle attuali librerie **non sono compatibili** con Python 3.10. Sarà, quindi, necessario installare **Python 3.9** o versioni precedenti.
 
 Apri il prompt dei comandi e vai nella cartella in cui hai scaricato **Puglia Sostenibile**.
 
@@ -224,20 +230,20 @@ Per favore, assicurati di essere connesso ad internet.
   <img width=60% src= "https://user-images.githubusercontent.com/38263840/152874773-366f5dbf-4693-47d2-a25d-cca78c7c4a56.png" alt="Installazione">
 </p>
 
-Spunta la relativa box e clicca sul pulsante "Avanti": al termine del caricamento si aprirà, finalmente, **Puglia Sostenibile**.
+Spunta la relativa casella e clicca sul pulsante "Avanti": al termine del caricamento si aprirà, finalmente, **Puglia Sostenibile**.
 
 ![Benvenuto](https://user-images.githubusercontent.com/38263840/152880138-151f384b-6b88-4817-837e-eb1c4b32c540.png)
 
 ### Puglia Sostenibile: com'è strutturato
 
-**Puglia Sostenibile** può essere diviso in sei sezioni principali:
+**Puglia Sostenibile** è diviso in sei sezioni principali:
 
 <ul>
-<li><b>Home Page:</b> è la pagina principale. Ti basta caricare la legge ('.pdf', '.docx', 'txt') cliccando semplicemente sul pulsante "Seleziona Legge". In seguito, clissa su "Start" ed il software computerà i primi tre <i>SDGs</i> più rilevanti.
+<li><b>Home Page:</b> è la pagina principale. Ti basta caricare il documento (formati: '.pdf', '.docx', 'txt') cliccando semplicemente sul pulsante "Seleziona Documento". In seguito, clicca su "Start" ed il software computerà i primi tre <i>SDGs</i> più rilevanti.
 <p align="center">
 	<img src= "https://user-images.githubusercontent.com/38263840/152885066-fe5e0ae7-6bf3-46f3-8735-c6a0af434d7c.png" alt="Home Page">
 </p>
-Puoi anche cercare le occorrenze di una parola chiave: devi soltanto digitarla nell'apposita box, cliccare sul pulsante "Cerca" ed il software ti mostrerà quante volte appare nella legge;</li>
+Puoi anche cercare le occorrenze di una parola chiave: devi soltanto digitarla nell'apposita box, cliccare sul pulsante "Cerca" ed il software ti mostrerà quante volte appare nel testo;</li>
 <li><b>Informazioni:</b> In questa sezione puoi scoprire informazioni sull'<i>Agenda 2030</i> e su <b>Puglia Sostenibile</b>;</li>
 <li><b>Avanzate:</b> In questa pagina puoi cambiare alcune proprietà avanzate:
 
@@ -246,16 +252,14 @@ Puoi anche cercare le occorrenze di una parola chiave: devi soltanto digitarla n
 </p>
 <ul>
 <li><b>Grammatura (utente esperto):</b> Per capire questa proprietà, devi sapere che <b>Puglia Sostenibile</b> calcola gli <i>SDGs</i> più rilevanti facendo uso della Similarità del Coseno. 
-Quest'ultima si basa su di una matrice TFIDF tra tutti gli <i>SDGs</i> e la legge stessa. Per eseguire la computazione, ogni contenuto testuale necessita di essere diviso in parole chiave. É data all'utente l'opportunità di scegliere la <i>grammatura</i> di queste ultime ossia il numero massimo di parole da cui è composta ogni parola chiave. Di <i>default</i> la <b>grammatura</b> è impostata su <b>unigram</b> (ogni parola chiave è composta da una singola parola) ma è, comunque, possibile scegliere l'opzione <b>bigram</b>, nel cui caso ogni parola chiave sarà composta da una o, al massimo, due parole.</li>
+Quest'ultima si basa su di una matrice TFIDF tra tutti gli <i>SDGs</i> e la legge stessa. Per eseguire la computazione, ogni contenuto testuale necessita di essere diviso in parole chiave. È data all'utente l'opportunità di scegliere la <i>grammatura</i> di queste ultime ossia il numero massimo di parole da cui è composta ogni parola chiave. Di <i>default</i> la <b>grammatura</b> è impostata su <b>unigram</b> (ogni parola chiave è composta da una singola parola) ma è, comunque, possibile scegliere l'opzione <b>bigram</b>, nel cui caso ogni parola chiave sarà composta da una o, al massimo, due parole.</li>
 <li><b>SGDs vs Targets:</b> di <i>default</i> il software rileva i tre <i>SDGs</i> più rilevanti ma, se l'utente vuole scoprire nello specifico i Target più affini alla legge caricata, lo può fare semplicemente cliccando sull'apposito pulsante.
 </li>
 </ul>
 </li>
 <li><b>Agenda 2030:</b> in questa pagina è possibile consultare l'<i>Agenda 2030</i>;</li>
-<li><b>Contatti:</b> se riscontri difficoltà o errori nell'utilizzo del software o vuoi semplicemente inviare un feedback, in questa sezione trovi tutti i contatti necessari a tal fine!</li>
-<li><b>Sfoglia gli SDGs:</b> in qualsiasi momento, se hai bisogno di consultare gli <i>SDGs</i> puoi farlo semplicemente cliccando sul pulsante "Sfoglia gli SDGs" ed una finestra comparirà all'istante.
-
-Ti basterà, infine, cliccare sull'SDG di cui vuoi scoprire l'obiettivo ed i vari traguardi.
+<li><b>Contatti:</b> se riscontri difficoltà o errori nell'utilizzo del software o vuoi semplicemente inviare un feedback, in questa sezione trovi tutti i contatti necessari ogni suggerimento per il miglioramento è benvenuto!</li>
+<li><b>Sfoglia gli SDGs:</b> in qualsiasi momento, se hai bisogno di consultare gli <i>SDGs</i> puoi farlo semplicemente cliccando sul pulsante "Sfoglia gli SDGs" ed una finestra comparirà all'istante permettendoti di scoprire l'obiettivo ed i vari traguardi ad esso correlati.
   <p align="center">
     <img src= "https://user-images.githubusercontent.com/38263840/152884773-ec6d666c-a3ee-4d8d-86ad-cdd29cb4a507.png" alt="Sfoglia">
   </p>

@@ -33,8 +33,9 @@ The use of the software, although tested on the Apulian Regional Laws, can be ex
 As in the case of the *KnowSDGs* European platform, the analysis carried out by the software is based on the recurrence of words and their associations and not on a content evaluation which can, instead, be the subject of specific comparative studies between the text in question and the *Agenda 2030*.
 
 <p align="center">
-  <img src= "https://github.com/claudialorusso/PugliaSostenibileGUI/blob/master/utils/images/collab/trio_collab500x162.png" alt="Trio Collab: UNIBA ISL Apulian Region">
+  <img src= "https://user-images.githubusercontent.com/38263840/156141282-22127002-2c66-4c26-b77a-61b18cf39f39.png" alt="Trio Collab: UNIBA ISL Apulian Region">
 </p>
+
 
 ### Logo
 
@@ -182,7 +183,7 @@ L'uso del software, per quanto testato sulle leggi regionali della Puglia, è es
 Come nel caso della piattaforma europea <i>KnowSDGs</i>, l'analisi effettuata dal software è basata sulla ricorrenza di parole e loro associazioni e non su una valutazione contenutistica che può, invece, essere oggetto di studi specifici di comparazione tra il testo in esame e l'<i>Agenda 2030</i>.
 
 <p align="center">
-  <img src= "https://github.com/claudialorusso/PugliaSostenibileGUI/blob/master/utils/images/collab/trio_collab500x162.png" alt="Trio Collab: UNIBA ISL Apulian Region">
+  <img src= "https://user-images.githubusercontent.com/38263840/156141282-22127002-2c66-4c26-b77a-61b18cf39f39.png" alt="Trio Collab: UNIBA ISL Apulian Region">
 </p>
 
 ### Logo
